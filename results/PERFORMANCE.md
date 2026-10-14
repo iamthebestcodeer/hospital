@@ -17,7 +17,7 @@ with this run. Both current implementations include the
 - 28 generator, translator, architectural and build dependency tests.
 - 15,620 identical state/RNG records and 26 byte-identical rendered PNGs.
 - 28 asserted inspector clicks covering upgrades, gap and sell controls.
-- Ten pixel-level Cryo/Freezer beam cases and three actual X11 window-lookup tests.
+- Ten pixel-level Cryo/Freezer beam cases and seven actual X11 window-lookup/error tests.
 - Real X11 input and clean exit of the shipping executable.
 - C reference, C unit fixtures and integration harness passed ASan/UBSan.
 - Formatting checks and regeneration checks passed; handwritten modules are

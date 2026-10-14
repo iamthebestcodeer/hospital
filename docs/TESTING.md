@@ -8,7 +8,7 @@ performance checks before calling a refactor complete.
 | `make test-unit` | 104 named behavior tests / 34,505 assertions, run against both NASM and C | No |
 | `make test-tools` | 28 translator, generator, architecture and build tests | No |
 | `make test-integration` | 15,620 exact state/RNG records, 26 exact PNGs | Xvfb or `DISPLAY` |
-| `make smoke` | Three real X11 window lookup tests; shipping executable start/movement/exit | Xvfb or `DISPLAY` |
+| `make smoke` | Seven real X11 window lookup/error tests; shipping executable start/movement/exit | Xvfb or `DISPLAY` |
 | `make check` | All tests above | Xvfb or `DISPLAY` |
 | `make sanitize` | C unit/reference and integration memory/undefined-behavior checks | No |
 | `make benchmark` | 13 randomized paired C/NASM workloads with state hashes | Xvfb or `DISPLAY` |
@@ -72,7 +72,9 @@ and the process entry point; graphics initialization is exercised by integration
 and launch tests. The shipping-executable smoke test reads X11 pixels to confirm
 that Enter replaces the title with the hero at spawn and D moves that hero right.
 Window discovery is tested with root-level clients, two nested window-manager
-frames, copied frame titles, and unrelated windows. Other injected ability/pause
+frames, copied frame titles, unrelated windows, and popups destroyed between
+listing, querying, and fetching their names. Error-handler tests verify cleanup
+after successful/failed discovery and forwarding of unrelated X11 errors. Other injected ability/pause
 keys are exercised but not individually asserted.
 Both an ignored-Enter mutant and an ignored-movement mutant fail the smoke test.
 

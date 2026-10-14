@@ -11,6 +11,21 @@ import time
 from common import ROOT, display
 
 
+class XErrorEvent(C.Structure):
+    _fields_ = [
+        ("type", C.c_int),
+        ("display", C.c_void_p),
+        ("resourceid", C.c_ulong),
+        ("serial", C.c_ulong),
+        ("error_code", C.c_ubyte),
+        ("request_code", C.c_ubyte),
+        ("minor_code", C.c_ubyte),
+    ]
+
+
+XErrorHandler = C.CFUNCTYPE(C.c_int, C.c_void_p, C.POINTER(XErrorEvent))
+
+
 class KeyboardDisplay:
     def __init__(self, name, title_prefix=b"Aetherium Vanguard"):
         self.title_prefix = title_prefix
@@ -20,6 +35,8 @@ class KeyboardDisplay:
             "XOpenDisplay": ([C.c_char_p], C.c_void_p),
             "XCloseDisplay": ([C.c_void_p], C.c_int),
             "XFlush": ([C.c_void_p], C.c_int),
+            "XSync": ([C.c_void_p, C.c_int], C.c_int),
+            "XSetErrorHandler": ([C.c_void_p], C.c_void_p),
             "XStringToKeysym": ([C.c_char_p], C.c_ulong),
             "XKeysymToKeycode": ([C.c_void_p, C.c_ulong], C.c_ubyte),
             "XDefaultRootWindow": ([C.c_void_p], C.c_ulong),
@@ -69,7 +86,44 @@ class KeyboardDisplay:
         finally:
             self.x11.XFree(children)
 
+    @contextmanager
+    def _allow_disappearing_windows(self):
+        # Xlib's error handler is process-wide. Drain earlier errors and scope
+        # this exception narrowly to our connection's tree/name lookup requests.
+        self.x11.XSync(self.connection, 0)
+        unexpected = []
+
+        @XErrorHandler
+        def handle(display, event):
+            error = event.contents
+            if (
+                display == self.connection
+                and error.error_code == 3
+                and error.request_code in (15, 20)
+            ):
+                return 0  # BadWindow from XQueryTree / XFetchName's GetProperty.
+            if previous:
+                return XErrorHandler(previous)(display, event)
+            unexpected.append((error.error_code, error.request_code))
+            return 0
+
+        previous = self.x11.XSetErrorHandler(C.cast(handle, C.c_void_p))
+        try:
+            yield
+        finally:
+            # Keep the ctypes callback alive until all lookup errors arrive.
+            try:
+                self.x11.XSync(self.connection, 0)
+            finally:
+                self.x11.XSetErrorHandler(previous)
+        if unexpected:
+            raise RuntimeError(f"Unexpected X11 lookup errors: {unexpected}")
+
     def find_window(self):
+        with self._allow_disappearing_windows():
+            return self._find_window()
+
+    def _find_window(self):
         root = self.x11.XDefaultRootWindow(self.connection)
         # Inspect clients before their frames: some WMs copy the client's title.
         pending = [(window, False) for window in self.children(root)]

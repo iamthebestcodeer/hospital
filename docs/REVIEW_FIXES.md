@@ -60,7 +60,22 @@ renderer fails the beam midpoint assertion. Regeneration retains the fix in
 both Linux C and NASM rendering; the supplied original C file remains unchanged.
 
 X11 discovery searches descendants before testing frame windows, so reparenting
-and a copied frame title cannot hide the game client. Three tests create real X11
-windows: a root-level client, a client reparented into two nested frames (including
-one with a matching title), and unrelated windows. The old root-only lookup
+and a copied frame title cannot hide the game client. Seven tests use real X11 windows, covering a root-level client, a client reparented into two nested frames (including
+one with a matching title), unrelated windows, and disappearing popups. The old root-only lookup
 fails the nested-client test. These checks run with `make smoke` and `make check`.
+
+## Popups closing during discovery
+
+Xlib's default handler terminates the process on `BadWindow`, so an unrelated
+popup closing between listing and querying could abort the smoke test. This was
+reproduced with a real X11 popup destroyed after its ID was queued.
+
+Discovery now installs a temporary handler that ignores only `BadWindow` from
+its own connection's `XQueryTree` and name-property requests. Other errors are
+forwarded to the previous handler. Synchronization drains lookup errors before
+the original handler is restored, including when discovery raises an exception.
+The ctypes callback remains alive through that final synchronization.
+
+Regression tests destroy queued popups before tree queries and before name
+fetches. Additional checks verify restoration after successful/failed lookup
+and forwarding of errors from unrelated requests and other connections.

@@ -65,9 +65,10 @@
     "checkout_pin": "34e114876b0b11c390a56381ad16ebd13914f8d5"
   },
   "beam_visibility_cases": 10,
-  "x11_window_lookup_tests": 3,
+  "x11_window_lookup_tests": 7,
   "beam_and_window_regression_checks": {
     "beam_midpoint": "PASS: old renderer fails; both Cryo types and misalignment controls pass",
     "nested_x11_client": "PASS: old root-only discovery fails; nested/copied-title frame discovery passes"
-  }
+  },
+  "disappearing_window_regression": "PASS: real destroyed queued popup reproduces old fatal BadWindow; query/name races tolerated; previous handler restored after success/failure; unrelated errors forwarded"
 }
