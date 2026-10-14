@@ -6,7 +6,7 @@ performance checks before calling a refactor complete.
 | Command | Scope | Needs an X display? |
 | --- | --- | --- |
 | `make test-unit` | 104 named behavior tests / 34,505 assertions, run against both NASM and C | No |
-| `make test-tools` | 28 translator, generator, architecture and build tests | No |
+| `make test-tools` | 33 translator, generator, architecture, build and packaging tests | No |
 | `make test-integration` | 15,620 exact state/RNG records, 26 exact PNGs | Xvfb or `DISPLAY` |
 | `make smoke` | Seven real X11 window lookup/error tests; shipping executable start/movement/exit | Xvfb or `DISPLAY` |
 | `make check` | All tests above | Xvfb or `DISPLAY` |
@@ -60,6 +60,9 @@ Python standard-library unittest tests validate parser boundaries, exact string
 and float data, unknown-directive rejection, label scope, relocation conventions,
 render-only generation, module ownership, and allowed domain imports. A translated
 RIP-relative/alias fixture is assembled, linked and executed with real NASM/GCC.
+Release packaging tests cover executable permissions, source/license contents,
+SHA-256 manifests, invalid inputs and deterministic archive bytes. The packaged
+real executable is also exercised through X11 before release publication.
 The toolchain is required in CI; missing tools cause that one local test to skip.
 
 ## Limits

@@ -7,7 +7,7 @@
     "NASM",
     "C reference"
   ],
-  "tooling_and_architecture_tests": 28,
+  "tooling_and_architecture_tests": 33,
   "state_rng_records": 15620,
   "identical_screenshots": 26,
   "x11_smoke": "PASS",
@@ -70,5 +70,6 @@
     "beam_midpoint": "PASS: old renderer fails; both Cryo types and misalignment controls pass",
     "nested_x11_client": "PASS: old root-only discovery fails; nested/copied-title frame discovery passes"
   },
-  "disappearing_window_regression": "PASS: real destroyed queued popup reproduces old fatal BadWindow; query/name races tolerated; previous handler restored after success/failure; unrelated errors forwarded"
+  "disappearing_window_regression": "PASS: real destroyed queued popup reproduces old fatal BadWindow; query/name races tolerated; previous handler restored after success/failure; unrelated errors forwarded",
+  "release_packaging": "PASS: 5 integrity/architecture/reproducibility tests; archive checksums verified; extracted Linux executable passed real X11 smoke"
 }

@@ -6,6 +6,14 @@ The game retains the supplied C version's features and entity limits, with
 Rendering/UI remains generated assembly; rewriting it by hand is the next major
 stage in [the handwritten plan](docs/HANDWRITTEN_PLAN.md).
 
+## Download and play
+
+Download the ready-to-run Linux x86-64 archive from
+[GitHub Releases](https://github.com/iamthebestcodeer/hospital/releases).
+Extract it and run `./aetherium` inside the extracted directory. The archive
+includes controls and Raylib's license; no compiler or assembler is needed.
+Requires glibc 2.38+, X11/XWayland and OpenGL. Checksums accompany each release.
+
 ## Build and play
 
 Requires x86-64 Linux, glibc 2.38+, NASM 2.16+, GCC, GNU binutils, Make, and an
