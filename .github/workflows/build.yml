@@ -1,0 +1,20 @@
+name: Linux NASM build and verification
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - name: Install build and graphics test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y nasm build-essential python3 xvfb libgl1 libgl1-mesa-dri libx11-6 libxcursor1 libxrandr2 libxinerama1 libxi6 libxtst6
+      - run: make -j2
+      - name: Check formatting
+        run: |
+          python3 -m pip install -r requirements-dev.txt
+          make format-check
+      - name: Unit, architecture, differential and rendering tests
+        run: make check
+      - name: C reference and test fixture sanitizers
+        run: make sanitize

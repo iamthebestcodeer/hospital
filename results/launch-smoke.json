@@ -1,0 +1,25 @@
+{
+  "real_x11_keys": [
+    "Return",
+    "d",
+    "q",
+    "e",
+    "space",
+    "n",
+    "g",
+    "p",
+    "p",
+    "Escape"
+  ],
+  "observed_start": "hero appeared at spawn",
+  "hero_before_movement": [
+    100.10344827586206,
+    99.83908045977012
+  ],
+  "hero_after_movement": [
+    136.6024096385542,
+    99.90361445783132
+  ],
+  "observed_movement": "D moved hero right by more than 20 pixels",
+  "exit_status": 0
+}
