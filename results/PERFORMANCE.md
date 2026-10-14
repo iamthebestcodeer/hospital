@@ -1,5 +1,9 @@
 # Modular NASM validation and performance
 
+The catalog-only follow-up is documented in
+[CATALOG_PERFORMANCE.md](CATALOG_PERFORMANCE.md), including an assessment of all
+five proposed optimizations, exact parity tests and old NASM/new NASM/C timings.
+
 The 13-workload measurements below were taken at commit `495f913`, before
 the beam-visibility follow-up. A fresh balanced rendering check of the corrected
 renderer is reported separately below. Earlier measurements
@@ -12,7 +16,7 @@ with this run. Both current implementations include the
 ## Correctness and maintainability checks
 
 - 22 handwritten NASM modules with explicit dependencies.
-- 104 named gameplay/ABI tests and 34,505 assertions, run separately against
+- 107 named gameplay/ABI tests and 34,691 assertions, run separately against
   NASM and the corrected Linux C reference without creating a window.
 - 28 generator, translator, architectural and build dependency tests.
 - 15,620 identical state/RNG records and 26 byte-identical rendered PNGs.

@@ -1,8 +1,8 @@
 {
   "result": "PASS",
   "handwritten_modules": 22,
-  "unit_tests_per_implementation": 104,
-  "unit_assertions_per_implementation": 34505,
+  "unit_tests_per_implementation": 107,
+  "unit_assertions_per_implementation": 34691,
   "implementations": [
     "NASM",
     "C reference"
@@ -18,11 +18,11 @@
   "performance_workloads": 13,
   "performance_gate": "Previous full run at 495f913: initial 12/13 PASS, title gate miss did not reproduce. Current corrected render-normal: PASS, NASM/C 1.004 (95% CI 0.982-1.033), 32 balanced pairs; no significant rendering difference.",
   "binary_sha256": {
-    "aetherium": "aecebb9a4013aaa1c1df51caa392e1dc62496b7618264788a0a5c730aab96258",
+    "aetherium": "996c74a00c28f243b4f0d31f625d0f1977b32086c70706d4c33aa7f711274261",
     "test-c": "bb4e6a3777bead7f403178330aaccde90aa73d0b7e4f844b43782c3cab63825b",
-    "test-asm": "b0dcfa9d5cda7cf8dec50ca5547a4a032389732c201b06fb299458368575f466",
-    "unit-c": "8e640c5a031ff2bb9e64274f31642f86e11478782c034e7279655bd5a48062e0",
-    "unit-asm": "915929eed69051813b1217a81d09459d5a2a1e200fe8224d087d9513ba327a7f"
+    "test-asm": "e5dd1d71576bc7a59f74dcd4ef6b005dd45cf2f0c5b6b1ed58c40648a9d617ce",
+    "unit-c": "971a026092e093e23dcf38744c88d762a54178c648597c70c4711da69041e265",
+    "unit-asm": "e8a15f8258d121aefa5a4d8eeda38fd65f684d7abcd824827af3307998cdf07c"
   },
   "module_sha256": {
     "src/application/session.asm": "6a5b094b33d6eef10b338973600e16747552377a45ad18170415a78775766379",
@@ -32,7 +32,7 @@
     "src/domain/map.asm": "9ea9b7687ecf0d6ee75ceef083df3321bcc2bbd7417444fee79937f52a1f131b",
     "src/domain/state.asm": "615f256ebe6c193025e7be7cd23f10d44a2e6686562bdba3183659bbe2546105",
     "src/domain/status_effects.asm": "5191ca252d232af6324c0522bfbe66bbc50780d104c88c232dd4fc7293421442",
-    "src/domain/tower_catalog.asm": "caa5539c7681df6028b92d3941756295213ea88fa4b706f230c6d40ed5d40d53",
+    "src/domain/tower_catalog.asm": "c66a6b555fbb9f7151f397e3f480b0ade274d62b586395119099fa4e1138959e",
     "src/gameplay/enemy_movement.asm": "16adbad3d997d9a2e9c5502508c5ee110e56827e5c66c30b1792316282c8f181",
     "src/gameplay/enemy_spawning.asm": "ef541e0d029ad73770dc6f4c9cfc3a0a17ddb297b14eeaf9acbbb2e48e4d357f",
     "src/gameplay/environment.asm": "3de2947f7b661e7398be191e75278f892241994d1323282a3b5b5ec684baca33",
@@ -70,5 +70,16 @@
     "beam_midpoint": "PASS: old renderer fails; both Cryo types and misalignment controls pass",
     "nested_x11_client": "PASS: old root-only discovery fails; nested/copied-title frame discovery passes"
   },
-  "disappearing_window_regression": "PASS: real destroyed queued popup reproduces old fatal BadWindow; query/name races tolerated; previous handler restored after success/failure; unrelated errors forwarded"
+  "disappearing_window_regression": "PASS: real destroyed queued popup reproduces old fatal BadWindow; query/name races tolerated; previous handler restored after success/failure; unrelated errors forwarded",
+  "catalog_optimization": {
+    "baseline_commit": "855442b0b225bb8b67d66de306a59693fcb9ef21",
+    "workloads": 8,
+    "triplets_per_workload": 11,
+    "state_hashes": "PASS: old NASM, new NASM and unchanged C match for every triplet",
+    "median_regression_limit": 1.05,
+    "performance_gate": "PASS: all eight catalog scenarios within 5% of both references",
+    "integer_lane_mutation": "PASS: removing mask fails the MXCSR denormal assertion",
+    "object_inspection": "PASS: no calls, division, blendps or undefined symbols",
+    "evidence": "catalog-benchmark.json"
+  }
 }
