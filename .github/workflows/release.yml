@@ -1,0 +1,52 @@
+name: Publish Linux executable release
+on:
+  push:
+    tags: ['v[0-9]*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - name: Install build and graphics test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y nasm build-essential python3 xvfb libgl1 libgl1-mesa-dri libx11-6 libxcursor1 libxrandr2 libxinerama1 libxi6 libxtst6
+      - name: Build and verify
+        run: |
+          make -j2
+          make check
+          make sanitize
+      - name: Package executable and archive
+        run: python3 tools/package_release.py --version "$GITHUB_REF_NAME"
+      - name: Verify the downloadable package
+        run: |
+          (cd dist && sha256sum --check SHA256SUMS)
+          mkdir -p "$RUNNER_TEMP/release-check"
+          tar -xzf "dist/aetherium-${GITHUB_REF_NAME}-linux-x86_64.tar.gz" -C "$RUNNER_TEMP/release-check"
+          python3 tests/smoke.py --executable "$RUNNER_TEMP/release-check/aetherium-${GITHUB_REF_NAME}-linux-x86_64/aetherium"
+      - name: Publish GitHub release with binaries
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            test "$(gh release view "$GITHUB_REF_NAME" --json isDraft --jq .isDraft)" = true
+          else
+            gh release create "$GITHUB_REF_NAME" --verify-tag --draft --title "Aetherium Vanguard NASM $GITHUB_REF_NAME" --notes-file dist/RELEASE_NOTES.md
+          fi
+          gh release upload "$GITHUB_REF_NAME" "dist/aetherium-${GITHUB_REF_NAME}-linux-x86_64.tar.gz" dist/aetherium-linux-x86_64 dist/SHA256SUMS --clobber
+          mkdir -p "$RUNNER_TEMP/release-download"
+          gh release download "$GITHUB_REF_NAME" --dir "$RUNNER_TEMP/release-download" --pattern '*.tar.gz' --pattern aetherium-linux-x86_64 --pattern SHA256SUMS
+          (cd "$RUNNER_TEMP/release-download" && sha256sum --check SHA256SUMS)
+          cmp dist/SHA256SUMS "$RUNNER_TEMP/release-download/SHA256SUMS"
+          gh release edit "$GITHUB_REF_NAME" --draft=false --latest
