@@ -178,9 +178,14 @@ HandleEnemyDeath:
     add rdx, rax
     cmp byte [rdx+E_active], 0
     je .ignore
-    FRAME 16
+    FRAME 32
     mov rbx, rdx
     mov r12d, esi
+    ; SpawnEnemy may immediately reuse rbx: retain the death's position and XP.
+    movq xmm0, [rbx+E_position]
+    movq [rsp+8], xmm0
+    mov eax, [rbx+E_xpValue]
+    mov [rsp+16], eax
     mov byte [rbx+E_active], 0
     mov eax, [rbx+E_goldValue]
     add [game+G_gold], eax
@@ -232,7 +237,7 @@ HandleEnemyDeath:
     cvtsi2ss xmm0, dword [rsp]
     cvtsi2ss xmm1, eax
     unpcklps xmm0, xmm1
-    movq xmm1, [rbx+E_position]
+    movq xmm1, [rsp+8]
     addps xmm0, xmm1
     mov edi, 6
     call SpawnEnemy
@@ -242,13 +247,13 @@ HandleEnemyDeath:
     cmp r12d, 100
     jae .hero_xp
     mov edi, r12d
-    mov esi, [rbx+E_xpValue]
+    mov esi, [rsp+16]
     call GrantXP
     imul eax, r12d, T_SIZE
     lea rdx, [game+G_towers]
     inc dword [rdx+rax+T_kills]
 .hero_xp:
-    mov edi, [rbx+E_xpValue]
+    mov edi, [rsp+16]
     cmp r12d, -2
     je .grant
     pxor xmm0, xmm0
@@ -257,7 +262,7 @@ HandleEnemyDeath:
     cvttss2si edi, xmm0
 .grant:
     call GrantHeroXP
-    RETURN 16
+    RETURN 32
 .ignore:
     ret
 

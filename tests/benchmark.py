@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Paired randomized benchmark against the original game compiled with -O3.
+"""Paired randomized benchmark against the corrected Linux C reference compiled with -O3.
 Each result includes exact final state equality. Fail on a >5% slowdown in
 median elapsed time; retain uncertainty bounds instead of asserting universal
 performance from a finite sample. The threshold is declared before measuring.

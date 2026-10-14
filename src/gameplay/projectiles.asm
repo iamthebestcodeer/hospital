@@ -372,7 +372,7 @@ ApplyDamageAndEffects:
 
 global HandleProjectileImpact
 HandleProjectileImpact:
-    FRAME 32
+    FRAME 32+J_SIZE
     mov rbx, rdi
     mov r12, rsi
     mov edi, [rbx+J_sourceType]
@@ -424,6 +424,13 @@ HandleProjectileImpact:
     jne .damage
     cmp dword [rbx+J_chainCount], 0
     jle .damage
+    ; The successor may reuse this impact's pool slot, including in a full pool.
+    ; Keep current damage/effects stable while retaining the original RNG order.
+    mov rsi, rbx
+    lea rdi, [rsp+32]
+    mov ecx, J_SIZE/8
+    rep movsq
+    lea rbx, [rsp+32]
     mov r13d, -1
     movss xmm5, [fp_150]
     lea r14, [game+G_enemies]
@@ -529,6 +536,6 @@ HandleProjectileImpact:
     mov rsi, r12
     call ApplyDamageAndEffects
 .done:
-    RETURN 32
+    RETURN 32+J_SIZE
 
 section .note.GNU-stack noalloc noexec nowrite progbits

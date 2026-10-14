@@ -1325,7 +1325,10 @@ void HandleProjectileImpact(Projectile* p, Enemy* primaryTarget) {
     }
 
     // T4 Tesla Chain Logic
+    Projectile impact;
     if (p->sourceType == TOWER_T4_TESLA_CHAIN && p->chainCount > 0) {
+        impact = *p;
+        p = &impact;
         // Find the next target
         int nextTargetId = -1;
         float minDist = 150.0f; // Chain range
@@ -2305,7 +2308,7 @@ void DrawTowerUpgradePaths(Tower* t) {
     }
 
     int startY = 630;
-    int buttonHeight = 70;
+    int buttonHeight = 50;
 
     TowerType paths[] = {path1, path2};
 
@@ -3000,6 +3003,8 @@ void HandleEnemyDeath(int enemyIndex, int sourceTowerIndex) {
     Enemy* e = &game.enemies[enemyIndex];
     if (!e->active) return;
 
+    const Vector2 deathPosition = e->position;
+    const int deathXP = e->xpValue;
     e->active = false;
 
     // Rewards
@@ -3019,22 +3024,22 @@ void HandleEnemyDeath(int enemyIndex, int sourceTowerIndex) {
         int minionsToSpawn = 4;
         for (int i = 0; i < minionsToSpawn; i++) {
             Vector2 offset = {(float)GetRandomValue(-20, 20), (float)GetRandomValue(-20, 20)};
-            SpawnEnemy(ENEMY_MINION, Vector2Add(e->position, offset));
+            SpawnEnemy(ENEMY_MINION, Vector2Add(deathPosition, offset));
         }
     }
 
     // XP Distribution
     // Grant XP to the killing tower
     if (sourceTowerIndex >= 0 && sourceTowerIndex < MAX_TOWERS) {
-        GrantXP(sourceTowerIndex, e->xpValue);
+        GrantXP(sourceTowerIndex, deathXP);
         game.towers[sourceTowerIndex].kills++;
     }
 
     // Grant XP to the Hero
     if (sourceTowerIndex == -2) {
-         GrantHeroXP(e->xpValue);
+         GrantHeroXP(deathXP);
     } else {
-         GrantHeroXP((int)(e->xpValue * 0.4f)); // Global share
+         GrantHeroXP((int)(deathXP * 0.4f)); // Global share
     }
 }
 

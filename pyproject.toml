@@ -2,4 +2,4 @@
 line-length = 100
 target-version = ['py311']
 include = '\.pyi?$'
-extend-exclude = 'vendor|build|reference'
+extend-exclude = '(^|/)(vendor|build|reference)/'

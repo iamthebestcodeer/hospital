@@ -38,8 +38,11 @@ report = {
     "floating_text_abi_cases": 6,
     "simulation_frames": 9600,
     "vfx_frames": 1050,
+    "inspector_click_cases": 28,
     "screenshots": images,
     "result": "PASS: exact state/RNG and PNG matches",
 }
 (results / "verification.json").write_text(json.dumps(report, indent=2) + "\n")
-print(f"PASS: {report['state_records']:,} state/RNG records and 26 exact PNG comparisons.")
+print(
+    f"PASS: {report['state_records']:,} state/RNG records, 28 inspector clicks and 26 exact PNG comparisons."
+)

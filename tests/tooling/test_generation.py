@@ -2,6 +2,7 @@
 
 from pathlib import Path
 import importlib
+import hashlib
 import re
 import sys
 import unittest
@@ -10,6 +11,32 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 import generate
+from reference_fixes import correct_reference
+
+
+class ReferenceCorrectionTests(unittest.TestCase):
+    def test_the_supplied_original_is_preserved(self):
+        self.assertEqual(
+            hashlib.sha256((ROOT / "reference/rpg.c").read_bytes()).hexdigest(),
+            "8bfd6336a2f99aaf89327b147ee0c6d0d51e7901100f8cc9196db282462a7255",
+        )
+
+    def test_regeneration_keeps_the_reviewed_reference_corrections(self):
+        source = correct_reference((ROOT / "reference/rpg.c").read_text())
+        source = source.replace("DrawRectangleRoundedLinesEx(", "AVDrawRectangleRoundedLinesEx(")
+        source = source.replace("static GameData game = {0};", "GameData game = {0};")
+        self.assertEqual((ROOT / "reference/linux.c").read_text(), source)
+
+    def test_unexpected_upstream_changes_fail_instead_of_dropping_a_fix(self):
+        source = (ROOT / "reference/rpg.c").read_text()
+        for fragment in (
+            "int buttonHeight = 70;",
+            "Vector2Add(e->position, offset)",
+            "GrantXP(sourceTowerIndex, e->xpValue)",
+            "// T4 Tesla Chain Logic",
+        ):
+            with self.subTest(fragment=fragment), self.assertRaises(ValueError):
+                correct_reference(source.replace(fragment, "changed upstream"))
 
 
 class FunctionExtractionTests(unittest.TestCase):

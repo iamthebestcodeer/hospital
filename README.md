@@ -1,7 +1,8 @@
 # Aetherium Vanguard — Linux NASM
 
 A tower-defense RPG hybrid with handwritten x86-64 NASM gameplay and Raylib 5.5.
-The game preserves the supplied C version's rules, visuals and entity limits.
+The game retains the supplied C version's features and entity limits, with
+[reviewed fixes](docs/REVIEW_FIXES.md) to rewards, chain damage and inspector controls.
 Rendering/UI remains generated assembly; rewriting it by hand is the next major
 stage in [the handwritten plan](docs/HANDWRITTEN_PLAN.md).
 
@@ -99,6 +100,8 @@ The source was supplied in `aetherium-linux-x86_64.tar.gz` and identified by the
 user as [this pinned Gist revision](https://gist.github.com/iamthebestcodeer/91949c5dfd28d9f29acbd027aaed77d8/596d6f2067973fdd7f5ff726ee2ce94a9f9253d5).
 `reference/rpg.c` is unchanged. `reference/linux.c` exports the state for testing
 and renames the rounded-outline fallback to avoid a Raylib symbol collision.
+`tools/reference_fixes.py` applies the three documented corrections before
+generating that reference and the rendering assembly; regeneration retains them.
 Raylib's license is in `vendor/raylib-5.5_linux_amd64/LICENSE`.
 
 Current measurements and their limits are in [results/PERFORMANCE.md](results/PERFORMANCE.md).

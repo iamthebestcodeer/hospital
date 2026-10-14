@@ -1,4 +1,4 @@
-; Rendering/UI translated from reference/rpg.c.
+; Rendering/UI translated from corrected reference/linux.c.
 ; Gameplay is handwritten in src/domain, src/gameplay, src/application and src/platform.
 ; NASM x86-64, System V ABI. See tools/generate.py.
 bits 64
@@ -3041,7 +3041,7 @@ __gas_L384:
     pxor xmm0, xmm0
     mov eax, ecx
     neg eax
-    and eax, 85
+    and eax, 65
     cvtsi2ss xmm0, eax
     mov rax, qword [rsp+32]
     addss xmm0, dword [rel __gas_LC117]
@@ -3116,7 +3116,7 @@ __gas_L364:
     lea rdx, [rel __gas_LC118]
     mov esi, 128
     mov dword [rsp+60], r9d
-    mov r15, 4795207704376639488
+    mov r15, 4776067405960314880
     call snprintf wrt ..plt
     mov rax, r14
     mov edx, dword [rsp+56]
@@ -3157,7 +3157,7 @@ __gas_L379:
     mov rax, r12
     mov rsi, -4294967296
     mov edx, dword [rsp+56]
-    mov r13, 4795207704376639488
+    mov r13, 4776067405960314880
     and rax, rsi
     or rax, 1148354560
     sal rdx, 32

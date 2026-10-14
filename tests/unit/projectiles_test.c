@@ -114,6 +114,36 @@ static void chain_lightning_does_not_retarget_an_enemy_in_its_history(void) {
     CHECK(game.projectiles[0].chainCount == 0);
     CHECK(game.projectiles[0].hitHistory[0] == first->id);
 }
+static void chain_damage_is_independent_of_the_reused_projectile_slot(void) {
+    /* Reuse the current slot, a lower slot, or the only free slot in a full pool. */
+    for (int layout = 0; layout < 3; layout++) {
+        test_reset();
+        Enemy *first = test_enemy(0, 0, 0), *next = test_enemy(1, 100, 0);
+        first->hp = next->hp = 1000;
+        if (layout == 2)
+            for (int i = 0; i < MAX_PROJECTILES; i++)
+                game.projectiles[i].active = true;
+        int slot = layout == 1 ? 5 : 0;
+        Projectile *p = &game.projectiles[slot];
+        memset(p, 0, sizeof *p);
+        p->damage = 100;
+        p->damageType = DMG_TRUE;
+        p->sourceType = TOWER_T4_TESLA_CHAIN;
+        p->chainCount = 1;
+        p->sourceTowerIndex = -1;
+        HandleProjectileImpact(p, first);
+        CHECK(first->hp == 900 || first->hp == 800); /* A critical still doubles damage. */
+        Projectile *successor = &game.projectiles[0];
+        CHECK(successor->active);
+        NEAR(successor->damage, 70, 0);
+        CHECK(successor->chainCount == 0);
+        CHECK(successor->targetEnemyId == next->id);
+        CHECK(successor->hitCount == 1 && successor->hitHistory[0] == first->id);
+        successor->active = false;
+        HandleProjectileImpact(successor, next);
+        CHECK(next->hp == 930 || next->hp == 860);
+    }
+}
 void suite_projectiles(void) {
     RUN(each_projectile_weapon_uses_its_expected_speed);
     RUN(stale_target_ids_deactivate_homing_projectiles);
@@ -124,4 +154,5 @@ void suite_projectiles(void) {
     RUN(burn_projectiles_apply_burn_and_melted_armor_together);
     RUN(area_damage_excludes_enemies_outside_the_radius);
     RUN(chain_lightning_does_not_retarget_an_enemy_in_its_history);
+    RUN(chain_damage_is_independent_of_the_reused_projectile_slot);
 }

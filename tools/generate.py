@@ -5,6 +5,7 @@ from pathlib import Path
 import subprocess
 import re
 from gas_to_nasm import convert
+from reference_fixes import correct_reference
 
 RENDER_EXPORTS = {
     "AVDrawRectangleRoundedLinesEx",
@@ -62,6 +63,7 @@ def main():
     root = Path(__file__).resolve().parents[1]
     (root / "build").mkdir(exist_ok=True)
     source = (root / "reference/rpg.c").read_text()
+    source = correct_reference(source)
     # Raylib 5.5 exports the fallback's name. Preserve its implementation under a unique name.
     source = source.replace("DrawRectangleRoundedLinesEx(", "AVDrawRectangleRoundedLinesEx(")
     source = source.replace("static GameData game = {0};", "GameData game = {0};")
@@ -105,7 +107,7 @@ def main():
     )
     validate_render_exports(asm)
     (root / "src/generated/render.asm").write_text(
-        "; Rendering/UI translated from reference/rpg.c.\n; Gameplay is handwritten in src/domain, src/gameplay, src/application and src/platform.\n"
+        "; Rendering/UI translated from corrected reference/linux.c.\n; Gameplay is handwritten in src/domain, src/gameplay, src/application and src/platform.\n"
         + convert(asm)
     )
     # Ask the compiler for the ABI layout instead of guessing struct padding.

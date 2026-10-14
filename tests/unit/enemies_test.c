@@ -74,6 +74,54 @@ static void spawner_death_creates_four_minions(void) {
         minions += game.enemies[i].active && game.enemies[i].type == ENEMY_MINION;
     CHECK(minions == 4);
 }
+static void spawner_rewards_survive_reuse_of_the_dead_enemy_slot(void) {
+    const int killers[] = {0, -1, -2};
+    for (unsigned k = 0; k < sizeof killers / sizeof *killers; k++) {
+        test_reset();
+        game.hero.xpToNextLevel = 10000;
+        Tower *tower = &game.towers[0];
+        tower->active = true;
+        tower->type = TOWER_PULSE;
+        tower->stats.level = 1;
+        tower->stats.xpToNextLevel = 10000;
+        SpawnEnemy(ENEMY_SPAWNER, (Vector2){250, 140});
+        int gold = game.gold, aether = game.aether;
+        HandleEnemyDeath(0, killers[k]);
+        CHECK(game.enemies[0].active && game.enemies[0].type == ENEMY_MINION);
+        CHECK(game.gold == gold + 150);
+        CHECK(game.aether == aether + 10);
+        CHECK(game.hero.xp == (killers[k] == -2 ? 250 : 100));
+        CHECK(tower->stats.xp == (killers[k] == 0 ? 250 : 0));
+        CHECK(tower->kills == (killers[k] == 0 ? 1 : 0));
+    }
+}
+static void minion_offsets_are_independent_of_spawner_slot_reuse(void) {
+    for (unsigned seed = 1; seed <= 16; seed++) {
+        Vector2 positions[4];
+        for (int layout = 0; layout < 2; layout++) {
+            test_reset();
+            SetRandomSeed(seed);
+            SpawnEnemy(ENEMY_SPAWNER, (Vector2){250, 140});
+            if (layout) {
+                game.enemies[4] = game.enemies[0];
+                game.enemies[0].active = false;
+            }
+            HandleEnemyDeath(layout ? 4 : 0, -1);
+            for (int i = 0; i < 4; i++) {
+                Enemy *minion = &game.enemies[i];
+                CHECK(minion->active && minion->type == ENEMY_MINION);
+                CHECK(fabsf(minion->position.x - 250) <= 20);
+                CHECK(fabsf(minion->position.y - 140) <= 20);
+                if (!layout)
+                    positions[i] = minion->position;
+                else {
+                    NEAR(minion->position.x, positions[i].x, 0);
+                    NEAR(minion->position.y, positions[i].y, 0);
+                }
+            }
+        }
+    }
+}
 void suite_enemies(void) {
     RUN(spawning_uses_the_lowest_free_slot_and_unique_ids);
     RUN(a_full_enemy_pool_does_not_consume_an_id);
@@ -83,4 +131,6 @@ void suite_enemies(void) {
     RUN(healer_pulse_heals_nearby_allies_but_not_distant_ones);
     RUN(burn_death_is_processed_before_enemy_movement);
     RUN(spawner_death_creates_four_minions);
+    RUN(spawner_rewards_survive_reuse_of_the_dead_enemy_slot);
+    RUN(minion_offsets_are_independent_of_spawner_slot_reuse);
 }

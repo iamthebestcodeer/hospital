@@ -1,7 +1,7 @@
 # Differential validation
 
 Both test executables link the same harness and the same Raylib 5.5 static
-library. `test-c` links the supplied C compiled with `-O3`; `test-asm` links the
+library. `test-c` links the corrected Linux C reference compiled with `-O3`; `test-asm` links the
 NASM game. Only input and FPS queries are wrapped. Assertions check key
 rules independently; exact state/RNG hashes detect changes in all stored fields.
 Pointer addresses and OpenGL object names are removed from state hashes; tooltip
@@ -18,7 +18,7 @@ string contents are included. PNG comparisons check rendering separately.
 | Hero/state | Four hero skills; XP; movement, attack, dash, burst; pause/resume, game over, restart; skill overlay stays open with points remaining and resumes play after the last point is spent |
 | Waves | Wave tiers 1–20, enemy compositions, boss/spawner introductions, completion bonuses |
 | Integrated simulation | Four seeded, 2,400-frame scenes with 100 towers, 300 enemies and 2,500 initial particles; varied dt, scripted abilities/movement, pause/grid and skill allocation |
-| Rendering/UI | 26 PNGs: title, pause, game over, four skill selections, twelve tower inspectors, four build previews/grid, specialization click, sell click and start transition; tooltips, lighting, map, entities and effects |
+| Rendering/UI | 28 asserted inspector clicks across all four base types: both upgrades, the gap, and the sell region; 26 PNGs: title, pause, game over, four skill selections, twelve tower inspectors, four build previews/grid, specialization click, sell click and start transition; tooltips, lighting, map, entities and effects |
 
 `tools/sanitizers.sh` checks the C reference/harness with AddressSanitizer and
 UndefinedBehaviorSanitizer on the headless verification cases. Its log is

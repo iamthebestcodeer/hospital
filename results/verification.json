@@ -1,10 +1,11 @@
 {
   "state_records": 15620,
-  "state_sha256": "725a36170331ab44586b8498cdd4cb2ec69e9490b0c033636973b82b378e61e6",
+  "state_sha256": "510f0cf2eb0d22f5df840cf75e277c0628d2dda0df50b36a1fa45d94c65474a9",
   "particle_cases": 1408,
   "floating_text_abi_cases": 6,
   "simulation_frames": 9600,
   "vfx_frames": 1050,
+  "inspector_click_cases": 28,
   "screenshots": {
     "frame-00.png": "bb929f2aa460974c30a9604d5fa8d88e4f8ae8418ba3318ee68d85d41a6524f1",
     "frame-01.png": "a7283f277e5f9e29c1403da2e0b274f516e8c28383a947c512f6f937f2033b39",
@@ -13,10 +14,10 @@
     "frame-04.png": "9ddee7007dc2b766c441d4f72691f9cfeda9c4409f9987053cbf288172f6d2e7",
     "frame-05.png": "ed1c7da94f3f183d5e128e050e1369ac568c032afeaf5476f169a21549d9433e",
     "frame-06.png": "23db6fc01f8aab2d526b72333097134950efedc6ec34cc32583dcf7c8ad49007",
-    "frame-07.png": "4335f558577ed63e3ee0f3472c0102278fabe2b0f8f34243d0791979fd814cd3",
-    "frame-08.png": "e2bd7965027689cd7b7943546937590135703de46e19ddbeefd2afb891ff093c",
-    "frame-09.png": "0903f740bf759c191b0db3cbf783dcf010e96fad46ec86b12be446be689de21f",
-    "frame-10.png": "9fb7a460dc5c70df570fa2241e09b0602979d0d702ce24bda28bd4e0544e8de2",
+    "frame-07.png": "507f46b73c1222ad7f18378f950ddc1cd9a9150e3f73143bb11095f1de7130d6",
+    "frame-08.png": "99d68f4003fbbb53e572c12f859c9a0e94a3d67ccfee9be010eaf2afa1aa34cf",
+    "frame-09.png": "38ebd0cb8709497084c306c1bd96689d2f59edb257ab9fb3446343b9cf515cee",
+    "frame-10.png": "539f333ff1c1425522e7f2f3210bb02e5716fbccec8158ae5514931e5e231e23",
     "frame-11.png": "a2aa5152804d55bed2cbeb8999aee4342ae5e91e6cbe1a10de2ae6a91c31704c",
     "frame-12.png": "0cf295210ba806dcff405bea66c11ccb0036641a3e2ffe1e6fd2da00510e1136",
     "frame-13.png": "811f2f738adcc3a8c591ffc2c8e969343e67a75c7e27024068b7c612764aa85c",
@@ -29,9 +30,9 @@
     "frame-20.png": "eedf39236c353da5a77863392714865dc9aaf71dec7f359a200ffef09f26d7b7",
     "frame-21.png": "081347d7e24aebb84dd830b000e2a9d7c9b5c866239dfcadda75361e06bc483f",
     "frame-22.png": "955d272846734dbd05e61bc8c1c430596f4d8e316466bc7393313ae5e95b68e3",
-    "frame-23.png": "c97f35c3a00b4fc54166819c306ab70e804beca76781721f40849a6116f90a6b",
-    "frame-24.png": "8609826065e762eec28f1719f3a9b5ec20f461536abb087be0472076eb94de34",
-    "frame-25.png": "af4a3cd728de587bc30e0dccfcd6102e7e62c0c9beb08f8ed430f677ec284ddf"
+    "frame-23.png": "aaae966af54a14751766ce05f4d060b67930d4aec59ecb28511376785ba5dc51",
+    "frame-24.png": "3ce712b5510afeb1a85a093ba0add4b21390d149cd86ecfc2ad94b5336600c4e",
+    "frame-25.png": "0da007fa9cf86dee47bf7854a1c94a3d21a0bcae56e7e004d85ed7ed8cf174f7"
   },
   "result": "PASS: exact state/RNG and PNG matches"
 }

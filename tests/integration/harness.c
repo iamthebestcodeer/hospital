@@ -420,8 +420,52 @@ static void screenshot(const char *dir, int frame) {
     assert(ExportImage(img, path));
     UnloadImage(img);
 }
+static void inspector_click_test(void) {
+    const int ys[] = {750, 650, 720, 744, 747, 760, 784};
+    const TowerType paths[][2] = {{TOWER_T4_PULSE_REPEATER, TOWER_T4_PULSE_SNIPER},
+                                  {TOWER_T4_CANNON_MORTAR, TOWER_T4_CANNON_VULCAN},
+                                  {TOWER_T4_CRYO_BLIZZARD, TOWER_T4_CRYO_FREEZER},
+                                  {TOWER_T4_TESLA_CHAIN, TOWER_T4_TESLA_STORM}};
+    for (int type = TOWER_PULSE; type <= TOWER_TESLA; type++) {
+        for (unsigned click = 0; click < sizeof ys / sizeof *ys; click++) {
+            reset(500 + click);
+            game.gold = game.aether = 10000;
+            assert(PlaceTower(0, 0, (TowerType)type));
+            Tower *tower = &game.towers[0];
+            assert(tower->active);
+            tower->stats.level = TOWER_BASE_MAX_LEVEL;
+            ConfigureTowerStats(tower);
+            game.selectedTowerIndex = 0;
+            int gold = game.gold, aether = game.aether, total = tower->totalCost;
+            mouse = (Vector2){GAME_AREA_WIDTH + UI_WIDTH / 2, ys[click]};
+            mousePressed[MOUSE_LEFT_BUTTON] = true;
+            BeginDrawing();
+            ClearBackground(BLACK);
+            DrawTowerInspector();
+            EndDrawing();
+            if (ys[click] >= 750) {
+                assert(!tower->active);
+                assert(game.gold == gold + (int)(total * .6f));
+                assert(game.aether == aether);
+                assert(game.selectedTowerIndex == -1);
+            } else if (ys[click] == 747) {
+                assert(tower->active && tower->type == (TowerType)type);
+                assert(game.gold == gold && game.aether == aether);
+            } else {
+                TowerType upgraded = paths[type][ys[click] == 650 ? 0 : 1];
+                assert(tower->active && tower->type == upgraded);
+                assert(game.gold == gold - GetTowerCost(upgraded));
+                assert(game.aether == aether - GetTowerAetherCost(upgraded));
+                assert(tower->totalCost == total + GetTowerCost(upgraded));
+                assert(game.selectedTowerIndex == 0);
+            }
+        }
+    }
+    no_input();
+}
 static void render_test(const char *dir) {
     window();
+    inspector_click_test();
     scenario(987, 24, 64, 1800);
     BuildStaticMapRT();
     for (int f = 0; f < 26; f++) {

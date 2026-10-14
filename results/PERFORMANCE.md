@@ -2,15 +2,18 @@
 
 These are fresh measurements of the modular codebase. Earlier measurements
 are archived in [history/pre-modular](history/pre-modular/PERFORMANCE.md) and
-are not combined with this run.
+[history/pre-review](history/pre-review/PERFORMANCE.md), and are not combined
+with this run. Both current implementations include the
+[review corrections](../docs/REVIEW_FIXES.md).
 
 ## Correctness and maintainability checks
 
 - 22 handwritten NASM modules with explicit dependencies.
-- 98 named gameplay/ABI tests and 33,888 assertions, run separately against
-  NASM and the original C reference without creating a window.
-- 24 generator, translator and architectural boundary tests.
+- 101 named gameplay/ABI tests and 34,439 assertions, run separately against
+  NASM and the corrected Linux C reference without creating a window.
+- 27 generator, translator and architectural boundary tests.
 - 15,620 identical state/RNG records and 26 byte-identical rendered PNGs.
+- 28 asserted inspector clicks covering upgrades, gap and sell controls.
 - Real X11 input and clean exit of the shipping executable.
 - C reference, C unit fixtures and integration harness passed ASan/UBSan.
 - Formatting checks and regeneration checks passed; handwritten modules are
@@ -26,28 +29,28 @@ assembly safety is checked through behavioral, boundary and differential tests.
 
 CPU: AMD EPYC 9V74 80-Core Processor. Compiler: gcc (Debian 14.2.0-19) 14.2.0.
 
-NASM 2.16.03, SSE2; C baseline uses `-O3 -ffp-contract=off -std=c99`.
+NASM 2.16.03, SSE2; Corrected C baseline uses `-O3 -ffp-contract=off -std=c99`.
 Both versions link the same Raylib 5.5 and system libm. Eleven randomized
 C/NASM pairs per workload, pinned to one CPU; calibration and warmup discarded.
 Every timed pair also checks its final state hash.
 
 | Workload | Paired speedup | NASM/C bootstrap 95% interval | Evidence |
 | --- | ---: | --- | --- |
-| spawn-zero | 1.71× | 0.568–0.602 | Faster |
-| spawn-one | 1.02× | 0.967–0.987 | Faster |
-| spawn-small | 1.06× | 0.926–0.967 | Faster |
-| spawn-empty | 2.45× | 0.397–0.410 | Faster |
-| spawn-dense | 30.72× | 0.032–0.033 | Faster |
-| spawn-full | 141.53× | 0.007–0.007 | Faster |
-| idle | 1.05× | 0.950–0.962 | Faster |
-| normal | 1.30× | 0.761–0.776 | Faster |
-| stress | 3.66× | 0.261–0.278 | Faster |
-| vfx | 3.51× | 0.283–0.287 | Faster |
-| render-title | 0.99× | 0.972–1.071 | Inconclusive |
-| render-normal | 1.00× | 0.956–1.040 | Inconclusive |
-| render | 0.99× | 0.976–1.044 | Inconclusive |
+| spawn-zero | 2.02× | 0.479–0.518 | Faster |
+| spawn-one | 1.02× | 0.855–0.996 | Faster |
+| spawn-small | 1.04× | 0.946–0.977 | Faster |
+| spawn-empty | 2.42× | 0.405–0.414 | Faster |
+| spawn-dense | 31.38× | 0.031–0.033 | Faster |
+| spawn-full | 204.10× | 0.005–0.005 | Faster |
+| idle | 1.07× | 0.917–0.944 | Faster |
+| normal | 1.31× | 0.751–0.781 | Faster |
+| stress | 4.15× | 0.239–0.246 | Faster |
+| vfx | 3.40× | 0.283–0.302 | Faster |
+| render-title | 1.00× | 0.930–1.051 | Inconclusive |
+| render-normal | 1.04× | 0.915–1.012 | Inconclusive |
+| render | 1.02× | 0.962–1.013 | Inconclusive |
 
-Normal simulation measured 1.30× faster and the crowded simulation measured 3.66× faster.
+Normal simulation measured 1.31× faster and the crowded simulation measured 4.15× faster.
 All 13 workloads passed the predeclared coarse gate (no median slowdown
 exceeding 5%). A ratio below 1 favors NASM. Intervals spanning 1 are
 inconclusive. Full-frame rendering remains within measurement uncertainty;

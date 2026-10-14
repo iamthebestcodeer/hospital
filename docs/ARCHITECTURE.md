@@ -64,5 +64,11 @@ removes their C bodies from a temporary translation unit, and rejects any
 non-rendering export from the generated assembly. Nested scopes, comments,
 string literals, compound literals, and malformed input have focused tests.
 
+The original `reference/rpg.c` is immutable provenance.
+`tools/reference_fixes.py` applies explicit, guarded corrections to build
+`reference/linux.c`; that corrected source also supplies rendering generation.
+Unexpected upstream text fails generation rather than silently dropping a fix.
+See [review fixes](REVIEW_FIXES.md) for intentional differences from upstream.
+
 Normal builds assemble checked-in NASM directly. Code generation is an explicit
 maintenance operation, not a hidden build step.
