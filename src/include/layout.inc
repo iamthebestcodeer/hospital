@@ -1,0 +1,22 @@
+; NASM x86-64, System V ABI. See tools/generate.py.
+bits 64
+default rel
+GAME_PARTICLES equ 115656
+PARTICLE_SIZE equ 44
+P_POSITION equ 0
+P_VELOCITY equ 8
+P_START_COLOR equ 16
+P_END_COLOR equ 20
+P_LIFE equ 24
+P_MAX_LIFE equ 28
+P_START_SIZE equ 32
+P_END_SIZE equ 36
+GAME_TEXTS equ 247656
+TEXT_SIZE equ 56
+FT_Y equ 4
+FT_LIFE equ 44
+FT_VY equ 48
+FT_ACTIVE equ 52
+P_ACTIVE equ 40
+P_GRAVITY equ 41
+PARTICLE_COUNT equ 3000

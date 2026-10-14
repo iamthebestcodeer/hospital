@@ -1,0 +1,7 @@
+build/
+__pycache__/
+core
+results/*-state.txt
+results/render-*/
+results/*.log
+results/benchmark-run.txt
