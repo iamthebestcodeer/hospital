@@ -5,7 +5,7 @@ performance checks before calling a refactor complete.
 
 | Command | Scope | Needs an X display? |
 | --- | --- | --- |
-| `make test-unit` | 104 named behavior tests / 34,505 assertions, run against both NASM and C | No |
+| `make test-unit` | 107 named behavior tests / 34,691 assertions, run against both NASM and C | No |
 | `make test-tools` | 28 translator, generator, architecture and build tests | No |
 | `make test-integration` | 15,620 exact state/RNG records, 26 exact PNGs | Xvfb or `DISPLAY` |
 | `make smoke` | Seven real X11 window lookup/error tests; shipping executable start/movement/exit | Xvfb or `DISPLAY` |
@@ -13,6 +13,7 @@ performance checks before calling a refactor complete.
 | `make sanitize` | C unit/reference and integration memory/undefined-behavior checks | No |
 | `make benchmark` | 13 randomized paired C/NASM workloads with state hashes | Xvfb or `DISPLAY` |
 | `make confirm-render` | Balanced render samples plus an identical-C control | Xvfb or `DISPLAY` |
+| `python3 tests/benchmark_catalog.py --baseline COMMIT` | Eight catalog workloads: old NASM, new NASM and C with exact state hashes | No |
 
 ## Focused gameplay tests
 
@@ -32,6 +33,8 @@ Raylib RNG remain real.
 - Towers/progression: all catalog costs and upgrade paths, build/sell resource
   conservation across every buildable tile, exhausted pools, targeting modes,
   stale handles, aim tolerance, XP thresholds, skills and leadership range.
+  Catalog tests check exact whole-object results at signed level extremes,
+  invalid-type fallbacks, and MXCSR denormal flags with DAZ/FTZ disabled.
 - Session/hero/enemies: reset, title/pause/game-over/skill transitions, camera
   input translation, build tools, waves, movement normalization, dash/cooldowns,
   melee bounds, burst, healing, path overshoot and spawner deaths.

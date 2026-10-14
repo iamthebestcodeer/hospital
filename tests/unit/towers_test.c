@@ -1,4 +1,6 @@
 #include "test.h"
+#include <limits.h>
+#include <xmmintrin.h>
 static void catalog_has_all_twelve_costs_and_aether_prices(void) {
     const int costs[] = {100, 250, 200, 400, 800, 1000, 1500, 900, 700, 850, 1100, 1300};
     for (int type = 0; type < 12; type++) {
@@ -164,6 +166,66 @@ static void aiming_across_the_signed_angle_boundary_still_fires(void) {
         CHECK(test_projectile_count() == 1);
     }
 }
+static void catalog_scaling_preserves_exact_float_bits_and_unrelated_fields(void) {
+    const float base[][3] = {{20, 150, 2.5f}, {80, 130, .5f},  {20, 140, 0},     {50, 180, 1.1f},
+                             {25, 160, 8},    {300, 400, .8f}, {500, 9999, .3f}, {30, 140, 10},
+                             {10, 120, .75f}, {50, 150, 1.5f}, {80, 200, 1.5f},  {200, 220, .9f}};
+    const int levels[] = {INT_MIN, -1, 0, 1, 2, 3, 4, 7, 31, 255, 65536, INT_MAX};
+    for (int type = 0; type < 12; type++) {
+        for (unsigned i = 0; i < sizeof levels / sizeof *levels; i++) {
+            Tower actual;
+            memset(&actual, 0xa5, sizeof actual);
+            actual.type = type;
+            actual.stats.level = levels[i];
+            Tower expected = actual;
+            int effective = levels[i] > 0 ? levels[i] : 1;
+            float offset = (float)(effective - 1);
+            expected.stats.xpToNextLevel =
+                type < 4 && levels[i] < 3 ? (effective == 2 ? 285 : 150) : 99999;
+            expected.stats.damage = base[type][0] * (1.0f + offset * .35f);
+            expected.stats.range = base[type][1] * (1.0f + offset * .10f);
+            expected.stats.fireRate = base[type][2];
+            if (type != TOWER_CRYO && type != TOWER_T4_CRYO_BLIZZARD &&
+                type != TOWER_T4_CRYO_FREEZER)
+                expected.stats.fireRate *= 1.0f + offset * .15f;
+            expected.damageType = type == TOWER_CANNON || type == TOWER_T4_CANNON_MORTAR ||
+                                          type == TOWER_T4_CANNON_VULCAN
+                                      ? DMG_PHYSICAL
+                                      : DMG_ENERGY;
+            ConfigureTowerStats(&actual);
+            CHECK(memcmp(&actual, &expected, sizeof actual) == 0);
+        }
+    }
+}
+static void invalid_catalog_types_preserve_stats_and_cost_fallbacks(void) {
+    const int types[] = {INT_MIN, -2, -1, 12, 99, INT_MAX};
+    for (unsigned i = 0; i < sizeof types / sizeof *types; i++) {
+        Tower actual;
+        memset(&actual, 0xa5, sizeof actual);
+        actual.type = types[i];
+        actual.stats.level = 2;
+        Tower expected = actual;
+        expected.stats.xpToNextLevel = 99999;
+        ConfigureTowerStats(&actual);
+        CHECK(memcmp(&actual, &expected, sizeof actual) == 0);
+        CHECK(GetTowerCost(types[i]) == 99999);
+        CHECK(GetTowerAetherCost(types[i]) == (types[i] < 0 ? 0 : 5049));
+    }
+}
+static void catalog_integer_lane_never_raises_a_denormal_operand_exception(void) {
+    unsigned saved = _mm_getcsr();
+    for (int type = 0; type < 12; type++) {
+        Tower tower = {.type = type, .stats.level = 2};
+        /* Disable DAZ/FTZ and clear sticky exception flags before the actual call. */
+        _mm_setcsr(saved & ~((1u << 6) | (1u << 15) | 0x3fu));
+        ConfigureTowerStats(&tower);
+        unsigned flags = _mm_getcsr();
+        CHECK((flags & 2) == 0);
+        CHECK(tower.damageType ==
+              (type == 1 || type == 6 || type == 7 ? DMG_PHYSICAL : DMG_ENERGY));
+    }
+    _mm_setcsr(saved);
+}
 void suite_towers(void) {
     RUN(catalog_has_all_twelve_costs_and_aether_prices);
     RUN(placement_charges_gold_and_reserves_one_tile);
@@ -182,4 +244,7 @@ void suite_towers(void) {
     RUN(stale_tower_target_handles_are_reacquired);
     RUN(an_out_of_range_target_is_replaced_with_a_reachable_one);
     RUN(aiming_across_the_signed_angle_boundary_still_fires);
+    RUN(catalog_scaling_preserves_exact_float_bits_and_unrelated_fields);
+    RUN(invalid_catalog_types_preserve_stats_and_cost_fallbacks);
+    RUN(catalog_integer_lane_never_raises_a_denormal_operand_exception);
 }
