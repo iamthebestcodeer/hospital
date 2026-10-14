@@ -49,7 +49,8 @@ not include Raylib headers or call its APIs.
 - Stack aligned to 16 bytes before calls; callee-saved registers preserved.
 - XMM registers are caller-saved. Values needed after another module's call
   must be spilled or recomputed. Unit tests deliberately clobber XMM4 at a
-  catalog call and probe RBX/RBP/R12–R15 across nested gameplay calls.
+  catalog call and probe RBX/RBP/R12–R15 directly across game entry points.
+  Deliberately broken callees verify each register check.
 - Local labels and constants belong to their object. Small immutable constants
   may repeat between objects to avoid a shared mutable/global constant module.
 - State layouts and RNG order are behavioral contracts. Pools retain their

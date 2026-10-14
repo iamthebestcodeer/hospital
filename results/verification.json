@@ -1,6 +1,6 @@
 {
   "state_records": 15620,
-  "state_sha256": "510f0cf2eb0d22f5df840cf75e277c0628d2dda0df50b36a1fa45d94c65474a9",
+  "state_sha256": "6ebda279f8a267c143af505cfda3befdcd558a97914df526cde59e93c1ac461d",
   "particle_cases": 1408,
   "floating_text_abi_cases": 6,
   "simulation_frames": 9600,
@@ -32,7 +32,7 @@
     "frame-22.png": "955d272846734dbd05e61bc8c1c430596f4d8e316466bc7393313ae5e95b68e3",
     "frame-23.png": "aaae966af54a14751766ce05f4d060b67930d4aec59ecb28511376785ba5dc51",
     "frame-24.png": "3ce712b5510afeb1a85a093ba0add4b21390d149cd86ecfc2ad94b5336600c4e",
-    "frame-25.png": "0da007fa9cf86dee47bf7854a1c94a3d21a0bcae56e7e004d85ed7ed8cf174f7"
+    "frame-25.png": "59422b1073d8bbf7b8e9615102595fcb77709acbbb6aac3c014bfaeec8eeaaa0"
   },
   "result": "PASS: exact state/RNG and PNG matches"
 }

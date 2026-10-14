@@ -2,16 +2,17 @@
 
 These are fresh measurements of the modular codebase. Earlier measurements
 are archived in [history/pre-modular](history/pre-modular/PERFORMANCE.md) and
-[history/pre-review](history/pre-review/PERFORMANCE.md), and are not combined
+[history/pre-review](history/pre-review/PERFORMANCE.md) and
+[history/pre-pr2-review](history/pre-pr2-review/PERFORMANCE.md), and are not combined
 with this run. Both current implementations include the
 [review corrections](../docs/REVIEW_FIXES.md).
 
 ## Correctness and maintainability checks
 
 - 22 handwritten NASM modules with explicit dependencies.
-- 101 named gameplay/ABI tests and 34,439 assertions, run separately against
+- 104 named gameplay/ABI tests and 34,505 assertions, run separately against
   NASM and the corrected Linux C reference without creating a window.
-- 27 generator, translator and architectural boundary tests.
+- 28 generator, translator, architectural and build dependency tests.
 - 15,620 identical state/RNG records and 26 byte-identical rendered PNGs.
 - 28 asserted inspector clicks covering upgrades, gap and sell controls.
 - Real X11 input and clean exit of the shipping executable.
@@ -36,26 +37,33 @@ Every timed pair also checks its final state hash.
 
 | Workload | Paired speedup | NASM/C bootstrap 95% interval | Evidence |
 | --- | ---: | --- | --- |
-| spawn-zero | 2.02× | 0.479–0.518 | Faster |
-| spawn-one | 1.02× | 0.855–0.996 | Faster |
-| spawn-small | 1.04× | 0.946–0.977 | Faster |
-| spawn-empty | 2.42× | 0.405–0.414 | Faster |
-| spawn-dense | 31.38× | 0.031–0.033 | Faster |
-| spawn-full | 204.10× | 0.005–0.005 | Faster |
-| idle | 1.07× | 0.917–0.944 | Faster |
-| normal | 1.31× | 0.751–0.781 | Faster |
-| stress | 4.15× | 0.239–0.246 | Faster |
-| vfx | 3.40× | 0.283–0.302 | Faster |
-| render-title | 1.00× | 0.930–1.051 | Inconclusive |
-| render-normal | 1.04× | 0.915–1.012 | Inconclusive |
-| render | 1.02× | 0.962–1.013 | Inconclusive |
+| spawn-zero | 1.61× | 0.488–0.722 | Faster |
+| spawn-one | 1.05× | 0.848–1.072 | Inconclusive |
+| spawn-small | 1.05× | 0.854–1.064 | Inconclusive |
+| spawn-empty | 3.32× | 0.277–0.544 | Faster |
+| spawn-dense | 32.54× | 0.024–0.032 | Faster |
+| spawn-full | 196.85× | 0.005–0.006 | Faster |
+| idle | 1.01× | 0.982–1.021 | Inconclusive |
+| normal | 1.28× | 0.741–0.793 | Faster |
+| stress | 4.05× | 0.238–0.257 | Faster |
+| vfx | 3.18× | 0.306–0.322 | Faster |
+| render-title | 0.94× | 0.948–1.118 | Inconclusive |
+| render-normal | 1.01× | 0.956–1.029 | Inconclusive |
+| render | 0.99× | 0.993–1.028 | Inconclusive |
 
-Normal simulation measured 1.31× faster and the crowded simulation measured 4.15× faster.
-All 13 workloads passed the predeclared coarse gate (no median slowdown
-exceeding 5%). A ratio below 1 favors NASM. Intervals spanning 1 are
-inconclusive. Full-frame rendering remains within measurement uncertainty;
-these measurements do not establish a graphics speedup or a universal
-zero-regression guarantee. The 5% gate is a tolerance, not a proof of equality.
+Normal simulation measured 1.28× faster and crowded simulation 4.05× faster.
+Twelve of thirteen workloads passed the predeclared 5% median regression gate.
+The initial title-screen measurement exceeded it: NASM/C 1.060, with a wide
+95% interval of 0.948–1.118. The initial benchmark command therefore failed;
+its raw samples and regression flag are retained in [benchmark.json](benchmark.json).
+
+A follow-up used 32 balanced NASM/C title-screen pairs and 16 identical-C control
+pairs. NASM/C measured 0.978 (95% interval 0.952–1.004), while the identical-C
+control measured 1.027 (0.920–1.069). The slowdown did not reproduce. Full-frame
+rendering remains inconclusive; neither run proves a graphics speedup or a
+universal zero-regression guarantee. The 5% gate is a tolerance, not proof of
+equality. Follow-up samples, order, hashes and intervals are retained in
+[render-confirmation.json](render-confirmation.json).
 
 Rendering used Xvfb/Mesa software OpenGL with one renderer thread. Physical
 GPUs, CPU frequency, drivers and host load can change results. Saturated
@@ -65,8 +73,10 @@ FPS improvements. Scenes retain effects, MSAA, limits and gameplay rules.
 ## Reproduce
 
 `make check`, `make sanitize`, `make format-check`, and `make benchmark`.
-Use `make confirm-render` for balanced rendering measurements with an identical-C
-control when a rendering result needs investigation. Raw paired timings,
+Use `make confirm-render` for balanced default rendering measurements with an
+identical-C control. To reproduce this title-screen investigation, run
+`python3 tests/confirm_render.py --workload render-title` after building the test
+executables. Raw paired timings,
 order, state hashes, machine details and confidence intervals are in
 [benchmark.json](benchmark.json). Workload definitions remain in
 `tests/integration/harness.c` and the benchmark runner.

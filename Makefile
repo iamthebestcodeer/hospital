@@ -8,7 +8,8 @@ RAYLIB := vendor/raylib-5.5_linux_amd64
 CPPFLAGS := -Iinclude -Itests/unit -I$(RAYLIB)/include
 CFLAGS := -O3 -ffp-contract=off -std=c99 -Wall -Wextra -Werror -MMD -MP
 NASMFLAGS := -f elf64 -Werror
-LDLIBS := $(RAYLIB)/lib/libraylib.a -lm -ldl -lpthread
+RAYLIB_ARCHIVE := $(RAYLIB)/lib/libraylib.a
+LDLIBS := $(RAYLIB_ARCHIVE) -lm -ldl -lpthread
 WRAPS := -Wl,--wrap=IsKeyDown,--wrap=IsKeyPressed,--wrap=IsMouseButtonPressed,--wrap=GetMousePosition,--wrap=GetFPS
 UNIT_WRAPS := $(WRAPS) -Wl,--wrap=GetAimToleranceDegrees
 ASM_SOURCES := $(sort $(foreach directory,application domain gameplay platform generated,$(wildcard src/$(directory)/*.asm)))
@@ -39,14 +40,14 @@ build/unit/support-reference.o: tests/unit/support.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DTEST_REFERENCE -c $< -o $@
 
 build/aetherium: $(ASM_OBJECTS)
-	$(CC) $^ $(LDLIBS) -o $@
+	$(CC) $(filter-out $(RAYLIB_ARCHIVE),$^) $(LDLIBS) -o $@
 
 build/reference.o: reference/linux.c include/aetherium.h
 	@mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 build/rpg-c: build/reference.o
-	$(CC) $^ $(LDLIBS) -o $@
+	$(CC) $(filter-out $(RAYLIB_ARCHIVE),$^) $(LDLIBS) -o $@
 
 build/reference-test.o: build/reference.o
 	objcopy --redefine-sym main=VanguardMain $< $@
@@ -56,16 +57,16 @@ build/harness.o: tests/integration/harness.c include/aetherium.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 build/test-c: build/harness.o build/reference-test.o
-	$(CC) $^ $(WRAPS) $(LDLIBS) -o $@
+	$(CC) $(filter-out $(RAYLIB_ARCHIVE),$^) $(WRAPS) $(LDLIBS) -o $@
 
 build/test-asm: build/harness.o $(GAME_OBJECTS)
-	$(CC) $^ $(WRAPS) $(LDLIBS) -o $@
+	$(CC) $(filter-out $(RAYLIB_ARCHIVE),$^) $(WRAPS) $(LDLIBS) -o $@
 
 build/unit-asm: $(UNIT_OBJECTS) build/unit/support.o $(UNIT_GAME_OBJECTS)
-	$(CC) $^ $(UNIT_WRAPS) $(LDLIBS) -o $@
+	$(CC) $(filter-out $(RAYLIB_ARCHIVE),$^) $(UNIT_WRAPS) $(LDLIBS) -o $@
 
 build/unit-c: $(UNIT_OBJECTS) build/unit/support-reference.o build/reference-test.o
-	$(CC) $^ $(UNIT_WRAPS) $(LDLIBS) -o $@
+	$(CC) $(filter-out $(RAYLIB_ARCHIVE),$^) $(UNIT_WRAPS) $(LDLIBS) -o $@
 
 build/reference-sanitized.o: reference/linux.c include/aetherium.h
 	@mkdir -p $(dir $@)
@@ -76,6 +77,9 @@ build/unit-sanitized: $(UNIT_SOURCES) tests/unit/support.c tests/unit/test.h bui
 
 build/integration-sanitized: tests/integration/harness.c include/aetherium.h build/reference-sanitized.o
 	$(CC) $(CPPFLAGS) -O1 -g -Wall -Wextra -Werror -fsanitize=address,undefined -fno-omit-frame-pointer $< build/reference-sanitized.o $(WRAPS) $(LDLIBS) -o $@
+
+# A replaced static archive must relink every consumer, including sanitizer builds.
+build/aetherium build/rpg-c build/test-c build/test-asm build/unit-asm build/unit-c build/unit-sanitized build/integration-sanitized: $(RAYLIB_ARCHIVE)
 
 regenerate:
 	$(PYTHON) tools/generate.py

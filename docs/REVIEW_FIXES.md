@@ -27,3 +27,26 @@ These corrections intentionally change some state hashes and inspector images;
 differential tests require NASM and corrected C to agree exactly. Earlier
 measurements are archived in `results/history/pre-review`; current performance
 measurements compare the corrected implementations.
+
+## PR #2 review
+
+All six findings from Codex and Greptile were valid:
+
+- Normalize a negative `fmodf` result before comparing tower aim tolerance.
+  Targets across the signed angle boundary remain fireable in either direction.
+- Reset the entire screen-shake effect and camera offset during restart.
+  A fresh game has no leftover timer, intensity, or division by zero duration.
+- Track the Raylib archive as a dependency of every executable, including
+  sanitizer targets. An isolated make test proves an updated archive schedules
+  exactly one relink with exactly one archive argument for each consumer.
+- Call game entry points directly from the assembly register probe, supplying
+  their integer and floating-point arguments. Check full 64-bit sentinels before
+  any C code runs; six broken callees test each register check independently.
+- Observe the shipping executable's pixels after real Enter and D events.
+  The hero must appear at spawn, then move right by over 20 pixels. Mutants
+  ignoring either action fail, even though Escape still exits successfully.
+- Pin checkout to the verified `actions/checkout` v4.3.1 commit
+  `34e114876b0b11c390a56381ad16ebd13914f8d5` for reproducible workflow code.
+
+The angle and reset corrections are also applied to the Linux C reference by
+`tools/reference_fixes.py`. The original supplied C file is still unchanged.

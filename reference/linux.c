@@ -525,7 +525,10 @@ void ResetGame(void) {
     game.showGrid = false;
     game.enemyIdCounter = 1;
     game.dayNightCycle = 0.0f; // Start at Noon
-    game.screenShakeDuration = 0.0f; // Initialize
+    game.screenShakeDuration = 0.0f;
+    game.screenShakeTime = 0.0f;
+    game.screenShakeIntensity = 0.0f;
+    game.camera.offset = (Vector2){0, 0};
 
     // Init Hero
     Hero* h = &game.hero;
@@ -1095,7 +1098,9 @@ void UpdateTowers(float dt) {
             float rotAlpha = fminf(rotationSpeed * dt, 1.0f);
             t->rotation = LerpAngle(t->rotation, t->desiredRotation, rotAlpha);
 
-            float angleDiff = fabsf(fmodf(t->rotation - t->desiredRotation + 180.0f, 360.0f) - 180.0f);
+            float wrappedAngle = fmodf(t->rotation - t->desiredRotation + 180.0f, 360.0f);
+            if (wrappedAngle < 0.0f) wrappedAngle += 360.0f;
+            float angleDiff = fabsf(wrappedAngle - 180.0f);
             float aimTolerance = GetAimToleranceDegrees(t->type);
 
             if (t->cooldownTimer <= 0 && (angleDiff <= aimTolerance || hasGlobalRange)) {

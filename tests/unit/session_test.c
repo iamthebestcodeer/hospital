@@ -124,6 +124,27 @@ static void late_wave_spawn_intervals_do_not_drop_below_the_minimum(void) {
     NEAR(game.spawnTimer, .3f, 0);
     CHECK(game.enemies[0].type == ENEMY_BOSS);
 }
+static void restarting_during_game_over_shake_clears_the_entire_effect(void) {
+    game.lives = 0;
+    UpdatePlaying(.01f);
+    CHECK(game.state == GS_GAME_OVER && game.screenShakeTime > 0);
+    game.camera.offset = (Vector2){12, -8};
+    test_press(KEY_R);
+    UpdateGame(.016f);
+    CHECK(game.state == GS_PLAYING);
+    NEAR(game.screenShakeTime, 0, 0);
+    NEAR(game.screenShakeIntensity, 0, 0);
+    NEAR(game.screenShakeDuration, 0, 0);
+    NEAR(game.camera.offset.x, 0, 0);
+    NEAR(game.camera.offset.y, 0, 0);
+    SetRandomSeed(567);
+    int expected = GetRandomValue(0, 1000000);
+    SetRandomSeed(567);
+    UpdateEnvironment(.1f);
+    CHECK(GetRandomValue(0, 1000000) == expected);
+    NEAR(game.camera.offset.x, 0, 0);
+    NEAR(game.camera.offset.y, 0, 0);
+}
 void suite_session(void) {
     RUN(reset_restores_resources_and_clears_entity_pools);
     RUN(enter_starts_a_fresh_game_from_the_title);
@@ -138,4 +159,5 @@ void suite_session(void) {
     RUN(camera_shake_is_removed_before_mouse_build_coordinates_are_used);
     RUN(holding_shift_keeps_the_selected_build_tool);
     RUN(late_wave_spawn_intervals_do_not_drop_below_the_minimum);
+    RUN(restarting_during_game_over_shake_clears_the_entire_effect);
 }

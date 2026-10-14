@@ -223,6 +223,12 @@ UpdateTowers:
     addss xmm0, [fp_180]
     movss xmm1, [fp_360]
     call fmodf wrt ..plt
+    ; fmodf keeps the dividend's sign; wrap into [0,360) before measuring.
+    ucomiss xmm0, [fp_zero]
+    jae .angle_wrapped
+    jp .angle_wrapped
+    addss xmm0, [fp_360]
+.angle_wrapped:
     subss xmm0, [fp_180]
     andps xmm0, [fp_abs]
     movss [rsp+28], xmm0        ; XMM registers are caller-saved across modules.

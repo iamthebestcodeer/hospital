@@ -27,5 +27,4 @@ void suite_enemies(void);
 void suite_projectiles(void);
 void suite_effects(void);
 void suite_abi(void);
-int av_test_preserves_registers(void (*callback)(void));
 #endif

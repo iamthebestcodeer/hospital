@@ -34,6 +34,8 @@ class ReferenceCorrectionTests(unittest.TestCase):
             "Vector2Add(e->position, offset)",
             "GrantXP(sourceTowerIndex, e->xpValue)",
             "// T4 Tesla Chain Logic",
+            "float angleDiff = fabsf(fmodf",
+            "game.screenShakeDuration = 0.0f; // Initialize",
         ):
             with self.subTest(fragment=fragment), self.assertRaises(ValueError):
                 correct_reference(source.replace(fragment, "changed upstream"))

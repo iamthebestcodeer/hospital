@@ -5,8 +5,8 @@ performance checks before calling a refactor complete.
 
 | Command | Scope | Needs an X display? |
 | --- | --- | --- |
-| `make test-unit` | 101 named behavior tests / 34,439 assertions, run against both NASM and C | No |
-| `make test-tools` | 27 translator, generator and architecture tests | No |
+| `make test-unit` | 104 named behavior tests / 34,505 assertions, run against both NASM and C | No |
+| `make test-tools` | 28 translator, generator, architecture and build tests | No |
 | `make test-integration` | 15,620 exact state/RNG records, 26 exact PNGs | Xvfb or `DISPLAY` |
 | `make smoke` | Shipping executable, real X11 key events, clean shutdown | Xvfb or `DISPLAY` |
 | `make check` | All tests above | Xvfb or `DISPLAY` |
@@ -38,7 +38,8 @@ Raylib RNG remain real.
 - Projectiles/effects: swept hits, stale IDs, weapon speeds, AoE bounds, chains,
   burn/melt synergy, pool saturation, lifetime boundaries, gravity and text ABI.
 - ABI: mixed integer/FP overflow arguments, caller-saved XMM clobbering, and
-  callee-saved register sentinels around nested calls.
+  64-bit callee-saved register sentinels around direct entry points, with
+  six deliberately broken callees proving that each clobber is rejected.
 
 The same suite runs against the corrected Linux C reference to catch incorrect test assumptions.
 It independently checks expected rules; it does not merely compare two hashes.
@@ -64,7 +65,15 @@ The toolchain is required in CI; missing tools cause that one local test to skip
 
 ASan/UBSan instrument the C reference and test fixtures, not NASM instructions.
 Assembly safety is checked through boundary tests, guard behavior and exact state
-comparisons. No finite suite proves all input sequences, NaN payloads, drivers or
+comparisons. The ABI probe loads integer/FP arguments and calls the function directly, so
+C adapters cannot hide a clobber. Headless probes exclude window initialization
+and the process entry point; graphics initialization is exercised by integration
+and launch tests. The shipping-executable smoke test reads X11 pixels to confirm
+that Enter replaces the title with the hero at spawn and D moves that hero right.
+Other injected ability/pause keys are exercised but not individually asserted.
+Both an ignored-Enter mutant and an ignored-movement mutant fail the smoke test.
+
+No finite suite proves all input sequences, NaN payloads, drivers or
 hardware. Benchmarks save raw paired samples and distinguish simulation work from
 full-frame rendering and measurement uncertainty. Performance thresholds are not
 substitutes for reporting observed slowdowns.

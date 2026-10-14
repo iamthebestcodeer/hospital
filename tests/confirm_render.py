@@ -5,15 +5,20 @@ Uses the same 30-frame render-normal workload as the default benchmark.
 Writes every sample and executable hash to results/render-confirmation.json.
 """
 
-import hashlib, json, os, random, re, statistics, subprocess
+import argparse, hashlib, json, os, random, re, statistics, subprocess
 from common import ROOT, display
 
 root = ROOT
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument(
+    "--workload", choices=("render-title", "render-normal", "render"), default="render-normal"
+)
+workload = parser.parse_args().workload
 cpu = min(os.sched_getaffinity(0))
 os.sched_setaffinity(0, {cpu})
 rng = random.Random(41083)
 report = {
-    "workload": "render-normal",
+    "workload": workload,
     "rounds": 30,
     "cpu_affinity": cpu,
     "groups": {},
@@ -26,7 +31,7 @@ report = {
 
 def run(kind, env):
     p = subprocess.run(
-        [root / f"build/test-{kind}", "bench", "render-normal", "30"],
+        [root / f"build/test-{kind}", "bench", workload, "30"],
         env=env,
         check=True,
         stdout=subprocess.PIPE,

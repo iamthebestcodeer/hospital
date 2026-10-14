@@ -100,9 +100,12 @@ The source was supplied in `aetherium-linux-x86_64.tar.gz` and identified by the
 user as [this pinned Gist revision](https://gist.github.com/iamthebestcodeer/91949c5dfd28d9f29acbd027aaed77d8/596d6f2067973fdd7f5ff726ee2ce94a9f9253d5).
 `reference/rpg.c` is unchanged. `reference/linux.c` exports the state for testing
 and renames the rounded-outline fallback to avoid a Raylib symbol collision.
-`tools/reference_fixes.py` applies the three documented corrections before
+`tools/reference_fixes.py` applies the documented corrections before
 generating that reference and the rendering assembly; regeneration retains them.
 Raylib's license is in `vendor/raylib-5.5_linux_amd64/LICENSE`.
+
+The X11 smoke test checks visible start and movement effects in the shipping
+executable. Static Raylib updates relink every executable, including tests.
 
 Current measurements and their limits are in [results/PERFORMANCE.md](results/PERFORMANCE.md).
 Simulation improvements and rendering uncertainty are reported separately;

@@ -149,6 +149,21 @@ static void an_out_of_range_target_is_replaced_with_a_reachable_one(void) {
     UpdateTowers(0);
     CHECK(game.towers[0].targetEnemyId == near->id);
 }
+static void aiming_across_the_signed_angle_boundary_still_fires(void) {
+    const float rotations[] = {-170, 170, -190, 190};
+    const float targets[] = {170, -170, 170, -170};
+    for (unsigned i = 0; i < sizeof rotations / sizeof *rotations; i++) {
+        test_reset();
+        CHECK(PlaceTower(0, 0, TOWER_PULSE));
+        Tower *tower = &game.towers[0];
+        tower->position = (Vector2){200, 200};
+        tower->rotation = rotations[i];
+        test_enemy(0, 200 + 100 * cosf(targets[i] * DEG2RAD),
+                   200 + 100 * sinf(targets[i] * DEG2RAD));
+        UpdateTowers(0);
+        CHECK(test_projectile_count() == 1);
+    }
+}
 void suite_towers(void) {
     RUN(catalog_has_all_twelve_costs_and_aether_prices);
     RUN(placement_charges_gold_and_reserves_one_tile);
@@ -166,4 +181,5 @@ void suite_towers(void) {
     RUN(weakest_target_mode_prefers_lowest_health);
     RUN(stale_tower_target_handles_are_reacquired);
     RUN(an_out_of_range_target_is_replaced_with_a_reachable_one);
+    RUN(aiming_across_the_signed_angle_boundary_still_fires);
 }

@@ -8,6 +8,21 @@ def replace_once(source, before, after):
 
 
 def correct_reference(source):
+    source = replace_once(
+        source,
+        "            float angleDiff = fabsf(fmodf(t->rotation - t->desiredRotation + 180.0f, 360.0f) - 180.0f);",
+        "            float wrappedAngle = fmodf(t->rotation - t->desiredRotation + 180.0f, 360.0f);\n"
+        "            if (wrappedAngle < 0.0f) wrappedAngle += 360.0f;\n"
+        "            float angleDiff = fabsf(wrappedAngle - 180.0f);",
+    )
+    source = replace_once(
+        source,
+        "    game.screenShakeDuration = 0.0f; // Initialize",
+        "    game.screenShakeDuration = 0.0f;\n"
+        "    game.screenShakeTime = 0.0f;\n"
+        "    game.screenShakeIntensity = 0.0f;\n"
+        "    game.camera.offset = (Vector2){0, 0};",
+    )
     # Both specialization buttons must end above the sell control at y=750.
     source = replace_once(
         source,

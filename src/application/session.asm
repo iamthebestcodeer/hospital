@@ -68,6 +68,9 @@ ResetGame:
     mov dword [game+G_enemyIdCounter], 1
     mov dword [game+G_dayNightCycle], 0
     mov dword [game+G_screenShakeDuration], 0
+    mov dword [game+G_screenShakeTime], 0
+    mov dword [game+G_screenShakeIntensity], 0
+    mov qword [game+G_camera], 0
     FLOAT dword [hero+H_position], 100.0
     FLOAT dword [hero+H_position+4], 100.0
     mov dword [hero+H_level], 1

@@ -1,0 +1,471 @@
+{
+  "workload": "render-title",
+  "rounds": 30,
+  "cpu_affinity": 0,
+  "groups": {
+    "c_vs_c_control": {
+      "pairs": 16,
+      "kinds": {
+        "a": "c",
+        "b": "c"
+      },
+      "samples": [
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.087904817,
+          "b_seconds": 0.06185099,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.066674806,
+          "b_seconds": 0.060603241,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.071827589,
+          "b_seconds": 0.066059811,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.07985619,
+          "b_seconds": 0.063791013,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.055830206,
+          "b_seconds": 0.064054409,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.052869028,
+          "b_seconds": 0.057319167,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.055013805,
+          "b_seconds": 0.060268328,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.059592132,
+          "b_seconds": 0.06447595,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.053589819,
+          "b_seconds": 0.05655325,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.0566894,
+          "b_seconds": 0.053281555,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.052749062,
+          "b_seconds": 0.055977884,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.057550598,
+          "b_seconds": 0.052942796,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.051098051,
+          "b_seconds": 0.053960313,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.055388296,
+          "b_seconds": 0.054766271,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.053351007,
+          "b_seconds": 0.053300122,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.056758182,
+          "b_seconds": 0.060135112,
+          "state_hash": "d5fbf62f104348ba"
+        }
+      ],
+      "b_over_a_ratio": 1.0271723088525757,
+      "ratio_bootstrap_95_ci": [
+        0.9199347676630572,
+        1.0689845827638087
+      ]
+    },
+    "nasm_vs_c": {
+      "pairs": 32,
+      "kinds": {
+        "a": "c",
+        "b": "asm"
+      },
+      "samples": [
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.051005455,
+          "b_seconds": 0.051699167,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.053489682,
+          "b_seconds": 0.050862435,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.057862568,
+          "b_seconds": 0.052595855,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.055098018,
+          "b_seconds": 0.054939215,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.055406422,
+          "b_seconds": 0.053190981,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.054144665,
+          "b_seconds": 0.057998147,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.062853712,
+          "b_seconds": 0.057841456,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.053790304,
+          "b_seconds": 0.054998362,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.050540721,
+          "b_seconds": 0.052861356,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.051414597,
+          "b_seconds": 0.052709293,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.051359837,
+          "b_seconds": 0.05283599,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.059285475,
+          "b_seconds": 0.051936121,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.062599953,
+          "b_seconds": 0.059668439,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.058945476,
+          "b_seconds": 0.054403021,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.060371965,
+          "b_seconds": 0.076535281,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.064787413,
+          "b_seconds": 0.061873234,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.054034019,
+          "b_seconds": 0.05508895,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.05284637,
+          "b_seconds": 0.053757201,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.055010905,
+          "b_seconds": 0.053688289,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.056330397,
+          "b_seconds": 0.05422607,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.107365873,
+          "b_seconds": 0.056609738,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.058277192,
+          "b_seconds": 0.054291357,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.053013816,
+          "b_seconds": 0.057280125,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.052780954,
+          "b_seconds": 0.052058641,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.053438292,
+          "b_seconds": 0.053635912,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.056338659,
+          "b_seconds": 0.055812625,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.066097941,
+          "b_seconds": 0.057949881,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "b",
+            "a"
+          ],
+          "a_seconds": 0.062503812,
+          "b_seconds": 0.061957478,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.056796643,
+          "b_seconds": 0.05358735,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.054557398,
+          "b_seconds": 0.051462764,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.054174774,
+          "b_seconds": 0.051561189,
+          "state_hash": "d5fbf62f104348ba"
+        },
+        {
+          "order": [
+            "a",
+            "b"
+          ],
+          "a_seconds": 0.054416871,
+          "b_seconds": 0.053346766,
+          "state_hash": "d5fbf62f104348ba"
+        }
+      ],
+      "b_over_a_ratio": 0.9781461271325097,
+      "ratio_bootstrap_95_ci": [
+        0.9520268872402,
+        1.00369809723709
+      ]
+    }
+  },
+  "binary_sha256": {
+    "c": "f9eee06e22cffe035491eefc2ff02c82d45f62a3af6c16f3d0183d96e5b0e2b9",
+    "asm": "a6b78d8ba39f218a3570cceb50cc42d5d28798e6b88431c2ba640cc0c0c2abfa"
+  }
+}

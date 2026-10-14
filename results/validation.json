@@ -1,13 +1,13 @@
 {
   "result": "PASS",
   "handwritten_modules": 22,
-  "unit_tests_per_implementation": 101,
-  "unit_assertions_per_implementation": 34439,
+  "unit_tests_per_implementation": 104,
+  "unit_assertions_per_implementation": 34505,
   "implementations": [
     "NASM",
     "C reference"
   ],
-  "tooling_and_architecture_tests": 27,
+  "tooling_and_architecture_tests": 28,
   "state_rng_records": 15620,
   "identical_screenshots": 26,
   "x11_smoke": "PASS",
@@ -16,16 +16,16 @@
   "regeneration_preserves_handwritten_modules": "PASS",
   "abi_mutation_check": "PASS: regression test rejects old caller-saved XMM4 assumption",
   "performance_workloads": 13,
-  "performance_gate": "PASS: all medians within the declared 5% regression limit versus C",
+  "performance_gate": "Initial 12/13 PASS; render-title FAIL at +6.0% median. Balanced 32-pair follow-up PASS at NASM/C 0.978 (95% CI 0.952-1.004); rendering inconclusive.",
   "binary_sha256": {
-    "aetherium": "9b3b722719fd5f60c67574d6fe7b182cd25a0f21ad9d8c791625fbecfe44ae5f",
-    "test-c": "72e39e0060a2ace1d0173c9de7c3239bad96f9d20485ea9146168c748204c9fa",
-    "test-asm": "58b42b32d3e5c86b4c531ff21573fc141960d07e92ad00011ae09ea64efa5c6c",
-    "unit-c": "859369c4f23d466af2aa49e9698c9c36e253a9daf9f103b0400a68d989a56052",
-    "unit-asm": "6957edf5e86f434c878209e10920d99b20e936327beb7e20798ab1695504b156"
+    "aetherium": "aad2056d052e7460cf6d511387677c4a8a996c9b5bc69a254b4adcb3683618dd",
+    "test-c": "f9eee06e22cffe035491eefc2ff02c82d45f62a3af6c16f3d0183d96e5b0e2b9",
+    "test-asm": "a6b78d8ba39f218a3570cceb50cc42d5d28798e6b88431c2ba640cc0c0c2abfa",
+    "unit-c": "0c55275e22492ebb105b431de26041d39182e74825c34c47a96df70e743bcc00",
+    "unit-asm": "915929eed69051813b1217a81d09459d5a2a1e200fe8224d087d9513ba327a7f"
   },
   "module_sha256": {
-    "src/application/session.asm": "dfe9382e288b4176a7bf8a467edcd9d72b0d279897736719929b1079eb6c6e4f",
+    "src/application/session.asm": "6a5b094b33d6eef10b338973600e16747552377a45ad18170415a78775766379",
     "src/domain/damage.asm": "1fa2420ce9f41788281817db53368f95f558ce3b0e8c7b417998f56730310e43",
     "src/domain/enemy_handles.asm": "eb0c8ebf0df2693a63ac4d738579f4c95e7bcc4164dcf74cbf4d5371a26dc12e",
     "src/domain/geometry.asm": "387a377866e2b95b19cf5cc5ee103bcb0f2a96806a17d64dc0f6528316397b93",
@@ -42,7 +42,7 @@
     "src/gameplay/progression.asm": "86cedbe129aef44640f4d833cd62cc0a0c12fb43e7eba82c5a8e5169c03f7131",
     "src/gameplay/projectiles.asm": "f9f88ed5c84568d9ef7d250140c97b50ed25027dd910a8a57b1f0af0e0f5d0ec",
     "src/gameplay/tower_building.asm": "83c71c59096a062f8255240ac391c0ec73eeda1b5428fb520e116ab9313ebe41",
-    "src/gameplay/tower_targeting.asm": "4618db70c6d71f1e0c74987f172932513d8dfbe576301edf23eb82c845a63bd8",
+    "src/gameplay/tower_targeting.asm": "40d95dab056620191b875673816bbcf87a76f2b14e6b093710f28e5436f3540e",
     "src/gameplay/vfx.asm": "639579df776a3edcf402e3a5cf25fe9fa19e74dfc28f3ef6b4a2aa4115f8327c",
     "src/gameplay/waves.asm": "8ecdb964e6f04023f3cad204e6fb656d4505580984ca6610c3ce5e4dda19220a",
     "src/platform/input.asm": "674f7521ca28137055473f2b73d1b6039c20212641b63e4f649a98a755734f0b",
@@ -55,5 +55,13 @@
     "inspector_controls": "PASS: old renderer fails the independent control assertion",
     "original_source_preserved": "PASS: pinned upstream SHA-256 unchanged",
     "regeneration_retains_reference_fixes": "PASS"
+  },
+  "pr2_review_regression_checks": {
+    "signed_angle_aiming": "PASS: old implementation rejected",
+    "reset_shake": "PASS: old implementation rejected",
+    "raylib_dependencies": "PASS: isolated scheduling test rejects all eight old link targets",
+    "direct_abi_probes": "PASS: direct entry points; six individual clobbers rejected",
+    "observable_keyboard_smoke": "PASS: ignored-Enter and ignored-movement mutants rejected",
+    "checkout_pin": "34e114876b0b11c390a56381ad16ebd13914f8d5"
   }
 }
