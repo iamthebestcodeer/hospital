@@ -6,6 +6,7 @@
   "simulation_frames": 9600,
   "vfx_frames": 1050,
   "inspector_click_cases": 28,
+  "beam_visibility_cases": 10,
   "screenshots": {
     "frame-00.png": "bb929f2aa460974c30a9604d5fa8d88e4f8ae8418ba3318ee68d85d41a6524f1",
     "frame-01.png": "a7283f277e5f9e29c1403da2e0b274f516e8c28383a947c512f6f937f2033b39",

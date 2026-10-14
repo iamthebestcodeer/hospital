@@ -1303,15 +1303,15 @@ DrawTowers:
     lea rbx, [rel 2456+game]
     lea r12, [rbx+8000]
     sub rsp, 104
-    jmp __gas_L189
+    jmp __gas_L191
 align 16
 align 16
 align 8
 __gas_L167:
     add rbx, 80
     cmp rbx, r12
-    je __gas_L209
-__gas_L189:
+    je __gas_L212
+__gas_L191:
     cmp byte [rbx+64], 0
     je __gas_L167
     mov edi, dword [rbx+8]
@@ -1353,13 +1353,13 @@ section .rodata
 align 4
 align 4
 __gas_L170:
-dd __gas_L208-__gas_L170
+dd __gas_L211-__gas_L170
 dd __gas_L168-__gas_L170
 dd __gas_L168-__gas_L170
 dd __gas_L171-__gas_L170
 dd __gas_L169-__gas_L170
 dd __gas_L168-__gas_L170
-dd __gas_L190-__gas_L170
+dd __gas_L192-__gas_L170
 dd __gas_L168-__gas_L170
 dd __gas_L168-__gas_L170
 dd __gas_L172-__gas_L170
@@ -1376,13 +1376,13 @@ __gas_L169:
     call DrawCircleV wrt ..plt
     movss xmm0, dword [rbx+40]
     comiss xmm0, dword [rel __gas_LC1]
-    ja __gas_L184
+    ja __gas_L186
     xor edi, edi
     mov esi, 15
     call GetRandomValue wrt ..plt
     test eax, eax
-    jne __gas_L208
-__gas_L184:
+    jne __gas_L211
+__gas_L186:
     mov esi, 360
     xor edi, edi
     call GetRandomValue wrt ..plt
@@ -1422,13 +1422,13 @@ __gas_L174:
     mov rdi, r13
     call snprintf wrt ..plt
     cmp dword [rbx+12], 2
-    jle __gas_L195
+    jle __gas_L197
     cmp dword [rbx+8], 3
-    jg __gas_L195
+    jg __gas_L197
     mov ecx, -3
     mov edx, -7
     xor eax, eax
-__gas_L188:
+__gas_L190:
     mov bpl, cl
     sal eax, 16
     lea rdi, [rsp+48]
@@ -1461,8 +1461,8 @@ __gas_L188:
     call DrawTextPro wrt ..plt
     add rsp, 48
     cmp rbx, r12
-    jne __gas_L189
-__gas_L209:
+    jne __gas_L191
+__gas_L212:
     add rsp, 104
     pop rbx
     pop rbp
@@ -1479,7 +1479,7 @@ __gas_L168:
     movss xmm3, dword [rbx+52]
     mov qword [rsp+8], rax
     cmp r15d, 1
-    jne __gas_L210
+    jne __gas_L213
     movss xmm0, dword [rel __gas_LC39]
     movss xmm2, dword [rel __gas_LC24]
     movss xmm4, dword [rel __gas_LC22]
@@ -1490,7 +1490,7 @@ __gas_L173:
     mov r14d, r14d
     sal rax, 32
     or r14, rax
-__gas_L185:
+__gas_L187:
     movss xmm5, dword [rbx+4]
     movss xmm7, dword [rbx]
     movd eax, xmm2
@@ -1504,7 +1504,7 @@ __gas_L185:
     movq xmm2, rdx
     mov r14, rdx
     call DrawRectanglePro wrt ..plt
-__gas_L208:
+__gas_L211:
     mov rax, qword [rel __gas_LC49]
     mov qword [rsp], rax
     jmp __gas_L174
@@ -1522,7 +1522,7 @@ __gas_L171:
     je __gas_L176
     mov esi, dword [rax+10468]
     cmp dword [rbx+48], esi
-    je __gas_L211
+    je __gas_L214
 __gas_L176:
     movss xmm2, dword [rbx+52]
     movq xmm0, qword [rbx]
@@ -1557,7 +1557,7 @@ __gas_L172:
     jmp __gas_L174
 align 16
 align 8
-__gas_L190:
+__gas_L192:
     movss xmm2, dword [rel __gas_LC24]
     movss xmm0, dword [rel __gas_LC39]
     movss xmm1, dword [rel __gas_LC0]
@@ -1566,22 +1566,22 @@ __gas_L190:
     jmp __gas_L173
 align 16
 align 8
-__gas_L195:
+__gas_L197:
     mov ecx, -1
     mov edx, -1
     mov eax, 255
-    jmp __gas_L188
+    jmp __gas_L190
 align 16
 align 8
-__gas_L210:
+__gas_L213:
     cmp r15d, 6
-    jne __gas_L212
+    jne __gas_L215
     movss xmm0, dword [rel __gas_LC15]
     movss xmm2, dword [rel __gas_LC21]
     movss xmm4, dword [rel __gas_LC7]
     movss xmm1, dword [rel __gas_LC8]
     jmp __gas_L173
-__gas_L212:
+__gas_L215:
     movaps xmm0, xmm3
     lea rdi, [rsp+28]
     lea rsi, [rsp+24]
@@ -1598,10 +1598,10 @@ __gas_L212:
     movss xmm3, dword [rsp]
     movss xmm2, dword [rsp+20]
     unpcklps xmm4, xmm0
-    je __gas_L198
+    je __gas_L201
     cmp r15d, 7
-    jne __gas_L194
-__gas_L198:
+    jne __gas_L196
+__gas_L201:
     mov rax, qword [rel __gas_LC49]
     movq xmm4, xmm4
     mov edi, r13d
@@ -1614,10 +1614,10 @@ __gas_L198:
     or r14, rax
     movq qword [rsp+8], xmm1
     mulps xmm4, xmm0
+    movaps xmm0, xmm5
     movq xmm2, r14
     movq xmm4, xmm4
-    movaps xmm0, xmm4
-    addps xmm0, xmm5
+    addps xmm0, xmm4
     subps xmm5, xmm4
     movq r15, xmm5
     call DrawRectanglePro wrt ..plt
@@ -1630,7 +1630,7 @@ __gas_L198:
     jmp __gas_L174
 align 16
 align 8
-__gas_L211:
+__gas_L214:
     movss xmm1, dword [rax+10456]
     subss xmm1, dword [rbx]
     mov qword [rsp+8], rdx
@@ -1652,24 +1652,29 @@ __gas_L178:
     jne __gas_L178
     fstp st1
     fstp dword [rsp+8]
-    movss xmm7, dword [rsp+8]
-    ucomiss xmm7, xmm7
-    jp __gas_L213
+    movss xmm1, dword [rsp+8]
+    ucomiss xmm1, xmm1
+    jp __gas_L216
+    pxor xmm0, xmm0
+    comiss xmm0, xmm1
+    jbe __gas_L180
+    addss xmm1, dword [rel __gas_LC45]
+__gas_L180:
     mov edi, r15d
-    mov qword [rsp], rdx
+    movss dword [rsp], xmm1
+    mov qword [rsp+8], rdx
     call GetAimToleranceDegrees wrt ..plt
-    movaps xmm1, xmm0
-    movss xmm0, dword [rsp+8]
-    subss xmm0, dword [rel __gas_LC44]
-    andps xmm0, oword [rel __gas_LC17]
-    comiss xmm1, xmm0
+    movss xmm1, dword [rsp]
+    subss xmm1, dword [rel __gas_LC44]
+    andps xmm1, oword [rel __gas_LC17]
+    comiss xmm0, xmm1
     jb __gas_L176
     cmp dword [rbx+8], 2
     movss xmm2, dword [rel __gas_LC11]
     lea rcx, [rel game]
-    mov rdx, qword [rsp]
-    je __gas_L214
-__gas_L181:
+    mov rdx, qword [rsp+8]
+    je __gas_L217
+__gas_L183:
     lea rax, [rdx+rdx*4]
     movss xmm0, dword [rel __gas_LC13]
     mov edi, r13d
@@ -1692,14 +1697,14 @@ __gas_L181:
     mov edi, eax
     call DrawLineEx wrt ..plt
     jmp __gas_L176
-__gas_L214:
+__gas_L217:
     movss xmm2, dword [rel __gas_LC29]
-    jmp __gas_L181
-__gas_L194:
+    jmp __gas_L183
+__gas_L196:
     movss xmm4, dword [rel __gas_LC21]
     movss xmm1, dword [rel __gas_LC25]
-    jmp __gas_L185
-__gas_L213:
+    jmp __gas_L187
+__gas_L216:
     movss xmm1, dword [rel __gas_LC45]
     movss xmm0, dword [rsp]
     call fmodf wrt ..plt
@@ -1718,7 +1723,7 @@ DrawHero:
     sub rsp, 72
     mov eax, dword [rel 2428+game]
     test eax, eax
-    jle __gas_L216
+    jle __gas_L219
     movss xmm0, dword [rel __gas_LC58]
     mov edi, -13435086
     call Fade wrt ..plt
@@ -1726,7 +1731,7 @@ DrawHero:
     movq xmm0, qword [rel 2328+game]
     mov edi, eax
     call DrawCircleV wrt ..plt
-__gas_L216:
+__gas_L219:
     mov esi, dword [rel 253368+game]
     mov edi, -39756
     call ColorTint wrt ..plt
@@ -1784,48 +1789,48 @@ DrawProjectiles:
     lea rbx, [rel 59656+game]
     lea r12, [rbx+56000]
     sub rsp, 24
-    jmp __gas_L228
+    jmp __gas_L231
 align 16
 align 16
 align 8
-__gas_L219:
+__gas_L222:
     add rbx, 112
     cmp r12, rbx
-    je __gas_L233
-__gas_L228:
+    je __gas_L236
+__gas_L231:
     cmp byte [rbx+48], 0
-    je __gas_L219
+    je __gas_L222
     cmp dword [rbx+24], 11
-    ja __gas_L220
+    ja __gas_L223
     mov eax, dword [rbx+24]
-    lea rdx, [rel __gas_L222]
+    lea rdx, [rel __gas_L225]
     movsx rax, dword [rdx+rax*4]
     add rax, rdx
     jmp rax
 section .rodata
 align 4
 align 4
-__gas_L222:
-dd __gas_L229-__gas_L222
-dd __gas_L224-__gas_L222
-dd __gas_L223-__gas_L222
-dd __gas_L221-__gas_L222
-dd __gas_L229-__gas_L222
-dd __gas_L229-__gas_L222
-dd __gas_L224-__gas_L222
-dd __gas_L224-__gas_L222
-dd __gas_L223-__gas_L222
-dd __gas_L223-__gas_L222
-dd __gas_L221-__gas_L222
-dd __gas_L221-__gas_L222
+__gas_L225:
+dd __gas_L232-__gas_L225
+dd __gas_L227-__gas_L225
+dd __gas_L226-__gas_L225
+dd __gas_L224-__gas_L225
+dd __gas_L232-__gas_L225
+dd __gas_L232-__gas_L225
+dd __gas_L227-__gas_L225
+dd __gas_L227-__gas_L225
+dd __gas_L226-__gas_L225
+dd __gas_L226-__gas_L225
+dd __gas_L224-__gas_L225
+dd __gas_L224-__gas_L225
 section .text
 align 16
 align 8
-__gas_L224:
+__gas_L227:
     xor edi, edi
     mov eax, -116
     mov edx, -1
-__gas_L225:
+__gas_L228:
     mov bpl, dl
     sal edi, 16
     mov esi, dword [rel 253368+game]
@@ -1841,15 +1846,15 @@ __gas_L225:
     mov eax, dword [rbx+24]
     sub eax, 1
     cmp eax, 9
-    ja __gas_L226
+    ja __gas_L229
     movss xmm1, dword [r13+rax*4+0]
-__gas_L226:
+__gas_L229:
     movq xmm0, qword [rbx]
     mov edi, ebp
     movss dword [rsp+12], xmm1
     call DrawCircleV wrt ..plt
     cmp dword [rbx+16], 1
-    jne __gas_L219
+    jne __gas_L222
     movss xmm0, dword [rel __gas_LC3]
     mov edi, ebp
     add rbx, 112
@@ -1860,8 +1865,8 @@ __gas_L226:
     mov edi, eax
     call DrawCircleV wrt ..plt
     cmp r12, rbx
-    jne __gas_L228
-__gas_L233:
+    jne __gas_L231
+__gas_L236:
     add rsp, 24
     pop rbx
     pop rbp
@@ -1870,30 +1875,30 @@ __gas_L233:
     ret
 align 16
 align 8
-__gas_L229:
+__gas_L232:
     mov edi, 255
     mov eax, -36
     xor edx, edx
-    jmp __gas_L225
+    jmp __gas_L228
 align 16
 align 8
-__gas_L221:
+__gas_L224:
     mov edi, 255
     xor eax, eax
     mov edx, -1
-    jmp __gas_L225
+    jmp __gas_L228
 align 16
 align 8
-__gas_L223:
+__gas_L226:
     mov edi, 250
     mov eax, -50
     mov edx, -121
-    jmp __gas_L225
-__gas_L220:
+    jmp __gas_L228
+__gas_L223:
     mov edi, 130
     mov eax, -126
     mov edx, -126
-    jmp __gas_L225
+    jmp __gas_L228
 align 16
 global DrawEntities
 DrawEntities:
@@ -1914,17 +1919,17 @@ DrawVFX:
     lea rbx, [rel 115656+game]
     lea rbp, [rbx+132000]
     sub rsp, 64
-    jmp __gas_L238
+    jmp __gas_L241
 align 16
 align 16
 align 8
-__gas_L237:
+__gas_L240:
     add rbx, 44
     cmp rbx, rbp
-    je __gas_L249
-__gas_L238:
+    je __gas_L252
+__gas_L241:
     cmp byte [rbx+40], 0
-    je __gas_L237
+    je __gas_L240
     mov esi, dword [rbx+20]
     mov edi, dword [rbx+16]
     add rbx, 44
@@ -1947,15 +1952,15 @@ __gas_L238:
     mov edi, eax
     call DrawCircleV wrt ..plt
     cmp rbx, rbp
-    jne __gas_L238
-__gas_L249:
+    jne __gas_L241
+__gas_L252:
     lea rbx, [rel 247656+game]
     lea rbp, [rbx+5600]
 align 16
 align 8
-__gas_L243:
+__gas_L246:
     cmp byte [rbx+52], 0
-    je __gas_L239
+    je __gas_L242
     movss xmm1, dword [rbx+44]
     pxor xmm2, xmm2
     cmp byte [rbx+53], 0
@@ -1974,9 +1979,9 @@ __gas_L243:
     andnps xmm1, xmm0
     orps xmm1, xmm2
     movd r14d, xmm1
-    je __gas_L242
+    je __gas_L245
     mov r13d, 24
-__gas_L242:
+__gas_L245:
     lea rdi, [rsp+16]
     call GetFontDefault wrt ..plt
     movq xmm5, qword [rbx]
@@ -2026,10 +2031,10 @@ __gas_L242:
     pxor xmm1, xmm1
     call DrawTextPro wrt ..plt
     add rsp, 48
-__gas_L239:
+__gas_L242:
     add rbx, 56
     cmp rbp, rbx
-    jne __gas_L243
+    jne __gas_L246
     add rsp, 64
     pop rbx
     pop rbp
@@ -2102,24 +2107,24 @@ DrawHeroStatus:
     call DrawText wrt ..plt
     mov eax, dword [rel 2348+game]
     test eax, eax
-    jle __gas_L251
+    jle __gas_L254
     mov r8d, -16713219
     mov ecx, 18
     mov edx, 180
     mov esi, 970
     lea rdi, [rel __gas_LC68]
     call DrawText wrt ..plt
-__gas_L251:
+__gas_L254:
     mov eax, dword [rel 2344+game]
     pxor xmm2, xmm2
     test eax, eax
-    jle __gas_L252
+    jle __gas_L255
     pxor xmm2, xmm2
     pxor xmm0, xmm0
     cvtsi2ss xmm2, dword [rel 2340+game]
     cvtsi2ss xmm0, eax
     divss xmm2, xmm0
-__gas_L252:
+__gas_L255:
     mov rbx, 4848125000012693504
     mov edi, -12836061
     mov rbp, 4728779609872924672
@@ -2157,7 +2162,7 @@ __gas_L252:
     movss xmm0, dword [rel 2372+game]
     pxor xmm2, xmm2
     comiss xmm0, xmm2
-    jbe __gas_L276
+    jbe __gas_L279
     movss xmm1, dword [rel 2376+game]
     movss xmm3, dword [rel __gas_LC14]
     divss xmm1, xmm0
@@ -2175,7 +2180,7 @@ __gas_L252:
     orps xmm1, xmm2
     movaps xmm2, xmm3
     subss xmm2, xmm1
-__gas_L253:
+__gas_L256:
     mov rbp, 4856569249314013184
     mov edi, -12836061
     mov r14, 4728779609864208384
@@ -2205,7 +2210,7 @@ __gas_L253:
     call CheckCollisionPointRec wrt ..plt
     movss xmm3, dword [rsp+12]
     test al, al
-    je __gas_L257
+    je __gas_L260
     lea rax, [rel __gas_LC73]
     movq xmm0, rbx
     mov byte [rel 253312+game], 1
@@ -2214,11 +2219,11 @@ __gas_L253:
     movups oword [rel 253320+game], xmm0
     movaps xmm0, oword [rel __gas_LC74]
     movups oword [rel 253336+game], xmm0
-__gas_L257:
+__gas_L260:
     movss xmm0, dword [rel 2400+game]
     pxor xmm2, xmm2
     comiss xmm0, xmm2
-    jbe __gas_L277
+    jbe __gas_L280
     movss xmm1, dword [rel 2404+game]
     divss xmm1, xmm0
     movaps xmm0, xmm1
@@ -2235,7 +2240,7 @@ __gas_L257:
     orps xmm1, xmm2
     subss xmm3, xmm1
     movss dword [rsp+8], xmm3
-__gas_L258:
+__gas_L261:
     mov rbx, 4856569249315725312
     mov edi, -12836061
     mov r14, 4728779609864208384
@@ -2261,7 +2266,7 @@ __gas_L258:
     movq xmm2, r14
     call CheckCollisionPointRec wrt ..plt
     test al, al
-    je __gas_L250
+    je __gas_L253
     movq xmm0, qword [rel __gas_LC79]
     lea rax, [rel __gas_LC77]
     mov byte [rel 253312+game], 1
@@ -2270,7 +2275,7 @@ __gas_L258:
     movups oword [rel 253320+game], xmm0
     movaps xmm0, oword [rel __gas_LC78]
     movups oword [rel 253336+game], xmm0
-__gas_L250:
+__gas_L253:
     add rsp, 176
     pop rbx
     pop rbp
@@ -2278,24 +2283,24 @@ __gas_L250:
     ret
 align 16
 align 8
-__gas_L276:
+__gas_L279:
     movss xmm3, dword [rel __gas_LC14]
     movaps xmm2, xmm3
-    jmp __gas_L253
+    jmp __gas_L256
 align 16
 align 8
-__gas_L277:
+__gas_L280:
     movss dword [rsp+8], xmm3
-    jmp __gas_L258
+    jmp __gas_L261
 align 16
 global DrawTooltip
 DrawTooltip:
     cmp byte [rel 253312+game], 0
-    jne __gas_L281
+    jne __gas_L284
     ret
 align 16
 align 8
-__gas_L281:
+__gas_L284:
     jmp DrawTooltip.part.0
 section .rodata
 __gas_LC80:
@@ -2329,8 +2334,8 @@ align 16
 global GetTowerName
 GetTowerName:
     cmp edi, 11
-    ja __gas_L283
-    lea rdx, [rel __gas_L285]
+    ja __gas_L286
+    lea rdx, [rel __gas_L288]
     mov edi, edi
     movsx rax, dword [rdx+rdi*4]
     add rax, rdx
@@ -2338,81 +2343,81 @@ GetTowerName:
 section .rodata
 align 4
 align 4
-__gas_L285:
-dd __gas_L296-__gas_L285
-dd __gas_L297-__gas_L285
-dd __gas_L294-__gas_L285
-dd __gas_L293-__gas_L285
-dd __gas_L292-__gas_L285
-dd __gas_L291-__gas_L285
-dd __gas_L290-__gas_L285
-dd __gas_L289-__gas_L285
-dd __gas_L288-__gas_L285
-dd __gas_L287-__gas_L285
-dd __gas_L286-__gas_L285
-dd __gas_L284-__gas_L285
+__gas_L288:
+dd __gas_L299-__gas_L288
+dd __gas_L300-__gas_L288
+dd __gas_L297-__gas_L288
+dd __gas_L296-__gas_L288
+dd __gas_L295-__gas_L288
+dd __gas_L294-__gas_L288
+dd __gas_L293-__gas_L288
+dd __gas_L292-__gas_L288
+dd __gas_L291-__gas_L288
+dd __gas_L290-__gas_L288
+dd __gas_L289-__gas_L288
+dd __gas_L287-__gas_L288
 section .text
 align 16
 align 8
-__gas_L297:
+__gas_L300:
     lea rax, [rel __gas_LC81]
     ret
 align 16
 align 8
-__gas_L296:
+__gas_L299:
     lea rax, [rel __gas_LC80]
     ret
 align 16
 align 8
-__gas_L284:
+__gas_L287:
     lea rax, [rel __gas_LC91]
     ret
 align 16
 align 8
-__gas_L287:
+__gas_L290:
     lea rax, [rel __gas_LC89]
     ret
 align 16
 align 8
-__gas_L286:
+__gas_L289:
     lea rax, [rel __gas_LC90]
     ret
 align 16
 align 8
-__gas_L294:
+__gas_L297:
     lea rax, [rel __gas_LC82]
     ret
 align 16
 align 8
-__gas_L293:
+__gas_L296:
     lea rax, [rel __gas_LC83]
     ret
 align 16
 align 8
-__gas_L292:
+__gas_L295:
     lea rax, [rel __gas_LC84]
     ret
 align 16
 align 8
-__gas_L291:
+__gas_L294:
     lea rax, [rel __gas_LC85]
     ret
 align 16
 align 8
-__gas_L290:
+__gas_L293:
     lea rax, [rel __gas_LC86]
     ret
 align 16
 align 8
-__gas_L289:
+__gas_L292:
     lea rax, [rel __gas_LC87]
     ret
 align 16
 align 8
-__gas_L288:
+__gas_L291:
     lea rax, [rel __gas_LC88]
     ret
-__gas_L283:
+__gas_L286:
     lea rax, [rel __gas_LC92]
     ret
 section .rodata
@@ -2460,8 +2465,8 @@ align 16
 global GetTowerDescription
 GetTowerDescription:
     cmp edi, 11
-    ja __gas_L299
-    lea rdx, [rel __gas_L301]
+    ja __gas_L302
+    lea rdx, [rel __gas_L304]
     mov edi, edi
     movsx rax, dword [rdx+rdi*4]
     add rax, rdx
@@ -2469,81 +2474,81 @@ GetTowerDescription:
 section .rodata
 align 4
 align 4
-__gas_L301:
-dd __gas_L312-__gas_L301
-dd __gas_L313-__gas_L301
-dd __gas_L310-__gas_L301
-dd __gas_L309-__gas_L301
-dd __gas_L308-__gas_L301
-dd __gas_L307-__gas_L301
-dd __gas_L306-__gas_L301
-dd __gas_L305-__gas_L301
-dd __gas_L304-__gas_L301
-dd __gas_L303-__gas_L301
-dd __gas_L302-__gas_L301
-dd __gas_L300-__gas_L301
+__gas_L304:
+dd __gas_L315-__gas_L304
+dd __gas_L316-__gas_L304
+dd __gas_L313-__gas_L304
+dd __gas_L312-__gas_L304
+dd __gas_L311-__gas_L304
+dd __gas_L310-__gas_L304
+dd __gas_L309-__gas_L304
+dd __gas_L308-__gas_L304
+dd __gas_L307-__gas_L304
+dd __gas_L306-__gas_L304
+dd __gas_L305-__gas_L304
+dd __gas_L303-__gas_L304
 section .text
 align 16
 align 8
-__gas_L313:
+__gas_L316:
     lea rax, [rel __gas_LC94]
     ret
 align 16
 align 8
-__gas_L312:
+__gas_L315:
     lea rax, [rel __gas_LC93]
     ret
 align 16
 align 8
-__gas_L300:
+__gas_L303:
     lea rax, [rel __gas_LC104]
     ret
 align 16
 align 8
-__gas_L303:
+__gas_L306:
     lea rax, [rel __gas_LC102]
     ret
 align 16
 align 8
-__gas_L302:
+__gas_L305:
     lea rax, [rel __gas_LC103]
     ret
 align 16
 align 8
-__gas_L310:
+__gas_L313:
     lea rax, [rel __gas_LC95]
     ret
 align 16
 align 8
-__gas_L309:
+__gas_L312:
     lea rax, [rel __gas_LC96]
     ret
 align 16
 align 8
-__gas_L308:
+__gas_L311:
     lea rax, [rel __gas_LC97]
     ret
 align 16
 align 8
-__gas_L307:
+__gas_L310:
     lea rax, [rel __gas_LC98]
     ret
 align 16
 align 8
-__gas_L306:
+__gas_L309:
     lea rax, [rel __gas_LC99]
     ret
 align 16
 align 8
-__gas_L305:
+__gas_L308:
     lea rax, [rel __gas_LC100]
     ret
 align 16
 align 8
-__gas_L304:
+__gas_L307:
     lea rax, [rel __gas_LC101]
     ret
-__gas_L299:
+__gas_L302:
     lea rax, [rel __gas_LC105]
     ret
 align 16
@@ -2577,19 +2582,19 @@ GuiButton:
     movq xmm2, qword [rsp]
     call CheckCollisionPointRec wrt ..plt
     test bl, bl
-    je __gas_L325
+    je __gas_L328
     mov esi, -12836061
     test r13b, r13b
-    jne __gas_L326
+    jne __gas_L329
     test al, al
-    jne __gas_L327
-__gas_L318:
+    jne __gas_L330
+__gas_L321:
     mov byte [rsp+59], 0
     mov r13d, 100
     mov ebx, 70
     mov r15d, 40
     mov byte [rsp+52], 40
-__gas_L316:
+__gas_L319:
     movq xmm7, qword [rsp+16]
     pxor xmm0, xmm0
     mov edi, 8
@@ -2611,9 +2616,9 @@ __gas_L316:
     or eax, ebx
     or r13d, eax
     comiss xmm5, dword [rsp+36]
-    jnb __gas_L320
+    jnb __gas_L323
     comiss xmm5, dword [rsp+40]
-    jnb __gas_L320
+    jnb __gas_L323
     movq xmm1, qword [rsp]
     movaps xmm4, oword [rsp+16]
     mov esi, r13d
@@ -2633,15 +2638,15 @@ __gas_L316:
     pxor xmm5, xmm5
     movq xmm0, rbx
     comiss xmm5, xmm3
-    jnb __gas_L320
+    jnb __gas_L323
     comiss xmm5, dword [rsp+52]
-    jnb __gas_L320
+    jnb __gas_L323
     movss xmm2, dword [rel __gas_LC1]
     mov esi, r13d
     mov edi, 8
     movq xmm1, r14
     call DrawRectangleRoundedLines wrt ..plt
-__gas_L320:
+__gas_L323:
     mov rdi, rbp
     mov esi, 18
     call MeasureText wrt ..plt
@@ -2677,7 +2682,7 @@ __gas_L320:
     ret
 align 16
 align 8
-__gas_L326:
+__gas_L329:
     mov si, -9216
     mov byte [rsp+59], 0
     xor ebx, ebx
@@ -2686,20 +2691,20 @@ __gas_L326:
     or esi, 16711680
     mov r13d, -1
     mov r15d, -3
-    jmp __gas_L316
+    jmp __gas_L319
 align 16
 align 8
-__gas_L325:
+__gas_L328:
     movss xmm0, dword [rel __gas_LC106]
     mov edi, -12836061
     and r12d, -16777216
     or r12d, 11835030
     call ColorBrightness wrt ..plt
     mov esi, eax
-    jmp __gas_L318
+    jmp __gas_L321
 align 16
 align 8
-__gas_L327:
+__gas_L330:
     movss xmm0, dword [rel __gas_LC107]
     mov edi, -12836061
     mov r13d, -1
@@ -2712,7 +2717,7 @@ __gas_L327:
     mov byte [rsp+52], -7
     mov esi, dword [rsp+60]
     mov byte [rsp+59], al
-    jmp __gas_L316
+    jmp __gas_L319
 section .rodata
 __gas_LC111:
 db 66, 85, 73, 76, 68, 32, 77, 69, 78, 85, 32, 40, 49, 45, 52, 41, 0
@@ -2749,7 +2754,7 @@ DrawBuildMenu:
     mov qword [rsp+24], rax
     lea rax, [rsp+64]
     mov qword [rsp+8], rax
-__gas_L348:
+__gas_L351:
     mov rax, qword [rsp+24]
     pxor xmm0, xmm0
     cvtsi2ss xmm0, ebx
@@ -2765,8 +2770,8 @@ __gas_L348:
     cmp dword [rel 253288+game], ebp
     sete byte [rsp+23]
     cmp ebp, 11
-    ja __gas_L349
-    lea rcx, [rel __gas_L331]
+    ja __gas_L352
+    lea rcx, [rel __gas_L334]
     mov eax, ebp
     movsx rax, dword [rcx+rax*4]
     add rax, rcx
@@ -2774,30 +2779,30 @@ __gas_L348:
 section .rodata
 align 4
 align 4
-__gas_L331:
-dd __gas_L342-__gas_L331
-dd __gas_L341-__gas_L331
-dd __gas_L340-__gas_L331
-dd __gas_L339-__gas_L331
-dd __gas_L338-__gas_L331
-dd __gas_L337-__gas_L331
-dd __gas_L336-__gas_L331
-dd __gas_L335-__gas_L331
-dd __gas_L334-__gas_L331
-dd __gas_L333-__gas_L331
-dd __gas_L332-__gas_L331
-dd __gas_L330-__gas_L331
+__gas_L334:
+dd __gas_L345-__gas_L334
+dd __gas_L344-__gas_L334
+dd __gas_L343-__gas_L334
+dd __gas_L342-__gas_L334
+dd __gas_L341-__gas_L334
+dd __gas_L340-__gas_L334
+dd __gas_L339-__gas_L334
+dd __gas_L338-__gas_L334
+dd __gas_L337-__gas_L334
+dd __gas_L336-__gas_L334
+dd __gas_L335-__gas_L334
+dd __gas_L333-__gas_L334
 section .text
 align 16
 align 8
-__gas_L342:
+__gas_L345:
     lea rax, [rel __gas_LC80]
     mov qword [rsp], rax
     lea rax, [rel __gas_LC93]
     mov qword [rsp+40], rax
 align 16
 align 8
-__gas_L329:
+__gas_L332:
     mov rdi, qword [rsp+8]
     mov rcx, qword [rsp]
     mov esi, 128
@@ -2823,14 +2828,14 @@ __gas_L329:
     mov r12, rax
     call GuiButton
     test al, al
-    je __gas_L343
+    je __gas_L346
     mov r8d, dword [rsp+32]
     mov r10d, dword [rsp+36]
     cmp r10d, r8d
-    jl __gas_L344
+    jl __gas_L347
     mov dword [rel 253288+game], ebp
     mov dword [rel 253292+game], -1
-__gas_L343:
+__gas_L346:
     call GetMousePosition wrt ..plt
     mov rax, r14
     mov rdi, -4294967296
@@ -2846,7 +2851,7 @@ __gas_L343:
     mov r14, rax
     call CheckCollisionPointRec wrt ..plt
     test al, al
-    je __gas_L345
+    je __gas_L348
     mov rax, qword [rsp]
     movss xmm3, dword [rsp+16]
     add ebx, 80
@@ -2858,105 +2863,105 @@ __gas_L343:
     mov qword [rel 253328+game], rax
     movss dword [rel 253340+game], xmm3
     cmp ebx, 320
-    je __gas_L328
-__gas_L360:
+    je __gas_L331
+__gas_L363:
     add qword [rsp+24], 4
-    jmp __gas_L348
+    jmp __gas_L351
 align 16
 align 8
-__gas_L330:
+__gas_L333:
     lea rax, [rel __gas_LC91]
     mov qword [rsp], rax
     lea rax, [rel __gas_LC104]
     mov qword [rsp+40], rax
-    jmp __gas_L329
+    jmp __gas_L332
 align 16
 align 8
-__gas_L332:
+__gas_L335:
     lea rax, [rel __gas_LC90]
     mov qword [rsp], rax
     lea rax, [rel __gas_LC103]
     mov qword [rsp+40], rax
-    jmp __gas_L329
+    jmp __gas_L332
 align 16
 align 8
-__gas_L333:
+__gas_L336:
     lea rax, [rel __gas_LC89]
     mov qword [rsp], rax
     lea rax, [rel __gas_LC102]
     mov qword [rsp+40], rax
-    jmp __gas_L329
+    jmp __gas_L332
 align 16
 align 8
-__gas_L334:
+__gas_L337:
     lea rax, [rel __gas_LC88]
     mov qword [rsp], rax
     lea rax, [rel __gas_LC101]
     mov qword [rsp+40], rax
-    jmp __gas_L329
+    jmp __gas_L332
 align 16
 align 8
-__gas_L335:
+__gas_L338:
     lea rax, [rel __gas_LC87]
     mov qword [rsp], rax
     lea rax, [rel __gas_LC100]
     mov qword [rsp+40], rax
-    jmp __gas_L329
+    jmp __gas_L332
 align 16
 align 8
-__gas_L336:
+__gas_L339:
     lea rax, [rel __gas_LC86]
     mov qword [rsp], rax
     lea rax, [rel __gas_LC99]
     mov qword [rsp+40], rax
-    jmp __gas_L329
+    jmp __gas_L332
 align 16
 align 8
-__gas_L337:
+__gas_L340:
     lea rax, [rel __gas_LC85]
     mov qword [rsp], rax
     lea rax, [rel __gas_LC98]
     mov qword [rsp+40], rax
-    jmp __gas_L329
+    jmp __gas_L332
 align 16
 align 8
-__gas_L338:
+__gas_L341:
     lea rax, [rel __gas_LC84]
     mov qword [rsp], rax
     lea rax, [rel __gas_LC97]
     mov qword [rsp+40], rax
-    jmp __gas_L329
+    jmp __gas_L332
 align 16
 align 8
-__gas_L339:
+__gas_L342:
     lea rax, [rel __gas_LC83]
     mov qword [rsp], rax
     lea rax, [rel __gas_LC96]
     mov qword [rsp+40], rax
-    jmp __gas_L329
+    jmp __gas_L332
 align 16
 align 8
-__gas_L340:
+__gas_L343:
     lea rax, [rel __gas_LC82]
     mov qword [rsp], rax
     lea rax, [rel __gas_LC95]
     mov qword [rsp+40], rax
-    jmp __gas_L329
+    jmp __gas_L332
 align 16
 align 8
-__gas_L341:
+__gas_L344:
     lea rax, [rel __gas_LC81]
     mov qword [rsp], rax
     lea rax, [rel __gas_LC94]
     mov qword [rsp+40], rax
-    jmp __gas_L329
+    jmp __gas_L332
 align 16
 align 8
-__gas_L345:
+__gas_L348:
     add ebx, 80
     cmp ebx, 320
-    jne __gas_L360
-__gas_L328:
+    jne __gas_L363
+__gas_L331:
     add rsp, 200
     pop rbx
     pop rbp
@@ -2967,7 +2972,7 @@ __gas_L328:
     ret
 align 16
 align 8
-__gas_L344:
+__gas_L347:
     mov eax, dword [rsp+16]
     xor edx, edx
     mov esi, -13487361
@@ -2976,15 +2981,15 @@ __gas_L344:
     or rax, 1149009920
     movq xmm0, rax
     call AddFloatingText wrt ..plt
-    jmp __gas_L343
+    jmp __gas_L346
 section .text
 DrawBuildMenu.cold:
-__gas_L349:
+__gas_L352:
     lea rax, [rel __gas_LC92]
     mov qword [rsp], rax
     lea rax, [rel __gas_LC105]
     mov qword [rsp+40], rax
-    jmp __gas_L329
+    jmp __gas_L332
 section .text
 section .text
 __gas_LCOLDE115:
@@ -3025,7 +3030,7 @@ DrawTowerUpgradePaths:
     call DrawText wrt ..plt
     mov eax, dword [rbx+8]
     cmp eax, 3
-    ja __gas_L361
+    ja __gas_L364
     mov qword [rsp+8], 0
     add eax, eax
     lea edx, [rax+4]
@@ -3036,7 +3041,7 @@ DrawTowerUpgradePaths:
     lea rax, [rsp+80]
     mov dword [rsp+72], edx
     mov qword [rsp+16], rax
-__gas_L384:
+__gas_L387:
     mov rcx, qword [rsp+8]
     pxor xmm0, xmm0
     mov eax, ecx
@@ -3055,15 +3060,15 @@ __gas_L384:
     cmp dword [rel 253260+game], ebx
     mov dword [rsp], 0
     mov r9d, eax
-    jl __gas_L363
+    jl __gas_L366
     xor eax, eax
     cmp dword [rel 253264+game], r9d
     setge al
     mov dword [rsp], eax
-__gas_L363:
+__gas_L366:
     cmp ebp, 11
-    ja __gas_L386
-    lea rsi, [rel __gas_L366]
+    ja __gas_L389
+    lea rsi, [rel __gas_L369]
     mov eax, ebp
     movsx rax, dword [rsi+rax*4]
     add rax, rsi
@@ -3071,26 +3076,26 @@ __gas_L363:
 section .rodata
 align 4
 align 4
-__gas_L366:
-dd __gas_L377-__gas_L366
-dd __gas_L376-__gas_L366
-dd __gas_L375-__gas_L366
-dd __gas_L374-__gas_L366
-dd __gas_L373-__gas_L366
-dd __gas_L372-__gas_L366
-dd __gas_L371-__gas_L366
-dd __gas_L370-__gas_L366
-dd __gas_L369-__gas_L366
-dd __gas_L368-__gas_L366
-dd __gas_L367-__gas_L366
-dd __gas_L365-__gas_L366
+__gas_L369:
+dd __gas_L380-__gas_L369
+dd __gas_L379-__gas_L369
+dd __gas_L378-__gas_L369
+dd __gas_L377-__gas_L369
+dd __gas_L376-__gas_L369
+dd __gas_L375-__gas_L369
+dd __gas_L374-__gas_L369
+dd __gas_L373-__gas_L369
+dd __gas_L372-__gas_L369
+dd __gas_L371-__gas_L369
+dd __gas_L370-__gas_L369
+dd __gas_L368-__gas_L369
 section .text
 align 16
 align 8
-__gas_L382:
+__gas_L385:
     cmp qword [rsp+8], 1
-    jne __gas_L383
-__gas_L361:
+    jne __gas_L386
+__gas_L364:
     add rsp, 216
     pop rbx
     pop rbp
@@ -3101,14 +3106,14 @@ __gas_L361:
     ret
 align 16
 align 8
-__gas_L377:
+__gas_L380:
     lea rax, [rel __gas_LC80]
     mov qword [rsp+24], rax
     lea rax, [rel __gas_LC93]
     mov qword [rsp+40], rax
 align 16
 align 8
-__gas_L364:
+__gas_L367:
     mov rcx, qword [rsp+24]
     mov rdi, qword [rsp+16]
     xor eax, eax
@@ -3134,10 +3139,10 @@ __gas_L364:
     mov r14, rax
     call GuiButton
     test al, al
-    je __gas_L379
+    je __gas_L382
     mov eax, dword [rsp]
     test eax, eax
-    je __gas_L380
+    je __gas_L383
     mov r9d, dword [rsp+60]
     movd xmm1, ebx
     mov rdi, qword [rsp+48]
@@ -3149,10 +3154,10 @@ __gas_L364:
     movq qword [rel 253260+game], xmm0
     call UpgradeTower wrt ..plt
     test al, al
-    jne __gas_L394
+    jne __gas_L397
 align 16
 align 8
-__gas_L379:
+__gas_L382:
     call GetMousePosition wrt ..plt
     mov rax, r12
     mov rsi, -4294967296
@@ -3168,7 +3173,7 @@ __gas_L379:
     mov r12, rax
     call CheckCollisionPointRec wrt ..plt
     test al, al
-    je __gas_L382
+    je __gas_L385
     mov rax, qword [rsp+24]
     movss xmm3, dword [rsp+56]
     mov dword [rel 253336+game], 0x44728000
@@ -3179,101 +3184,101 @@ __gas_L379:
     mov byte [rel 253312+game], 1
     mov qword [rel 253328+game], rax
     movss dword [rel 253340+game], xmm3
-    je __gas_L361
-__gas_L383:
+    je __gas_L364
+__gas_L386:
     mov qword [rsp+8], 1
-    jmp __gas_L384
+    jmp __gas_L387
 align 16
 align 8
-__gas_L376:
+__gas_L379:
     lea rax, [rel __gas_LC81]
     mov qword [rsp+24], rax
     lea rax, [rel __gas_LC94]
     mov qword [rsp+40], rax
-    jmp __gas_L364
+    jmp __gas_L367
 align 16
 align 8
-__gas_L375:
+__gas_L378:
     lea rax, [rel __gas_LC82]
     mov qword [rsp+24], rax
     lea rax, [rel __gas_LC95]
     mov qword [rsp+40], rax
-    jmp __gas_L364
+    jmp __gas_L367
 align 16
 align 8
-__gas_L374:
+__gas_L377:
     lea rax, [rel __gas_LC83]
     mov qword [rsp+24], rax
     lea rax, [rel __gas_LC96]
     mov qword [rsp+40], rax
-    jmp __gas_L364
+    jmp __gas_L367
 align 16
 align 8
-__gas_L373:
+__gas_L376:
     lea rax, [rel __gas_LC84]
     mov qword [rsp+24], rax
     lea rax, [rel __gas_LC97]
     mov qword [rsp+40], rax
-    jmp __gas_L364
+    jmp __gas_L367
 align 16
 align 8
-__gas_L372:
+__gas_L375:
     lea rax, [rel __gas_LC85]
     mov qword [rsp+24], rax
     lea rax, [rel __gas_LC98]
     mov qword [rsp+40], rax
-    jmp __gas_L364
+    jmp __gas_L367
 align 16
 align 8
-__gas_L371:
+__gas_L374:
     lea rax, [rel __gas_LC86]
     mov qword [rsp+24], rax
     lea rax, [rel __gas_LC99]
     mov qword [rsp+40], rax
-    jmp __gas_L364
+    jmp __gas_L367
 align 16
 align 8
-__gas_L370:
+__gas_L373:
     lea rax, [rel __gas_LC87]
     mov qword [rsp+24], rax
     lea rax, [rel __gas_LC100]
     mov qword [rsp+40], rax
-    jmp __gas_L364
+    jmp __gas_L367
 align 16
 align 8
-__gas_L369:
+__gas_L372:
     lea rax, [rel __gas_LC88]
     mov qword [rsp+24], rax
     lea rax, [rel __gas_LC101]
     mov qword [rsp+40], rax
-    jmp __gas_L364
+    jmp __gas_L367
 align 16
 align 8
-__gas_L368:
+__gas_L371:
     lea rax, [rel __gas_LC89]
     mov qword [rsp+24], rax
     lea rax, [rel __gas_LC102]
     mov qword [rsp+40], rax
-    jmp __gas_L364
+    jmp __gas_L367
 align 16
 align 8
-__gas_L367:
+__gas_L370:
     lea rax, [rel __gas_LC90]
     mov qword [rsp+24], rax
     lea rax, [rel __gas_LC103]
     mov qword [rsp+40], rax
-    jmp __gas_L364
+    jmp __gas_L367
 align 16
 align 8
-__gas_L365:
+__gas_L368:
     lea rax, [rel __gas_LC91]
     mov qword [rsp+24], rax
     lea rax, [rel __gas_LC104]
     mov qword [rsp+40], rax
-    jmp __gas_L364
+    jmp __gas_L367
 align 16
 align 8
-__gas_L380:
+__gas_L383:
     mov eax, dword [rsp+56]
     xor edx, edx
     mov esi, -13487361
@@ -3282,10 +3287,10 @@ __gas_L380:
     or rax, 1149009920
     movq xmm0, rax
     call AddFloatingText wrt ..plt
-    jmp __gas_L379
+    jmp __gas_L382
 align 16
 align 8
-__gas_L394:
+__gas_L397:
     mov rax, qword [rsp+48]
     mov edx, 1
     mov esi, -39756
@@ -3298,15 +3303,15 @@ __gas_L394:
     movss xmm1, dword [rel __gas_LC35]
     movss xmm0, dword [rel __gas_LC29]
     call ScreenShake wrt ..plt
-    jmp __gas_L379
+    jmp __gas_L382
 section .text
 DrawTowerUpgradePaths.cold:
-__gas_L386:
+__gas_L389:
     lea rax, [rel __gas_LC92]
     mov qword [rsp+24], rax
     lea rax, [rel __gas_LC105]
     mov qword [rsp+40], rax
-    jmp __gas_L364
+    jmp __gas_L367
 section .text
 section .text
 __gas_LCOLDE121:
@@ -3387,16 +3392,16 @@ DrawTowerInspector:
     sub rsp, 424
     movsx rbx, dword [rel 253292+game]
     cmp ebx, -1
-    je __gas_L396
+    je __gas_L399
     lea r12, [rbx+rbx*4]
     lea rbp, [rel game]
     sal r12, 4
     add r12, rbp
     cmp byte [r12+2520], 0
-    jne __gas_L397
-__gas_L396:
+    jne __gas_L400
+__gas_L399:
     mov dword [rel 253292+game], -1
-__gas_L395:
+__gas_L398:
     add rsp, 424
     pop rbx
     pop rbp
@@ -3407,7 +3412,7 @@ __gas_L395:
     ret
 align 16
 align 8
-__gas_L397:
+__gas_L400:
     mov r8d, -16713219
     mov ecx, 20
     mov edx, 270
@@ -3416,36 +3421,36 @@ __gas_L397:
     call DrawText wrt ..plt
     mov r8d, dword [r12+2468]
     cmp dword [r12+2464], 11
-    ja __gas_L399
+    ja __gas_L402
     mov eax, dword [r12+2464]
-    lea rdx, [rel __gas_L401]
+    lea rdx, [rel __gas_L404]
     movsx rax, dword [rdx+rax*4]
     add rax, rdx
     jmp rax
 section .rodata
 align 4
 align 4
-__gas_L401:
-dd __gas_L412-__gas_L401
-dd __gas_L431-__gas_L401
-dd __gas_L410-__gas_L401
-dd __gas_L409-__gas_L401
-dd __gas_L408-__gas_L401
-dd __gas_L407-__gas_L401
-dd __gas_L406-__gas_L401
-dd __gas_L405-__gas_L401
-dd __gas_L404-__gas_L401
-dd __gas_L403-__gas_L401
-dd __gas_L402-__gas_L401
-dd __gas_L400-__gas_L401
+__gas_L404:
+dd __gas_L415-__gas_L404
+dd __gas_L434-__gas_L404
+dd __gas_L413-__gas_L404
+dd __gas_L412-__gas_L404
+dd __gas_L411-__gas_L404
+dd __gas_L410-__gas_L404
+dd __gas_L409-__gas_L404
+dd __gas_L408-__gas_L404
+dd __gas_L407-__gas_L404
+dd __gas_L406-__gas_L404
+dd __gas_L405-__gas_L404
+dd __gas_L403-__gas_L404
 section .text
 align 16
 align 8
-__gas_L431:
+__gas_L434:
     lea rcx, [rel __gas_LC81]
 align 16
 align 8
-__gas_L411:
+__gas_L414:
     lea r12, [rbx+rbx*4]
     lea r13, [rsp+288]
     mov esi, 128
@@ -3481,21 +3486,21 @@ __gas_L411:
     cmp dword [r12+2464], 3
     mov edx, 340
     mov esi, 970
-    ja __gas_L413
+    ja __gas_L416
     lea rdi, [rel __gas_LC133]
     call DrawText wrt ..plt
     cmp dword [r12+2468], 2
-    jg __gas_L414
+    jg __gas_L417
     mov eax, dword [r12+2476]
     pxor xmm2, xmm2
     test eax, eax
-    jle __gas_L415
+    jle __gas_L418
     pxor xmm2, xmm2
     pxor xmm0, xmm0
     cvtsi2ss xmm2, dword [r12+2472]
     cvtsi2ss xmm0, eax
     divss xmm2, xmm0
-__gas_L415:
+__gas_L418:
     mov rax, 4878524297497444352
     mov edi, -12836061
     mov r14, 4728779609872924672
@@ -3534,7 +3539,7 @@ __gas_L415:
     mov edx, 362
     mov esi, 980
     call DrawText wrt ..plt
-__gas_L416:
+__gas_L419:
     mov dword [rsp+24], 520
     mov r13d, 510
     mov r15d, 425
@@ -3542,7 +3547,7 @@ __gas_L416:
     mov dword [rsp+20], 475
     mov dword [rsp], 450
     mov dword [rsp+28], 390
-__gas_L417:
+__gas_L420:
     mov r8d, -16713219
     mov ecx, 20
     mov esi, 970
@@ -3553,12 +3558,12 @@ __gas_L417:
     sal rax, 4
     mov eax, dword [rbp+rax+2492]
     cmp eax, 1
-    je __gas_L418
+    je __gas_L421
     test eax, eax
     lea r10, [rel __gas_LC122]
     lea rax, [rel __gas_LC124]
     cmove r10, rax
-__gas_L418:
+__gas_L421:
     lea rax, [rbx+rbx*4]
     pxor xmm0, xmm0
     sal rax, 4
@@ -3583,8 +3588,8 @@ __gas_L418:
     lea rcx, [rel __gas_LC125]
     movss xmm0, dword [r14+2484]
     comiss xmm0, dword [rel __gas_LC139]
-    jbe __gas_L459
-__gas_L419:
+    jbe __gas_L462
+__gas_L422:
     lea r15, [rsp+160]
     lea rdx, [rel __gas_LC141]
     mov esi, 64
@@ -3602,15 +3607,15 @@ __gas_L419:
     add rax, rbp
     mov edx, dword [rax+2464]
     cmp edx, 2
-    je __gas_L439
+    je __gas_L442
     cmp edx, 9
-    je __gas_L439
+    je __gas_L442
     movss xmm0, dword [rax+2488]
     cmp edx, 8
-    je __gas_L460
+    je __gas_L463
     lea rdx, [rel __gas_LC144]
     cvtss2sd xmm0, xmm0
-__gas_L458:
+__gas_L461:
     mov esi, 64
     mov rdi, r12
     mov eax, 1
@@ -3621,7 +3626,7 @@ __gas_L458:
     mov ecx, 18
     mov esi, 970
     call DrawText wrt ..plt
-__gas_L422:
+__gas_L425:
     mov ecx, r13d
     mov esi, r13d
     lea r13, [rbx+rbx*4]
@@ -3632,7 +3637,7 @@ __gas_L422:
     call DrawLine wrt ..plt
     add r13, rbp
     cmp dword [r13+2464], 8
-    je __gas_L424
+    je __gas_L427
     mov edx, dword [rsp+24]
     mov r8d, -16713219
     mov ecx, 20
@@ -3647,13 +3652,13 @@ __gas_L422:
     mov eax, dword [r13+2524]
     movd r14d, xmm4
     cmp eax, 2
-    je __gas_L425
-    ja __gas_L426
+    je __gas_L428
+    ja __gas_L429
     test eax, eax
     lea rdi, [rel __gas_LC127]
     lea rax, [rel __gas_LC126]
     cmovne rdi, rax
-__gas_L425:
+__gas_L428:
     xor ecx, ecx
     mov edx, 1
     mov rsi, -4294967296
@@ -3669,7 +3674,7 @@ __gas_L425:
     movq xmm0, rcx
     call GuiButton
     test al, al
-    je __gas_L427
+    je __gas_L430
     lea rax, [rbx+rbx*4]
     sal rax, 4
     add rax, rbp
@@ -3677,7 +3682,7 @@ __gas_L425:
     lea edx, [rsi+1]
     and edx, 3
     mov dword [rax+2524], edx
-__gas_L427:
+__gas_L430:
     call GetMousePosition wrt ..plt
     xor ecx, ecx
     mov rsi, -4294967296
@@ -3692,7 +3697,7 @@ __gas_L427:
     movq xmm1, rcx
     call CheckCollisionPointRec wrt ..plt
     test al, al
-    je __gas_L428
+    je __gas_L431
     movq xmm0, qword [rel __gas_LC152]
     lea rax, [rel __gas_LC147]
     mov dword [rel 253336+game], 0x44728000
@@ -3702,19 +3707,19 @@ __gas_L427:
     punpcklqdq xmm0, xmm5
     mov byte [rel 253312+game], 1
     movups oword [rel 253320+game], xmm0
-__gas_L428:
+__gas_L431:
     lea rax, [rbx+rbx*4]
     sal rax, 4
     lea rdx, [rbp+rax+0]
     cmp dword [rdx+2468], 2
-    jle __gas_L424
+    jle __gas_L427
     cmp dword [rdx+2464], 3
-    ja __gas_L424
+    ja __gas_L427
     lea rdi, [rbp+rax+2456]
     call DrawTowerUpgradePaths
 align 16
 align 8
-__gas_L424:
+__gas_L427:
     lea rax, [rbx+rbx*4]
     pxor xmm0, xmm0
     mov esi, 64
@@ -3735,8 +3740,8 @@ __gas_L424:
     movq xmm1, rax
     call GuiButton
     test al, al
-    jne __gas_L461
-__gas_L429:
+    jne __gas_L464
+__gas_L432:
     call GetMousePosition wrt ..plt
     mov rax, 4916664156841738240
     movq xmm1, rax
@@ -3744,7 +3749,7 @@ __gas_L429:
     movq xmm2, rax
     call CheckCollisionPointRec wrt ..plt
     test al, al
-    je __gas_L395
+    je __gas_L398
     movq xmm0, qword [rel __gas_LC153]
     lea rax, [rel __gas_LC150]
     mov byte [rel 253312+game], 1
@@ -3753,65 +3758,65 @@ __gas_L429:
     movups oword [rel 253320+game], xmm0
     movaps xmm0, oword [rel __gas_LC151]
     movups oword [rel 253336+game], xmm0
-    jmp __gas_L395
+    jmp __gas_L398
 align 16
 align 8
-__gas_L412:
+__gas_L415:
     lea rcx, [rel __gas_LC80]
-    jmp __gas_L411
-align 16
-align 8
-__gas_L410:
-    lea rcx, [rel __gas_LC82]
-    jmp __gas_L411
-align 16
-align 8
-__gas_L409:
-    lea rcx, [rel __gas_LC83]
-    jmp __gas_L411
-align 16
-align 8
-__gas_L408:
-    lea rcx, [rel __gas_LC84]
-    jmp __gas_L411
-align 16
-align 8
-__gas_L407:
-    lea rcx, [rel __gas_LC85]
-    jmp __gas_L411
-align 16
-align 8
-__gas_L406:
-    lea rcx, [rel __gas_LC86]
-    jmp __gas_L411
-align 16
-align 8
-__gas_L405:
-    lea rcx, [rel __gas_LC87]
-    jmp __gas_L411
-align 16
-align 8
-__gas_L404:
-    lea rcx, [rel __gas_LC88]
-    jmp __gas_L411
-align 16
-align 8
-__gas_L403:
-    lea rcx, [rel __gas_LC89]
-    jmp __gas_L411
-align 16
-align 8
-__gas_L402:
-    lea rcx, [rel __gas_LC90]
-    jmp __gas_L411
-align 16
-align 8
-__gas_L400:
-    lea rcx, [rel __gas_LC91]
-    jmp __gas_L411
+    jmp __gas_L414
 align 16
 align 8
 __gas_L413:
+    lea rcx, [rel __gas_LC82]
+    jmp __gas_L414
+align 16
+align 8
+__gas_L412:
+    lea rcx, [rel __gas_LC83]
+    jmp __gas_L414
+align 16
+align 8
+__gas_L411:
+    lea rcx, [rel __gas_LC84]
+    jmp __gas_L414
+align 16
+align 8
+__gas_L410:
+    lea rcx, [rel __gas_LC85]
+    jmp __gas_L414
+align 16
+align 8
+__gas_L409:
+    lea rcx, [rel __gas_LC86]
+    jmp __gas_L414
+align 16
+align 8
+__gas_L408:
+    lea rcx, [rel __gas_LC87]
+    jmp __gas_L414
+align 16
+align 8
+__gas_L407:
+    lea rcx, [rel __gas_LC88]
+    jmp __gas_L414
+align 16
+align 8
+__gas_L406:
+    lea rcx, [rel __gas_LC89]
+    jmp __gas_L414
+align 16
+align 8
+__gas_L405:
+    lea rcx, [rel __gas_LC90]
+    jmp __gas_L414
+align 16
+align 8
+__gas_L403:
+    lea rcx, [rel __gas_LC91]
+    jmp __gas_L414
+align 16
+align 8
+__gas_L416:
     lea rdi, [rel __gas_LC136]
     mov r13d, 490
     mov r15d, 405
@@ -3822,10 +3827,10 @@ __gas_L413:
     mov dword [rsp+20], 455
     mov dword [rsp], 430
     mov dword [rsp+28], 370
-    jmp __gas_L417
+    jmp __gas_L420
 align 16
 align 8
-__gas_L459:
+__gas_L462:
     lea r15, [rsp+64]
     lea rdx, [rel __gas_LC140]
     mov esi, 32
@@ -3834,33 +3839,33 @@ __gas_L459:
     cvtss2sd xmm0, xmm0
     call snprintf wrt ..plt
     mov rcx, r15
-    jmp __gas_L419
+    jmp __gas_L422
 align 16
 align 8
-__gas_L461:
+__gas_L464:
     mov edi, dword [rel 253292+game]
     call SellTower wrt ..plt
-    jmp __gas_L429
+    jmp __gas_L432
 align 16
 align 8
-__gas_L439:
+__gas_L442:
     mov edx, dword [rsp+20]
     mov r8d, -2571
     mov ecx, 18
     mov esi, 970
     lea rdi, [rel __gas_LC142]
     call DrawText wrt ..plt
-    jmp __gas_L422
+    jmp __gas_L425
 align 16
 align 8
-__gas_L460:
+__gas_L463:
     mulss xmm0, dword [rel __gas_LC33]
     lea rdx, [rel __gas_LC143]
     cvtss2sd xmm0, xmm0
-    jmp __gas_L458
+    jmp __gas_L461
 align 16
 align 8
-__gas_L414:
+__gas_L417:
     mov rax, 4878524297497444352
     mov edi, -13435086
     lea r12, [rsp+224]
@@ -3874,18 +3879,18 @@ __gas_L414:
     mov esi, 980
     lea rdi, [rel __gas_LC135]
     call DrawText wrt ..plt
-    jmp __gas_L416
+    jmp __gas_L419
 align 16
 align 8
-__gas_L426:
+__gas_L429:
     cmp eax, 3
     lea rdi, [rel __gas_LC129]
     lea rax, [rel __gas_LC92]
     cmovne rdi, rax
-    jmp __gas_L425
-__gas_L399:
+    jmp __gas_L428
+__gas_L402:
     lea rcx, [rel __gas_LC92]
-    jmp __gas_L411
+    jmp __gas_L414
 section .rodata
 __gas_LC156:
 db 71, 76, 79, 66, 65, 76, 32, 82, 65, 78, 71, 69, 0
@@ -3931,16 +3936,16 @@ DrawUI:
     call BeginMode2D wrt ..plt
     add rsp, 32
     cmp dword [rel 253288+game], -1
-    je __gas_L463
+    je __gas_L466
     movd xmm0, dword [rsp+8]
     movss xmm1, dword [rel __gas_LC154]
     comiss xmm1, xmm0
-    ja __gas_L485
-__gas_L463:
+    ja __gas_L488
+__gas_L466:
     movsx rax, dword [rel 253292+game]
     lea rbx, [rsp+128]
     cmp eax, -1
-    je __gas_L467
+    je __gas_L470
     lea rax, [rax+rax*4]
     lea rdx, [rel 8+game]
     mov bp, -1539
@@ -3948,13 +3953,13 @@ __gas_L463:
     and ebp, -16711681
     movq xmm3, qword [rdx+rax+2448]
     movss xmm1, dword [rdx+rax+2476]
-__gas_L466:
+__gas_L469:
     comiss xmm1, dword [rel __gas_LC139]
     movaps xmm6, xmm3
     movaps xmm4, xmm3
     shufps xmm6, xmm6, 0xe5
     movaps xmm2, xmm6
-    jbe __gas_L482
+    jbe __gas_L485
     addss xmm2, dword [rel __gas_LC7]
     subss xmm4, dword [rel __gas_LC155]
     mov r8d, ebp
@@ -3964,7 +3969,7 @@ __gas_L466:
     cvttss2si esi, xmm4
     cvttss2si edx, xmm2
     call DrawText wrt ..plt
-__gas_L467:
+__gas_L470:
     call EndMode2D wrt ..plt
     xor esi, esi
     mov r8d, -14478316
@@ -3992,11 +3997,11 @@ __gas_L467:
     mov esi, 32
     call snprintf wrt ..plt
     cmp dword [rel 253256+game], 5
-    jg __gas_L476
+    jg __gas_L479
     mov esi, -1
     mov ecx, 50
     mov edx, 50
-__gas_L470:
+__gas_L473:
     movzx eax, sil
     sal edx, 16
     mov rdi, rbp
@@ -4036,7 +4041,7 @@ __gas_L470:
     mov esi, 1110
     call DrawText wrt ..plt
     cmp byte [rel 253284+game], 0
-    je __gas_L471
+    je __gas_L474
     mov ecx, dword [rel 253268+game]
     mov esi, 64
     mov rdi, rbx
@@ -4044,7 +4049,7 @@ __gas_L470:
     mov r8d, dword [rel 253276+game]
     lea rdx, [rel __gas_LC161]
     call snprintf wrt ..plt
-__gas_L484:
+__gas_L487:
     mov r8d, -2571
     mov ecx, 20
     mov edx, 95
@@ -4065,9 +4070,9 @@ __gas_L484:
     mov edi, 960
     call DrawLine wrt ..plt
     cmp dword [rel 253292+game], -1
-    je __gas_L473
+    je __gas_L476
     call DrawTowerInspector
-__gas_L462:
+__gas_L465:
     add rsp, 216
     pop rbx
     pop rbp
@@ -4078,14 +4083,14 @@ __gas_L462:
     ret
 align 16
 align 8
-__gas_L476:
+__gas_L479:
     mov esi, -11
     mov ecx, -11
     mov edx, 255
-    jmp __gas_L470
+    jmp __gas_L473
 align 16
 align 8
-__gas_L471:
+__gas_L474:
     pxor xmm0, xmm0
     mov esi, 64
     mov rdi, rbx
@@ -4093,10 +4098,10 @@ __gas_L471:
     lea rdx, [rel __gas_LC162]
     cvtss2sd xmm0, dword [rel 253272+game]
     call snprintf wrt ..plt
-    jmp __gas_L484
+    jmp __gas_L487
 align 16
 align 8
-__gas_L482:
+__gas_L485:
     movss xmm0, dword [rel __gas_LC58]
     mov edi, ebp
     movss dword [rsp+28], xmm6
@@ -4118,10 +4123,10 @@ __gas_L482:
     cvttss2si edi, xmm4
     movaps xmm0, xmm1
     call DrawCircleLines wrt ..plt
-    jmp __gas_L467
+    jmp __gas_L470
 align 16
 align 8
-__gas_L485:
+__gas_L488:
     movq xmm0, rbx
     call WorldToTile wrt ..plt
     movq rax, xmm0
@@ -4158,11 +4163,11 @@ __gas_L485:
     movss xmm1, dword [rsp+8]
     movq xmm3, qword [rsp+16]
     test al, al
-    jne __gas_L475
+    jne __gas_L478
     mov ecx, -26
     mov edx, 41
     mov eax, 55
-__gas_L465:
+__gas_L468:
     mov bpl, cl
     sal eax, 16
     movlps qword [rsp+8], xmm3
@@ -4188,19 +4193,19 @@ __gas_L465:
     call DrawRectangle wrt ..plt
     movq xmm3, qword [rsp+8]
     movss xmm1, dword [rsp+16]
-    jmp __gas_L466
+    jmp __gas_L469
 align 16
 align 8
-__gas_L473:
+__gas_L476:
     call DrawBuildMenu
-    jmp __gas_L462
+    jmp __gas_L465
 align 16
 align 8
-__gas_L475:
+__gas_L478:
     xor ecx, ecx
     mov edx, -28
     mov eax, 48
-    jmp __gas_L465
+    jmp __gas_L468
 section .rodata
 __gas_LC164:
 db 80, 82, 69, 83, 84, 73, 71, 69, 32, 69, 68, 73, 84, 73, 79, 78, 0
@@ -4266,7 +4271,7 @@ DrawGame:
     call ClearBackground wrt ..plt
     mov eax, dword [rel game]
     test eax, eax
-    jne __gas_L487
+    jne __gas_L490
     lea rbx, [rel __gas_LC157]
     mov esi, 60
     lea rbp, [rel __gas_LC165]
@@ -4326,7 +4331,7 @@ DrawGame:
     mov esi, 20
     lea rdi, [rel __gas_LC166]
     call DrawText wrt ..plt
-__gas_L488:
+__gas_L491:
     add rsp, 312
     pop rbx
     pop rbp
@@ -4337,7 +4342,7 @@ __gas_L488:
     jmp EndDrawing wrt ..plt
 align 16
 align 8
-__gas_L487:
+__gas_L490:
     mov rax, qword [rel 2448+game]
     movdqu xmm0, oword [rel 2432+game]
     sub rsp, 32
@@ -4355,21 +4360,21 @@ __gas_L487:
     call DrawUI
     mov eax, dword [rel game]
     cmp eax, 2
-    je __gas_L508
+    je __gas_L511
     cmp eax, 4
-    je __gas_L509
-__gas_L490:
+    je __gas_L512
+__gas_L493:
     cmp eax, 3
-    je __gas_L510
-__gas_L496:
+    je __gas_L513
+__gas_L499:
     cmp byte [rel 253312+game], 0
-    je __gas_L488
-__gas_L511:
+    je __gas_L491
+__gas_L514:
     call DrawTooltip.part.0
-    jmp __gas_L488
+    jmp __gas_L491
 align 16
 align 8
-__gas_L508:
+__gas_L511:
     movss xmm0, dword [rel __gas_LC167]
     mov edi, -16777216
     lea rbx, [rel __gas_LC168]
@@ -4396,8 +4401,8 @@ __gas_L508:
     call DrawText wrt ..plt
     mov eax, dword [rel game]
     cmp eax, 4
-    jne __gas_L490
-__gas_L509:
+    jne __gas_L493
+__gas_L512:
     movss xmm0, dword [rel __gas_LC169]
     mov edi, -15463926
     mov rbx, 4848124999998898176
@@ -4477,7 +4482,7 @@ __gas_L509:
     movq xmm0, qword [rel __gas_LC188]
     punpcklqdq xmm0, xmm7
     movaps oword [rsp+96], xmm0
-__gas_L495:
+__gas_L498:
     mov eax, ebx
     pxor xmm0, xmm0
     mov rdi, qword [rsp+8]
@@ -4512,15 +4517,15 @@ __gas_L495:
     mov r12, rax
     call GuiButton
     test al, al
-    je __gas_L491
+    je __gas_L494
     mov eax, dword [rel 2348+game]
     test eax, eax
-    jle __gas_L491
+    jle __gas_L494
     add dword [rbp+2416], 1
     sub eax, 1
     mov dword [rel 2348+game], eax
     call ApplyHeroSkills wrt ..plt
-__gas_L491:
+__gas_L494:
     mov r15, 4776067405968703488
     mov rax, qword [rsp+40]
     mov rax, qword [rax+rbx*8]
@@ -4539,7 +4544,7 @@ __gas_L491:
     mov r14, rax
     call CheckCollisionPointRec wrt ..plt
     test al, al
-    je __gas_L492
+    je __gas_L495
     movq xmm0, qword [rsp+16]
     movss xmm3, dword [rsp+4]
     add rbx, 1
@@ -4550,13 +4555,13 @@ __gas_L491:
     movups oword [rel 253320+game], xmm0
     movss dword [rel 253340+game], xmm3
     cmp rbx, 4
-    je __gas_L493
-__gas_L507:
+    je __gas_L496
+__gas_L510:
     add rbp, 4
-    jmp __gas_L495
+    jmp __gas_L498
 align 16
 align 8
-__gas_L510:
+__gas_L513:
     movss xmm0, dword [rel __gas_LC35]
     mov edi, -13487361
     lea rbx, [rel __gas_LC182]
@@ -4618,19 +4623,19 @@ __gas_L510:
     add esi, 640
     call DrawText wrt ..plt
     cmp byte [rel 253312+game], 0
-    je __gas_L488
-    jmp __gas_L511
+    je __gas_L491
+    jmp __gas_L514
 align 16
 align 8
-__gas_L492:
+__gas_L495:
     add rbx, 1
     cmp rbx, 4
-    jne __gas_L507
-__gas_L493:
+    jne __gas_L510
+__gas_L496:
     mov eax, dword [rel game]
     cmp eax, 3
-    jne __gas_L496
-    jmp __gas_L510
+    jne __gas_L499
+    jmp __gas_L513
 align 16
 global SetTooltip
 SetTooltip:
@@ -4646,7 +4651,7 @@ SetTooltip:
     movq xmm2, qword [rsp+8]
     call CheckCollisionPointRec wrt ..plt
     test al, al
-    je __gas_L512
+    je __gas_L515
     mov rax, qword [rsp]
     mov qword [rel 253320+game], rbp
     mov qword [rel 253328+game], rbx
@@ -4654,7 +4659,7 @@ SetTooltip:
     mov rax, qword [rsp+8]
     mov byte [rel 253312+game], 1
     mov qword [rel 253344+game], rax
-__gas_L512:
+__gas_L515:
     add rsp, 24
     pop rbx
     pop rbp

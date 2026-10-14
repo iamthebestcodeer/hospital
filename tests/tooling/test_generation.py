@@ -35,6 +35,7 @@ class ReferenceCorrectionTests(unittest.TestCase):
             "GrantXP(sourceTowerIndex, e->xpValue)",
             "// T4 Tesla Chain Logic",
             "float angleDiff = fabsf(fmodf",
+            "float angleDiff = fabsf(fmodf(t->rotation - angleToTarget",
             "game.screenShakeDuration = 0.0f; // Initialize",
         ):
             with self.subTest(fragment=fragment), self.assertRaises(ValueError):

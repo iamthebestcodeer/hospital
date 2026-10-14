@@ -1510,5 +1510,6 @@
   "binary_sha256": {
     "test-c": "f9eee06e22cffe035491eefc2ff02c82d45f62a3af6c16f3d0183d96e5b0e2b9",
     "test-asm": "a6b78d8ba39f218a3570cceb50cc42d5d28798e6b88431c2ba640cc0c0c2abfa"
-  }
+  },
+  "measured_commit": "495f913bfa2d0a4285c935ba317344acdd19bb4d"
 }

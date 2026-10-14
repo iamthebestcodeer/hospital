@@ -12,7 +12,8 @@ from common import ROOT, display
 
 
 class KeyboardDisplay:
-    def __init__(self, name):
+    def __init__(self, name, title_prefix=b"Aetherium Vanguard"):
+        self.title_prefix = title_prefix
         self.x11 = C.CDLL("libX11.so.6")
         self.xtst = C.CDLL("libXtst.so.6")
         signatures = {
@@ -51,30 +52,42 @@ class KeyboardDisplay:
         assert self.connection, "Could not open X display"
         self.window = None
 
-    def find_window(self):
-        root = self.x11.XDefaultRootWindow(self.connection)
+    def children(self, window):
         parent, returned_root, count = C.c_ulong(), C.c_ulong(), C.c_uint()
         children = C.POINTER(C.c_ulong)()
-        assert self.x11.XQueryTree(
+        if not self.x11.XQueryTree(
             self.connection,
-            root,
+            window,
             C.byref(returned_root),
             C.byref(parent),
             C.byref(children),
             C.byref(count),
-        )
+        ):
+            return []
         try:
-            for i in range(count.value):
-                title = C.c_char_p()
-                if self.x11.XFetchName(self.connection, children[i], C.byref(title)):
-                    try:
-                        if title.value and title.value.startswith(b"Aetherium Vanguard"):
-                            self.window = children[i]
-                            return self.window
-                    finally:
-                        self.x11.XFree(title)
+            return list(children[: count.value])
         finally:
             self.x11.XFree(children)
+
+    def find_window(self):
+        root = self.x11.XDefaultRootWindow(self.connection)
+        # Inspect clients before their frames: some WMs copy the client's title.
+        pending = [(window, False) for window in self.children(root)]
+        self.window = None
+        while pending:
+            window, inspected_children = pending.pop()
+            if not inspected_children:
+                pending.append((window, True))
+                pending.extend((child, False) for child in self.children(window))
+                continue
+            title = C.c_char_p()
+            if self.x11.XFetchName(self.connection, window, C.byref(title)):
+                try:
+                    if title.value and title.value.startswith(self.title_prefix):
+                        self.window = window
+                        return window
+                finally:
+                    self.x11.XFree(title)
         return None
 
     def hero_position(self):

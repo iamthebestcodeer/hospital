@@ -97,6 +97,7 @@ test-integration: build/test-c build/test-asm
 test: test-tools test-unit test-integration
 
 smoke: build/aetherium
+	$(PYTHON) tests/window_lookup.py
 	$(PYTHON) tests/smoke.py
 
 check: test smoke

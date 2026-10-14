@@ -8,6 +8,14 @@ def replace_once(source, before, after):
 
 
 def correct_reference(source):
+    # Keep beam visibility consistent with the attack's shortest-angle rule.
+    source = replace_once(
+        source,
+        "                    float angleDiff = fabsf(fmodf(t->rotation - angleToTarget + 180.0f, 360.0f) - 180.0f);",
+        "                    float wrappedAngle = fmodf(t->rotation - angleToTarget + 180.0f, 360.0f);\n"
+        "                    if (wrappedAngle < 0.0f) wrappedAngle += 360.0f;\n"
+        "                    float angleDiff = fabsf(wrappedAngle - 180.0f);",
+    )
     source = replace_once(
         source,
         "            float angleDiff = fabsf(fmodf(t->rotation - t->desiredRotation + 180.0f, 360.0f) - 180.0f);",

@@ -1,6 +1,8 @@
 # Modular NASM validation and performance
 
-These are fresh measurements of the modular codebase. Earlier measurements
+The 13-workload measurements below were taken at commit `495f913`, before
+the beam-visibility follow-up. A fresh balanced rendering check of the corrected
+renderer is reported separately below. Earlier measurements
 are archived in [history/pre-modular](history/pre-modular/PERFORMANCE.md) and
 [history/pre-review](history/pre-review/PERFORMANCE.md) and
 [history/pre-pr2-review](history/pre-pr2-review/PERFORMANCE.md), and are not combined
@@ -15,6 +17,7 @@ with this run. Both current implementations include the
 - 28 generator, translator, architectural and build dependency tests.
 - 15,620 identical state/RNG records and 26 byte-identical rendered PNGs.
 - 28 asserted inspector clicks covering upgrades, gap and sell controls.
+- Ten pixel-level Cryo/Freezer beam cases and three actual X11 window-lookup tests.
 - Real X11 input and clean exit of the shipping executable.
 - C reference, C unit fixtures and integration harness passed ASan/UBSan.
 - Formatting checks and regeneration checks passed; handwritten modules are
@@ -63,7 +66,18 @@ control measured 1.027 (0.920–1.069). The slowdown did not reproduce. Full-fra
 rendering remains inconclusive; neither run proves a graphics speedup or a
 universal zero-regression guarantee. The 5% gate is a tolerance, not proof of
 equality. Follow-up samples, order, hashes and intervals are retained in
-[render-confirmation.json](render-confirmation.json).
+[historical title confirmation](history/pre-beam-fix/render-confirmation.json).
+
+
+## Corrected beam-renderer follow-up
+
+The current renderer was measured with 32 balanced NASM/C `render-normal` pairs
+and 16 identical-C control pairs. NASM/C was 1.004 (95% interval 0.982–1.033);
+the identical-C control was 0.999 (0.986–1.013). The median meets the 5% gate,
+and the interval does not establish a rendering difference. Every pair's state
+hash matched. The tested executable hashes and raw samples are in
+[render-confirmation.json](render-confirmation.json). This follow-up does not
+replace or hide the earlier title-screen gate miss.
 
 Rendering used Xvfb/Mesa software OpenGL with one renderer thread. Physical
 GPUs, CPU frequency, drivers and host load can change results. Saturated

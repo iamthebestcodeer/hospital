@@ -1,0 +1,67 @@
+{
+  "result": "PASS",
+  "handwritten_modules": 22,
+  "unit_tests_per_implementation": 104,
+  "unit_assertions_per_implementation": 34505,
+  "implementations": [
+    "NASM",
+    "C reference"
+  ],
+  "tooling_and_architecture_tests": 28,
+  "state_rng_records": 15620,
+  "identical_screenshots": 26,
+  "x11_smoke": "PASS",
+  "c_reference_and_fixtures_asan_ubsan": "PASS",
+  "formatting": "PASS",
+  "regeneration_preserves_handwritten_modules": "PASS",
+  "abi_mutation_check": "PASS: regression test rejects old caller-saved XMM4 assumption",
+  "performance_workloads": 13,
+  "performance_gate": "Initial 12/13 PASS; render-title FAIL at +6.0% median. Balanced 32-pair follow-up PASS at NASM/C 0.978 (95% CI 0.952-1.004); rendering inconclusive.",
+  "binary_sha256": {
+    "aetherium": "aad2056d052e7460cf6d511387677c4a8a996c9b5bc69a254b4adcb3683618dd",
+    "test-c": "f9eee06e22cffe035491eefc2ff02c82d45f62a3af6c16f3d0183d96e5b0e2b9",
+    "test-asm": "a6b78d8ba39f218a3570cceb50cc42d5d28798e6b88431c2ba640cc0c0c2abfa",
+    "unit-c": "0c55275e22492ebb105b431de26041d39182e74825c34c47a96df70e743bcc00",
+    "unit-asm": "915929eed69051813b1217a81d09459d5a2a1e200fe8224d087d9513ba327a7f"
+  },
+  "module_sha256": {
+    "src/application/session.asm": "6a5b094b33d6eef10b338973600e16747552377a45ad18170415a78775766379",
+    "src/domain/damage.asm": "1fa2420ce9f41788281817db53368f95f558ce3b0e8c7b417998f56730310e43",
+    "src/domain/enemy_handles.asm": "eb0c8ebf0df2693a63ac4d738579f4c95e7bcc4164dcf74cbf4d5371a26dc12e",
+    "src/domain/geometry.asm": "387a377866e2b95b19cf5cc5ee103bcb0f2a96806a17d64dc0f6528316397b93",
+    "src/domain/map.asm": "9ea9b7687ecf0d6ee75ceef083df3321bcc2bbd7417444fee79937f52a1f131b",
+    "src/domain/state.asm": "615f256ebe6c193025e7be7cd23f10d44a2e6686562bdba3183659bbe2546105",
+    "src/domain/status_effects.asm": "5191ca252d232af6324c0522bfbe66bbc50780d104c88c232dd4fc7293421442",
+    "src/domain/tower_catalog.asm": "caa5539c7681df6028b92d3941756295213ea88fa4b706f230c6d40ed5d40d53",
+    "src/gameplay/enemy_movement.asm": "16adbad3d997d9a2e9c5502508c5ee110e56827e5c66c30b1792316282c8f181",
+    "src/gameplay/enemy_spawning.asm": "ef541e0d029ad73770dc6f4c9cfc3a0a17ddb297b14eeaf9acbbb2e48e4d357f",
+    "src/gameplay/environment.asm": "3de2947f7b661e7398be191e75278f892241994d1323282a3b5b5ec684baca33",
+    "src/gameplay/floating_text.asm": "9de2a7fb2feba4439e7e07ab296a42d5878ac586964c8e8030776937b4eafd62",
+    "src/gameplay/hero.asm": "77bab5f3fc85de5f050b8f50d21bf0873d88fb435cc6c29b120782a4792e3260",
+    "src/gameplay/particles.asm": "fd6fd909773a0cff4a3ec6f400a1a9d1a6ff3c9201ee416d1d7240d1d94fd5dd",
+    "src/gameplay/progression.asm": "86cedbe129aef44640f4d833cd62cc0a0c12fb43e7eba82c5a8e5169c03f7131",
+    "src/gameplay/projectiles.asm": "f9f88ed5c84568d9ef7d250140c97b50ed25027dd910a8a57b1f0af0e0f5d0ec",
+    "src/gameplay/tower_building.asm": "83c71c59096a062f8255240ac391c0ec73eeda1b5428fb520e116ab9313ebe41",
+    "src/gameplay/tower_targeting.asm": "40d95dab056620191b875673816bbcf87a76f2b14e6b093710f28e5436f3540e",
+    "src/gameplay/vfx.asm": "639579df776a3edcf402e3a5cf25fe9fa19e74dfc28f3ef6b4a2aa4115f8327c",
+    "src/gameplay/waves.asm": "8ecdb964e6f04023f3cad204e6fb656d4505580984ca6610c3ce5e4dda19220a",
+    "src/platform/input.asm": "674f7521ca28137055473f2b73d1b6039c20212641b63e4f649a98a755734f0b",
+    "src/platform/main.asm": "5f553e79ae3e2f2a0102bda43ef3219550eaecd7fea361200884fb886250a356"
+  },
+  "inspector_click_cases": 28,
+  "review_regression_checks": {
+    "spawner_rewards": "PASS: old implementation fails the original XP reward assertion",
+    "chain_damage": "PASS: old assembly fails the full initial damage assertion",
+    "inspector_controls": "PASS: old renderer fails the independent control assertion",
+    "original_source_preserved": "PASS: pinned upstream SHA-256 unchanged",
+    "regeneration_retains_reference_fixes": "PASS"
+  },
+  "pr2_review_regression_checks": {
+    "signed_angle_aiming": "PASS: old implementation rejected",
+    "reset_shake": "PASS: old implementation rejected",
+    "raylib_dependencies": "PASS: isolated scheduling test rejects all eight old link targets",
+    "direct_abi_probes": "PASS: direct entry points; six individual clobbers rejected",
+    "observable_keyboard_smoke": "PASS: ignored-Enter and ignored-movement mutants rejected",
+    "checkout_pin": "34e114876b0b11c390a56381ad16ebd13914f8d5"
+  }
+}

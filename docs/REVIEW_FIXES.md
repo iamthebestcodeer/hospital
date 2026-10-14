@@ -50,3 +50,17 @@ All six findings from Codex and Greptile were valid:
 
 The angle and reset corrections are also applied to the Linux C reference by
 `tools/reference_fixes.py`. The original supplied C file is still unchanged.
+
+## Beam visibility and desktop window discovery
+
+The Cryo and Freezer beam renderer now normalizes signed angle remainders just
+like attack gating. Ten pixel-level cases check both tower types at equivalent
+positive/negative rotations and ensure misaligned towers draw no beam. The old
+renderer fails the beam midpoint assertion. Regeneration retains the fix in
+both Linux C and NASM rendering; the supplied original C file remains unchanged.
+
+X11 discovery searches descendants before testing frame windows, so reparenting
+and a copied frame title cannot hide the game client. Three tests create real X11
+windows: a root-level client, a client reparented into two nested frames (including
+one with a matching title), and unrelated windows. The old root-only lookup
+fails the nested-client test. These checks run with `make smoke` and `make check`.

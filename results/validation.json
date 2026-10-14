@@ -16,12 +16,12 @@
   "regeneration_preserves_handwritten_modules": "PASS",
   "abi_mutation_check": "PASS: regression test rejects old caller-saved XMM4 assumption",
   "performance_workloads": 13,
-  "performance_gate": "Initial 12/13 PASS; render-title FAIL at +6.0% median. Balanced 32-pair follow-up PASS at NASM/C 0.978 (95% CI 0.952-1.004); rendering inconclusive.",
+  "performance_gate": "Previous full run at 495f913: initial 12/13 PASS, title gate miss did not reproduce. Current corrected render-normal: PASS, NASM/C 1.004 (95% CI 0.982-1.033), 32 balanced pairs; no significant rendering difference.",
   "binary_sha256": {
-    "aetherium": "aad2056d052e7460cf6d511387677c4a8a996c9b5bc69a254b4adcb3683618dd",
-    "test-c": "f9eee06e22cffe035491eefc2ff02c82d45f62a3af6c16f3d0183d96e5b0e2b9",
-    "test-asm": "a6b78d8ba39f218a3570cceb50cc42d5d28798e6b88431c2ba640cc0c0c2abfa",
-    "unit-c": "0c55275e22492ebb105b431de26041d39182e74825c34c47a96df70e743bcc00",
+    "aetherium": "aecebb9a4013aaa1c1df51caa392e1dc62496b7618264788a0a5c730aab96258",
+    "test-c": "bb4e6a3777bead7f403178330aaccde90aa73d0b7e4f844b43782c3cab63825b",
+    "test-asm": "b0dcfa9d5cda7cf8dec50ca5547a4a032389732c201b06fb299458368575f466",
+    "unit-c": "8e640c5a031ff2bb9e64274f31642f86e11478782c034e7279655bd5a48062e0",
     "unit-asm": "915929eed69051813b1217a81d09459d5a2a1e200fe8224d087d9513ba327a7f"
   },
   "module_sha256": {
@@ -63,5 +63,11 @@
     "direct_abi_probes": "PASS: direct entry points; six individual clobbers rejected",
     "observable_keyboard_smoke": "PASS: ignored-Enter and ignored-movement mutants rejected",
     "checkout_pin": "34e114876b0b11c390a56381ad16ebd13914f8d5"
+  },
+  "beam_visibility_cases": 10,
+  "x11_window_lookup_tests": 3,
+  "beam_and_window_regression_checks": {
+    "beam_midpoint": "PASS: old renderer fails; both Cryo types and misalignment controls pass",
+    "nested_x11_client": "PASS: old root-only discovery fails; nested/copied-title frame discovery passes"
   }
 }

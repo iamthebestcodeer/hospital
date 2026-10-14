@@ -463,8 +463,47 @@ static void inspector_click_test(void) {
     }
     no_input();
 }
+static void beam_visibility_test(void) {
+    const TowerType types[] = {TOWER_CRYO, TOWER_T4_CRYO_FREEZER};
+    const float rotations[] = {-190, 170, 190, -170, -90};
+    const float angles[] = {170, 170, -170, -170, 170};
+    for (unsigned type = 0; type < sizeof types / sizeof *types; type++) {
+        for (unsigned pose = 0; pose < sizeof rotations / sizeof *rotations; pose++) {
+            reset(700 + pose);
+            Tower *tower = &game.towers[0];
+            tower->active = true;
+            tower->type = types[type];
+            tower->stats.level = 3;
+            ConfigureTowerStats(tower);
+            tower->position = (Vector2){200, 200};
+            tower->rotation = rotations[pose];
+            tower->targetIndex = 0;
+            tower->targetEnemyId = 1;
+            Enemy *enemy = &game.enemies[0];
+            enemy->active = true;
+            enemy->id = 1;
+            enemy->position = (Vector2){200 + 120 * cosf(angles[pose] * DEG2RAD),
+                                        200 + 120 * sinf(angles[pose] * DEG2RAD)};
+            BeginDrawing();
+            ClearBackground(BLACK);
+            DrawTowers();
+            EndDrawing();
+            Image image = LoadImageFromScreen();
+            assert(image.data);
+            Vector2 midpoint = Vector2Scale(Vector2Add(tower->position, enemy->position), .5f);
+            Color pixel = GetImageColor(image, (int)midpoint.x, (int)midpoint.y);
+            UnloadImage(image);
+            if (pose == 4) {
+                assert(pixel.r == 0 && pixel.g == 0 && pixel.b == 0);
+            } else {
+                assert(pixel.b > 80 && pixel.g > 80);
+            }
+        }
+    }
+}
 static void render_test(const char *dir) {
     window();
+    beam_visibility_test();
     inspector_click_test();
     scenario(987, 24, 64, 1800);
     BuildStaticMapRT();

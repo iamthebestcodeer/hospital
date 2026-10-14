@@ -39,10 +39,11 @@ report = {
     "simulation_frames": 9600,
     "vfx_frames": 1050,
     "inspector_click_cases": 28,
+    "beam_visibility_cases": 10,
     "screenshots": images,
     "result": "PASS: exact state/RNG and PNG matches",
 }
 (results / "verification.json").write_text(json.dumps(report, indent=2) + "\n")
 print(
-    f"PASS: {report['state_records']:,} state/RNG records, 28 inspector clicks and 26 exact PNG comparisons."
+    f"PASS: {report['state_records']:,} state/RNG records, 28 inspector clicks, 10 beam cases and 26 exact PNG comparisons."
 )

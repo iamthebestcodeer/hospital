@@ -8,7 +8,7 @@ performance checks before calling a refactor complete.
 | `make test-unit` | 104 named behavior tests / 34,505 assertions, run against both NASM and C | No |
 | `make test-tools` | 28 translator, generator, architecture and build tests | No |
 | `make test-integration` | 15,620 exact state/RNG records, 26 exact PNGs | Xvfb or `DISPLAY` |
-| `make smoke` | Shipping executable, real X11 key events, clean shutdown | Xvfb or `DISPLAY` |
+| `make smoke` | Three real X11 window lookup tests; shipping executable start/movement/exit | Xvfb or `DISPLAY` |
 | `make check` | All tests above | Xvfb or `DISPLAY` |
 | `make sanitize` | C unit/reference and integration memory/undefined-behavior checks | No |
 | `make benchmark` | 13 randomized paired C/NASM workloads with state hashes | Xvfb or `DISPLAY` |
@@ -48,7 +48,8 @@ It independently checks expected rules; it does not merely compare two hashes.
 
 `tests/integration/harness.c` retains the existing seeded feature scenarios and
 long simulations. `tests/verify.py` compares state and RNG output byte for byte,
-then checks 28 inspector clicks across all four base tower types, renders 26
+then checks 28 inspector clicks across all four base tower types and ten
+pixel-level Cryo/Freezer beam cases, renders 26
 states/UI scenarios, and compares PNG bytes. These tests catch
 changes in field values, operation order, random consumption, and draw output
 that focused assertions might miss. `tests/COVERAGE.md` records the scenarios.
@@ -70,7 +71,9 @@ C adapters cannot hide a clobber. Headless probes exclude window initialization
 and the process entry point; graphics initialization is exercised by integration
 and launch tests. The shipping-executable smoke test reads X11 pixels to confirm
 that Enter replaces the title with the hero at spawn and D moves that hero right.
-Other injected ability/pause keys are exercised but not individually asserted.
+Window discovery is tested with root-level clients, two nested window-manager
+frames, copied frame titles, and unrelated windows. Other injected ability/pause
+keys are exercised but not individually asserted.
 Both an ignored-Enter mutant and an ignored-movement mutant fail the smoke test.
 
 No finite suite proves all input sequences, NaN payloads, drivers or

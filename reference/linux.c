@@ -1828,7 +1828,9 @@ void DrawTowers() {
                 if (target) {
                     Vector2 dir = Vector2Subtract(target->position, t->position);
                     float angleToTarget = atan2f(dir.y, dir.x) * RAD2DEG;
-                    float angleDiff = fabsf(fmodf(t->rotation - angleToTarget + 180.0f, 360.0f) - 180.0f);
+                    float wrappedAngle = fmodf(t->rotation - angleToTarget + 180.0f, 360.0f);
+                    if (wrappedAngle < 0.0f) wrappedAngle += 360.0f;
+                    float angleDiff = fabsf(wrappedAngle - 180.0f);
                     float aimTolerance = GetAimToleranceDegrees(t->type);
                     if (angleDiff <= aimTolerance) {
                         float beamWidth = (t->type == TOWER_CRYO) ? 3.0f : 5.0f;
