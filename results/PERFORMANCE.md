@@ -14,7 +14,7 @@ with this run. Both current implementations include the
 - 22 handwritten NASM modules with explicit dependencies.
 - 104 named gameplay/ABI tests and 34,505 assertions, run separately against
   NASM and the corrected Linux C reference without creating a window.
-- 28 generator, translator, architectural and build dependency tests.
+- 35 generator, translator, architectural, build dependency and packaging tests.
 - 15,620 identical state/RNG records and 26 byte-identical rendered PNGs.
 - 28 asserted inspector clicks covering upgrades, gap and sell controls.
 - Ten pixel-level Cryo/Freezer beam cases and seven actual X11 window-lookup/error tests.
