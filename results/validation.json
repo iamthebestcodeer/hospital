@@ -81,5 +81,16 @@
     "integer_lane_mutation": "PASS: removing mask fails the MXCSR denormal assertion",
     "object_inspection": "PASS: no calls, division, blendps or undefined symbols",
     "evidence": "catalog-benchmark.json"
+  },
+  "evidence_commit": "aafacdf7e59e587dc46c3b71d1a109ee106fee12",
+  "evidence_scope": "Historical pre-review-fix validation: the counts, binary/module fingerprints and eleven-triplet measurements above describe evidence before the rounding fix. Current review-fix checks are recorded separately below.",
+  "review_fix_validation": {
+    "unit_tests_per_implementation": 108,
+    "unit_assertions_per_implementation": 34707,
+    "tooling_and_architecture_tests": 28,
+    "tower_catalog_sha256": "1264e1c0716941f7eefd648863885cb56bab7b6a76ec080ea1675b079c36f741",
+    "xp_rounding_modes": "PASS: all four MXCSR rounding modes, all four base types",
+    "sanitizers": "PASS: ASan/UBSan unit and integration checks",
+    "benchmark_evidence": "catalog-review-benchmark.json"
   }
 }
