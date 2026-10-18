@@ -114,11 +114,11 @@ sanitize: build/unit-sanitized build/integration-sanitized
 	ASAN_OPTIONS=detect_leaks=1 ./build/integration-sanitized verify > results/sanitizer-state.txt 2> results/sanitizer.log
 
 format:
-	$(CLANG_FORMAT) -i tests/unit/*.c tests/unit/test.h tests/integration/harness.c
+	$(CLANG_FORMAT) -i tests/unit/*.c tests/unit/test.h tests/integration/harness.c tests/performance/*.c
 	$(BLACK) tools tests
 
 format-check:
-	$(CLANG_FORMAT) --dry-run --Werror tests/unit/*.c tests/unit/test.h tests/integration/harness.c
+	$(CLANG_FORMAT) --dry-run --Werror tests/unit/*.c tests/unit/test.h tests/integration/harness.c tests/performance/*.c
 	$(BLACK) --check tools tests
 
 clean:

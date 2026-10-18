@@ -57,6 +57,15 @@ not include Raylib headers or call its APIs.
   limits, lowest-free-slot allocation, and full-pool behavior.
 - Executable-stack markers are forbidden by an architecture test.
 
+The tower catalog is a leaf implementation. XP removes `pow` for its two reachable
+exponents, retaining a double multiply for level 2 under the caller's rounding
+mode; SSE2 scales the three floating-point stat lanes together.
+The adjacent integer damage-type lane is masked before floating arithmetic and
+restored by an integer store. Assembly-time offset checks protect this record
+assumption. Prices use immutable lookup tables. See the
+[catalog optimization assessment](../results/CATALOG_PERFORMANCE.md) for parity
+coverage, measurements and the alternatives considered.
+
 ## Generated code
 
 `tools/generate.py` is a CLI with importable pure extraction/validation helpers.

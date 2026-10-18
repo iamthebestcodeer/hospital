@@ -2,27 +2,20 @@
 bits 64
 default rel
 %include "src/include/abi.inc"
-%include "src/include/calling_convention.inc"
-
-extern pow
 
 section .rodata align=16
 align 16
-fp_one: dd 1.0
+one4: dd 1.0,1.0,1.0,1.0
 align 16
-fp_01: dd 0.1
-align 16
-fp_035: dd 0.35
-align 16
-fp_015: dd 0.15
-align 16
-fp_20: dd 20.0
+float_lanes: dd 0xffffffff,0xffffffff,0xffffffff,0
 align 16
 dp_19: dq 1.9
-align 16
 dp_150: dq 150.0
+fp_20: dd 20.0
 align 16
 costs: dd 100,250,200,400,800,1000,1500,900,700,850,1100,1300
+align 16
+aether_costs: dd 0,0,0,0,90,100,125,95,85,92,105,115
 align 16
 aim_tolerance: dd 30.0,12.0,15.0,20.0,30.0,12.0,12.0,30.0,20.0,15.0,20.0,20.0
 ; damage, range, fire rate, damage type. One 16-byte record per tower.
@@ -40,7 +33,25 @@ tower_stats:
     dd 50.0,150.0,1.5,1
     dd 80.0,200.0,1.5,1
     dd 200.0,220.0,0.9,1
-; Integer tile coordinates, in traversal order.
+; damage, range, fire-rate slopes; the integer damageType lane is never scaled.
+align 16
+slopes:
+    dd 0.35,0.10,0.15,0.0
+    dd 0.35,0.10,0.15,0.0
+    dd 0.35,0.10,0.0,0.0
+    dd 0.35,0.10,0.15,0.0
+    dd 0.35,0.10,0.15,0.0
+    dd 0.35,0.10,0.15,0.0
+    dd 0.35,0.10,0.15,0.0
+    dd 0.35,0.10,0.15,0.0
+    dd 0.35,0.10,0.0,0.0
+    dd 0.35,0.10,0.0,0.0
+    dd 0.35,0.10,0.15,0.0
+    dd 0.35,0.10,0.15,0.0
+
+%if S_range != S_damage+4 || S_fireRate != S_damage+8 || T_damageType != T_stats+S_damage+12
+    %error "Tower SIMD record must contain damage, range, fireRate, damageType"
+%endif
 
 section .text
 global GetTowerCost
@@ -58,16 +69,11 @@ GetTowerAetherCost:
     xor eax, eax
     cmp edi, 4
     jl .done
-    mov eax, 99999
+    mov eax, 5049              ; Preserve 50 + 99999/20 for invalid positive types.
     cmp edi, 12
-    jae .divide
-    lea rdx, [costs]
+    jae .done
+    lea rdx, [aether_costs]
     mov eax, [rdx+rdi*4]
-.divide:
-    xor edx, edx
-    mov ecx, 20
-    div ecx
-    add eax, 50
 .done:
     ret
 
@@ -83,36 +89,25 @@ GetAimToleranceDegrees:
 
 global ConfigureTowerStats
 ConfigureTowerStats:
-    FRAME 16
-    mov rbx, rdi
-    mov dword [rbx+T_stats+S_xpToNextLevel], 99999
-    cmp dword [rbx+T_type], 3
-    ja .base_stats
-    mov eax, [rbx+T_stats+S_level]
-    cmp eax, 3
-    jge .base_stats
-    test eax, eax
-    jg .effective_level
-    mov eax, 1
-.effective_level:
-    dec eax
-    pxor xmm1, xmm1
-    cvtsi2sd xmm1, eax
+    ; Exponents are 0 or 1. Keep the level-2 multiply under the caller's MXCSR.
+    mov ecx, [rdi+T_type]
+    mov eax, 99999
+    cmp ecx, 3
+    ja .xp_ready
+    mov edx, [rdi+T_stats+S_level]
+    cmp edx, 3
+    jge .xp_ready
+    mov eax, 150
+    cmp edx, 2
+    jne .xp_ready
     movsd xmm0, [dp_19]
-    call pow wrt ..plt
     mulsd xmm0, [dp_150]
     cvttsd2si eax, xmm0
-    mov [rbx+T_stats+S_xpToNextLevel], eax
-.base_stats:
-    mov eax, [rbx+T_type]
-    cmp eax, 12
+.xp_ready:
+    mov [rdi+T_stats+S_xpToNextLevel], eax
+    cmp ecx, 12
     jae .done
-    lea rdx, [tower_stats]
-    shl eax, 4
-    movups xmm0, [rdx+rax]
-    movups [rbx+T_stats+S_damage], xmm0
-    ; The fourth table element lands exactly on Tower.damageType.
-    mov eax, [rbx+T_stats+S_level]
+    mov eax, [rdi+T_stats+S_level]
     test eax, eax
     jg .scaling_level
     mov eax, 1
@@ -120,28 +115,20 @@ ConfigureTowerStats:
     dec eax
     pxor xmm0, xmm0
     cvtsi2ss xmm0, eax
-    movaps xmm1, xmm0
-    mulss xmm1, [fp_035]
-    addss xmm1, [fp_one]
-    mulss xmm1, [rbx+T_stats+S_damage]
-    movss [rbx+T_stats+S_damage], xmm1
-    movaps xmm1, xmm0
-    mulss xmm1, [fp_01]
-    addss xmm1, [fp_one]
-    mulss xmm1, [rbx+T_stats+S_range]
-    movss [rbx+T_stats+S_range], xmm1
-    mov eax, [rbx+T_type]
-    cmp eax, 2
-    je .done
-    cmp eax, 8
-    je .done
-    cmp eax, 9
-    je .done
-    mulss xmm0, [fp_015]
-    addss xmm0, [fp_one]
-    mulss xmm0, [rbx+T_stats+S_fireRate]
-    movss [rbx+T_stats+S_fireRate], xmm0
+    shufps xmm0, xmm0, 0
+    shl ecx, 4
+    lea rdx, [slopes]
+    mulps xmm0, [rdx+rcx]
+    addps xmm0, [one4]
+    lea rdx, [tower_stats]
+    movaps xmm1, [rdx+rcx]
+    mov eax, [rdx+rcx+12]
+    ; Clear the integer lane before floating-point arithmetic, avoiding denormals.
+    andps xmm1, [float_lanes]
+    mulps xmm0, xmm1
+    movups [rdi+T_stats+S_damage], xmm0
+    mov [rdi+T_damageType], eax
 .done:
-    RETURN 16
+    ret
 
 section .note.GNU-stack noalloc noexec nowrite progbits
