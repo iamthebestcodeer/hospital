@@ -8,6 +8,7 @@ import io
 from pathlib import Path
 import re
 import subprocess
+import struct
 import tarfile
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,7 +18,12 @@ def package(binary, license_file, output, version, commit, epoch):
     if not re.fullmatch(r"v[0-9]+\.[0-9]+\.[0-9]+", version):
         raise ValueError("Version must be a release tag such as v0.1.0")
     executable = binary.read_bytes()
-    if executable[:6] != b"\x7fELF\x02\x01" or executable[18:20] != b"\x3e\x00":
+    if (
+        len(executable) < 64
+        or executable[:7] != b"\x7fELF\x02\x01\x01"
+        or struct.unpack_from("<HHI", executable, 16) not in ((2, 62, 1), (3, 62, 1))
+        or struct.unpack_from("<H", executable, 52)[0] != 64
+    ):
         raise ValueError("Release binary must be a little-endian x86-64 ELF executable")
     directory = f"aetherium-{version}-linux-x86_64"
     readme = f"""Aetherium Vanguard NASM {version} — Linux x86-64

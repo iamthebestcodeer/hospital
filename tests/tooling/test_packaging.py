@@ -3,6 +3,7 @@
 import hashlib
 from pathlib import Path
 import sys
+import struct
 import tarfile
 import tempfile
 import unittest
@@ -19,8 +20,9 @@ class ReleasePackagingTests(unittest.TestCase):
         self.root = Path(temporary.name)
         self.binary = self.root / "game"
         header = bytearray(64)
-        header[:6] = b"\x7fELF\x02\x01"
-        header[16:20] = b"\x02\x00\x3e\x00"
+        header[:7] = b"\x7fELF\x02\x01\x01"
+        struct.pack_into("<HHI", header, 16, 2, 62, 1)
+        struct.pack_into("<H", header, 52, 64)
         self.binary.write_bytes(header)
         self.license = self.root / "LICENSE"
         self.license.write_text("sample license\n")
@@ -29,7 +31,12 @@ class ReleasePackagingTests(unittest.TestCase):
 
     def build(self, output=None, version="v0.1.0"):
         return package(
-            self.binary, self.license, output or self.output, version, self.commit, 1700000000
+            self.binary,
+            self.license,
+            output or self.output,
+            version,
+            self.commit,
+            1700000000,
         )
 
     def test_archive_contains_the_exact_executable_license_and_provenance(self):
@@ -52,10 +59,12 @@ class ReleasePackagingTests(unittest.TestCase):
             )
             self.assertEqual(bundle.getmember(prefix + "aetherium").mode, 0o755)
             self.assertEqual(
-                bundle.extractfile(prefix + "aetherium").read(), self.binary.read_bytes()
+                bundle.extractfile(prefix + "aetherium").read(),
+                self.binary.read_bytes(),
             )
             self.assertEqual(
-                bundle.extractfile(prefix + "SOURCE_COMMIT").read().decode().strip(), self.commit
+                bundle.extractfile(prefix + "SOURCE_COMMIT").read().decode().strip(),
+                self.commit,
             )
             self.assertEqual(
                 bundle.extractfile(prefix + "licenses/raylib-LICENSE.txt").read(),
@@ -90,6 +99,25 @@ class ReleasePackagingTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 self.build()
         self.assertFalse(self.output.exists())
+
+    def test_relocatable_objects_and_incomplete_headers_are_rejected(self):
+        header = self.binary.read_bytes()
+        invalid = [header[:length] for length in (0, 20, 52, 63)]
+        for offset, value in ((16, 1), (20, 0), (52, 0)):
+            malformed = bytearray(header)
+            struct.pack_into("<H", malformed, offset, value)
+            invalid.append(malformed)
+        for content in invalid:
+            with self.subTest(content=content), self.assertRaises(ValueError):
+                self.binary.write_bytes(content)
+                self.build()
+        self.assertFalse(self.output.exists())
+
+    def test_pie_executables_are_accepted(self):
+        header = bytearray(self.binary.read_bytes())
+        struct.pack_into("<H", header, 16, 3)
+        self.binary.write_bytes(header)
+        self.build()
 
 
 if __name__ == "__main__":

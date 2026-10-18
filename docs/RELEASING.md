@@ -9,7 +9,8 @@ on Ubuntu 24.04 before packaging or publishing.
 ELF executable, a gzip archive with executable permissions, controls, source
 commit and Raylib license, plus `SHA256SUMS`. Tar metadata and gzip timestamps
 are fixed so identical inputs produce identical archives. The packager rejects
-non-x86-64 ELF inputs and malformed version names.
+non-x86-64 ELF inputs, relocatable objects, incomplete or invalid ELF headers,
+and malformed version names. Both regular and PIE executables are accepted.
 
 The workflow verifies checksums, extracts the archive and drives that exact
 packaged executable with the real X11 keyboard smoke test. It uploads all assets
