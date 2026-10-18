@@ -6,7 +6,7 @@ performance checks before calling a refactor complete.
 | Command | Scope | Needs an X display? |
 | --- | --- | --- |
 | `make test-unit` | 104 named behavior tests / 34,505 assertions, run against both NASM and C | No |
-| `make test-tools` | 33 translator, generator, architecture, build and packaging tests | No |
+| `make test-tools` | 35 translator, generator, architecture, build and packaging tests | No |
 | `make test-integration` | 15,620 exact state/RNG records, 26 exact PNGs | Xvfb or `DISPLAY` |
 | `make smoke` | Seven real X11 window lookup/error tests; shipping executable start/movement/exit | Xvfb or `DISPLAY` |
 | `make check` | All tests above | Xvfb or `DISPLAY` |

@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def package(binary, license_file, output, version, commit, epoch):
+    """Validate an ELF input and write deterministic release assets and checksums."""
     if not re.fullmatch(r"v[0-9]+\.[0-9]+\.[0-9]+", version):
         raise ValueError("Version must be a release tag such as v0.1.0")
     executable = binary.read_bytes()
@@ -86,6 +87,7 @@ Source commit: `{commit}`.
 
 
 def main():
+    """Package the selected binary using the current Git commit as provenance."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--version", required=True)
     parser.add_argument("--output", type=Path, default=ROOT / "dist")

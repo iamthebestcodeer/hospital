@@ -30,6 +30,7 @@ class ReleasePackagingTests(unittest.TestCase):
         self.commit = "a" * 40
 
     def build(self, output=None, version="v0.1.0"):
+        """Package this test's binary with stable provenance and archive timestamps."""
         return package(
             self.binary,
             self.license,
