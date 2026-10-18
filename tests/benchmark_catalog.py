@@ -13,7 +13,12 @@ import subprocess
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
-SYMBOLS = ("GetTowerCost", "GetTowerAetherCost", "GetAimToleranceDegrees", "ConfigureTowerStats")
+SYMBOLS = (
+    "GetTowerCost",
+    "GetTowerAetherCost",
+    "GetAimToleranceDegrees",
+    "ConfigureTowerStats",
+)
 MODES = (
     "configure-level1",
     "configure-level2",
@@ -47,7 +52,9 @@ def main():
     if args.pairs < 5 or args.seconds <= 0:
         parser.error("Use at least five pairs and positive sample duration")
     baseline = subprocess.check_output(
-        ["git", "rev-parse", "--verify", args.baseline + "^{commit}"], cwd=ROOT, text=True
+        ["git", "rev-parse", "--verify", args.baseline + "^{commit}"],
+        cwd=ROOT,
+        text=True,
     ).strip()
     old = subprocess.check_output(
         ["git", "show", baseline + ":src/domain/tower_catalog.asm"], cwd=ROOT
@@ -55,7 +62,6 @@ def main():
     cpu = min(os.sched_getaffinity(0))
     os.sched_setaffinity(0, {cpu})
     nasm = os.environ.get("NASM", "nasm")
-    subprocess.run(["make", "build/reference-test.o"], cwd=ROOT, check=True)
     rng = random.Random(12573)
     report = {
         "baseline_commit": baseline,
@@ -87,13 +93,36 @@ def main():
     }
     with tempfile.TemporaryDirectory() as directory:
         temporary = Path(directory)
+        reference = temporary / "reference-test.o"
+        subprocess.run(
+            [
+                "gcc",
+                "-O3",
+                "-ffp-contract=off",
+                "-std=c99",
+                "-Iinclude",
+                "-Ivendor/raylib-5.5_linux_amd64/include",
+                "-Dmain=VanguardMain",
+                "-c",
+                "reference/linux.c",
+                "-o",
+                str(reference),
+            ],
+            cwd=ROOT,
+            check=True,
+        )
         source = temporary / "before.asm"
         source.write_bytes(old)
         objects = []
-        for kind, path in (("before", source), ("after", ROOT / "src/domain/tower_catalog.asm")):
+        for kind, path in (
+            ("before", source),
+            ("after", ROOT / "src/domain/tower_catalog.asm"),
+        ):
             obj = temporary / (kind + ".o")
             subprocess.run(
-                [nasm, "-f", "elf64", "-Werror", str(path), "-o", str(obj)], cwd=ROOT, check=True
+                [nasm, "-f", "elf64", "-Werror", str(path), "-o", str(obj)],
+                cwd=ROOT,
+                check=True,
             )
             subprocess.run(
                 [
@@ -118,7 +147,7 @@ def main():
                 "-Ivendor/raylib-5.5_linux_amd64/include",
                 "tests/performance/catalog.c",
                 *objects,
-                "build/reference-test.o",
+                str(reference),
                 "vendor/raylib-5.5_linux_amd64/lib/libraylib.a",
                 "-lm",
                 "-ldl",

@@ -9,6 +9,8 @@ one4: dd 1.0,1.0,1.0,1.0
 align 16
 float_lanes: dd 0xffffffff,0xffffffff,0xffffffff,0
 align 16
+dp_19: dq 1.9
+dp_150: dq 150.0
 fp_20: dd 20.0
 align 16
 costs: dd 100,250,200,400,800,1000,1500,900,700,850,1100,1300
@@ -87,7 +89,7 @@ GetAimToleranceDegrees:
 
 global ConfigureTowerStats
 ConfigureTowerStats:
-    ; A base tower below level 3 has effective level 1 or 2: XP is 150 or 285.
+    ; Exponents are 0 or 1. Keep the level-2 multiply under the caller's MXCSR.
     mov ecx, [rdi+T_type]
     mov eax, 99999
     cmp ecx, 3
@@ -98,7 +100,9 @@ ConfigureTowerStats:
     mov eax, 150
     cmp edx, 2
     jne .xp_ready
-    mov eax, 285
+    movsd xmm0, [dp_19]
+    mulsd xmm0, [dp_150]
+    cvttsd2si eax, xmm0
 .xp_ready:
     mov [rdi+T_stats+S_xpToNextLevel], eax
     cmp ecx, 12

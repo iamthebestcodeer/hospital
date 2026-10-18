@@ -226,7 +226,21 @@ static void catalog_integer_lane_never_raises_a_denormal_operand_exception(void)
     }
     _mm_setcsr(saved);
 }
+static void catalog_xp_preserves_all_rounding_modes(void) {
+    unsigned saved = _mm_getcsr();
+    const int expected[] = {285, 284, 285, 284};
+    for (unsigned mode = 0; mode < 4; mode++) {
+        _mm_setcsr((saved & ~(3u << 13)) | (mode << 13));
+        for (int type = 0; type < 4; type++) {
+            Tower tower = {.type = type, .stats.level = 2};
+            ConfigureTowerStats(&tower);
+            CHECK(tower.stats.xpToNextLevel == expected[mode]);
+        }
+    }
+    _mm_setcsr(saved);
+}
 void suite_towers(void) {
+    RUN(catalog_xp_preserves_all_rounding_modes);
     RUN(catalog_has_all_twelve_costs_and_aether_prices);
     RUN(placement_charges_gold_and_reserves_one_tile);
     RUN(rejected_placement_preserves_resources);
